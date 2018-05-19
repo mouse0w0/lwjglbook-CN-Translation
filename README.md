@@ -21,6 +21,9 @@ LWJGL是一个Java库，提供了访问OpenGL、OpenAL和OpenCL的接口。这�
 
 所有的源代码的许可协议均为 [Apache v2.0](https://www.apache.org/licenses/LICENSE-2.0 "Apache v2.0")
 
+## 原作者
+Antonio Hernández Bejarano
+
 ## 支持作者
 
 如果你喜欢这本书，请Star并且分享它。如果你想捐助作者，你可以通过下面的按钮捐助：
