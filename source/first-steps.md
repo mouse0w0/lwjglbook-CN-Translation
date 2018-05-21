@@ -1,4 +1,4 @@
-# 事前准备
+# 事前准备（First Steps）
 
 在本书中，我们将学习开发3D游戏所涉及的主要技术。本书将使用Java语言和Java轻量级游戏库([LWJGL](http://www.lwjgl.org/))来编写示例代码。LWJGL库允许我们访问底层的API（应用程序接口），例如OpenGL。
 
