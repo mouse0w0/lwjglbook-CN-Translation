@@ -1,5 +1,5 @@
 # 《用LWJGL 3开发3D游戏(3D Game Development with LWJGL 3)》中文翻译
-
+[![Documentation Status](https://readthedocs.org/projects/lwjglbook-cn-translation/badge/?version=latest)](http://lwjglbook-cn-translation.readthedocs.io/zh_CN/latest/?badge=latest)
 ## 本书原介绍
 这本在线电子书主要讲解使用LWJGL 3库开发3D游戏。
 
