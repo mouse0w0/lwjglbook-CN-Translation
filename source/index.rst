@@ -5,5 +5,6 @@
    :maxdepth: 2
    :caption: 目录
    
-   first-steps
-   the-game-loop
+   01-first-steps
+   02-the-game-loop
+   03-a-brief-about-coordinates
