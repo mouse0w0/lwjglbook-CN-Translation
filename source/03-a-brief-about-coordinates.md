@@ -12,13 +12,13 @@
 
 继续类比地图，坐标系定义一个原点。对于地理坐标，原点被设置为赤道和零度经线交叉的点。根据我们原点设置的位置，特定点的坐标是不同的。坐标系也可以定义轴的方向。在上图中，X坐标随着点向右移动而增加，Y坐标随着点向上移动而增加。但是，我们也可以定义一个与笛卡尔坐标系不同的，具有不同的轴取向的坐标系，我们将得到不同的坐标。
  
-![Alternative Cartesian Coordinate System](alt_cartesian_coordinate_system.png)
+![Alternative Cartesian Coordinate System](_static/3/alt_cartesian_coordinate_system.png)
 
 正如你所看到的那样，我们需要定义一些参数，例如原点和轴方向，以便给构成坐标的数字对给出适当的含义。为了使用一组坐标，我们必须使用对应的坐标系。好消息是我们可以通过平移和旋转来将坐标从一个坐标系转换到另一个坐标系。
 
 如果我们要处理三维坐标，我们需要增加一个轴，即Z轴。三维坐标将由三个数字(x, y, z)构成。
  
-![3D Cartesian Coordinate System](3d_cartesian_coordinate_system.png)
+![3D Cartesian Coordinate System](_static/3/3d_cartesian_coordinate_system.png)
 
 在二维笛卡尔坐标系中，只要轴相互垂直，我们就可以改变三维坐标系中的轴的方向。下图展示了另一个三维坐标系。
  
