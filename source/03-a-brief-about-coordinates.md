@@ -8,25 +8,25 @@
 
 在笛卡尔坐标系中，对于二维，坐标由两个数字定义，它们表示到两个相互垂直的X、Y轴的距离。
 
-![Cartesian Coordinate System](_static/3/cartesian_coordinate_system.png) 
+![Cartesian Coordinate System](_static/03/cartesian_coordinate_system.png) 
 
 继续类比地图，坐标系定义一个原点。对于地理坐标，原点被设置为赤道和零度经线交叉的点。根据我们原点设置的位置，特定点的坐标是不同的。坐标系也可以定义轴的方向。在上图中，X坐标随着点向右移动而增加，Y坐标随着点向上移动而增加。但是，我们也可以定义一个与笛卡尔坐标系不同的，具有不同的轴取向的坐标系，我们将得到不同的坐标。
  
-![Alternative Cartesian Coordinate System](_static/3/alt_cartesian_coordinate_system.png)
+![Alternative Cartesian Coordinate System](_static/03/alt_cartesian_coordinate_system.png)
 
 正如你所看到的那样，我们需要定义一些参数，例如原点和轴方向，以便给构成坐标的数字对给出适当的含义。为了使用一组坐标，我们必须使用对应的坐标系。好消息是我们可以通过平移和旋转来将坐标从一个坐标系转换到另一个坐标系。
 
 如果我们要处理三维坐标，我们需要增加一个轴，即Z轴。三维坐标将由三个数字(x, y, z)构成。
  
-![3D Cartesian Coordinate System](_static/3/3d_cartesian_coordinate_system.png)
+![3D Cartesian Coordinate System](_static/03/3d_cartesian_coordinate_system.png)
 
 在二维笛卡尔坐标系中，只要轴相互垂直，我们就可以改变三维坐标系中的轴的方向。下图展示了另一个三维坐标系。
  
-![Alternative 3D Cartesian Coordinate System](_static/3/alt_3d_cartesian_coordinate_system.png)
+![Alternative 3D Cartesian Coordinate System](_static/03/alt_3d_cartesian_coordinate_system.png)
 
 三维坐标可分为左手系和右手系两种类型。你怎么知道它是什么类型的？用你的手在你的拇指和食指之间形成一个“L”，中指应指向垂直于其他两个手指的方向。拇指应该指向X轴的正方向，食指应该指向Y轴的正方向，而中指应该指向Z轴的正方向。如果你能用左手做到，那么它就是左手系，如果你需要用右手，那它就是右手系。
 
-![Right Handed vs Left Handed](_static/3/righthanded_lefthanded.png) 
+![Right Handed vs Left Handed](_static/03/righthanded_lefthanded.png) 
 
 二维坐标系是相同的，因为通过旋转，我们可以从一个坐标系转换到另一个坐标系。但是，三维坐标系并不都是相同的。如果它们可以使用相同的手来表示，也就是说，如果两者都是左手系或者右手系，那么就能通过旋转一个坐标系到另一个坐标系。
 
@@ -40,6 +40,6 @@
 
 下面的图片展示了OpenGL坐标系（Z轴垂直于屏幕），坐标在-1和+1之间。
 
-![OpenGL coordinates](_static/3/opengl_coordinates.png) 
+![OpenGL coordinates](_static/03/opengl_coordinates.png) 
 
 如果你不能清晰的理解这些概念，别担心。在下一章节中，它们将用实例表现出来。

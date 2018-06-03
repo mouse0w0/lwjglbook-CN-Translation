@@ -8,11 +8,11 @@ LWJGL是一个底层的API，它像一个OpenGL包装库。如果你是想在短
 
 如果你需要一个可以运行示例代码的Java IDE（集成开发环境），你可以下载为Java 10提供良好支持的IntelliJ IDEA。 由于Java 10仅支持64位的平台，记得下载64位版本的IntelliJ。IntelliJ提供有一个免费且开源的社区版，你可以在这里下载它： [https://www.jetbrains.com/idea/download/](https://www.jetbrains.com/idea/download/ "Intellij").
 
-![](/_static/1/intellij.png)
+![](_static/01/intellij.png)
 
 为了构建我们的示例代码，我们将使用[Maven](https://maven.apache.org/)。Maven已经集成在大多数IDE中，你可以在IDE中直接打开不同章节的示例代码。只要打开了示例代码的文件夹，IntelliJ就会检测到它是一个Maven项目。
 
-![](/_static/1/maven_project.png)
+![](_static/01/maven_project.png)
 
 Maven基于一个名为`pom.xml`（Project Object Model，项目对象模型）的XML文件来构建项目，它管理了项目的依赖（需要使用的库）和在构建过程中需要执行的步骤。Maven遵循约定高于配置的原则，即如果你遵守标准的项目结构和命名约定，就不需要在配置文件中明确地声明源文件在哪里或者应该在哪里编译类。
 
@@ -82,6 +82,6 @@ Jar文件包含着LWJGL类和本地库。LWJGL还将负责提取它们，并将�
 
 如果你正确地配置了环境，你应该能够运行它并且看到一个有着红色背景的窗口。
 
-![Hello World](/_static/1/hello_world.png)
+![Hello World](_static/01/hello_world.png)
 
 **本书中源代码发布于 [**GitHub**](https://github.com/lwjglgamedev/lwjglbook)**。
