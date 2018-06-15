@@ -8,3 +8,4 @@
    01-first-steps
    02-the-game-loop
    03-a-brief-about-coordinates
+   04-rendering
