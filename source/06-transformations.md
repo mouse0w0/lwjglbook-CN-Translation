@@ -194,38 +194,33 @@ float[] positions = new float[]{
 
 ## 使用变换
 
-Let’s recall what we’ve done so far. We have learned how to pass data in an efficient format to our graphics card, and how to project that data and assign them colours using vertex and fragments shaders. Now we should start drawing more complex models in our 3D space. But in order to do that we must be able to load an arbitrary model and represent it in our 3D space at a specific position, with the appropriate size and the required rotation.
+让我们回想一下到目前为止我们都做了什么。我们已经学会了如何将数据以有效的格式传递给显卡，以及如何使用顶点和片元着色器来投影这些顶点并设置它们的颜色。现在应该开始在三维空间中绘制更复杂的模型了。但为了做到这件事，我们必须能够加载模型，并在指定的位置以适当的大小和所需的旋转将它渲染在三维空间中。
 
-So right now, in order to do that representation we need to provide some basic operations to act upon any model:
+现在为了实现这种渲染，我们需要提供一些基本操作来操作模型：
 
-* Translation: Move an object by some amount on any of the three axes.
-* Rotation: Rotate an object by some amount of degrees around any of the three axes.
-* Scale: Adjust the size of an object.
+* 移动: 在三个轴中的任意一个轴上移动一个物体。
+* 旋转: 按任意一个轴旋转物体任意角度。
+* 缩放: 调整物体的大小。
 
 ![Transformations](_static/06/transformations.png)
 
-The operations described above are known as transformations. And you probable may be guessing that the way we are going to achieve that is by multiplying our coordinates by a set of matrices \(one for translation, one for rotation and one for scaling\). Those three matrices will be combined into a single matrix called world matrix and passed as a uniform to our vertex shader.
+上面的操作统称为变换（`Transformation`）。你可能猜到要实现这一点的方法是把坐标乘以一组矩阵（一个用于移动，一个用于旋转，一个用于缩放）。这三个矩阵将被组合成一个称为“世界矩阵”的矩阵，并作为一个全局变量传递给顶点着色器。
 
-The reason why it is called world matrix is because we are transforming from model coordinates to world coordinates. When you will learn about loading 3D models you will see that those models are defined in their own coordinate systems. They don’t know the size of your 3D space and they need to be placed in it. So when we multiply our coordinates by our matrix what we are doing is transforming from a coordinate system \(the model one\) to another coordinate system \(the one for our 3D world\).
+之所以被称为世界矩阵是因为我们正在从模型坐标转换为世界坐标。当学习加载3D模型时，你会发现这些模型是在它们自己的坐标系中定义的。它们不知道你的三维空间的大小，但它们需要在里面渲染。因此，当我们用矩阵乘以坐标时，实际上做的是从一个坐标系（模型坐标系）转换到另一个坐标系（三维世界坐标系）。
 
-That world matrix will be calculated like this \(the order is important since multiplication using matrices is not commutative\):
-
+世界矩阵应该这样计算（顺序很重要，因为乘法交换律不适用于矩阵）:
 
 $$
 World Matrix\left[Translation Matrix\right]\left[Rotation Matrix\right]\left[Scale Matrix\right]
 $$
 
-
-If we include our projection matrix in the transformation matrix it would be like this:
-
+如果把投影矩阵包含在变换矩阵中，它会是这样的：
 
 $$
 Transf=\left[Proj Matrix\right]\left[Translation Matrix\right]\left[Rotation Matrix\right]\left[Scale Matrix\right]=\left[Proj Matrix\right]\left[World Matrix\right]
 $$
 
-
-The translation matrix is defined like this:
-
+变换矩阵是这样的：
 
 $$
 \begin{bmatrix}
@@ -236,15 +231,13 @@ $$
 \end{bmatrix}
 $$
 
+位移矩阵参数如下：
 
-Translation Matrix Parameters:
+* dx: 沿X轴位移。
+* dy: 沿Y轴位移。
+* dz: 沿Z轴位移。
 
-* dx: Displacement along the x axis.
-* dy: Displacement along the y axis.
-* dz: Displacement along the z axis.
-
-The scale matrix is defined like this:
-
+缩放矩阵是这样定义的；
 
 $$
 \begin{bmatrix}
@@ -255,18 +248,17 @@ sx & 0 & 0 & 0 \\
 \end{bmatrix}
 $$
 
+缩放矩阵参数如下：
 
-Scale Matrix Parameters:
+* sx: 沿着X轴缩放。
+* sy: 沿着Y轴缩放。
+* sz: 沿着Z轴缩放。
 
-* sx: Scaling along the x axis.
-* sy: Scaling along the y axis.
-* sz: Scaling along the z axis.
+旋转矩阵要复杂得多，但请记住，它可以由每个绕单独的轴旋转的旋转矩阵相乘得到。
 
-The rotation matrix is much more complex. But keep in mind that it can be constructed by the multiplication of 3 rotation matrices for a single axis, each.
+现在，为了实践这些理论，我们需要重构代码一点点。在游戏中，我们将加载一组模型，用来根据游戏逻辑在不同的位置渲染许多对象（想象一个FPS游戏，它载入了三个不同敌人的模型。确实只有三个模型，但使用这些模型，我们可以渲染想要的任意数量的敌人）。我们需要为每个对象创建一个VAO和一组VBO吗？答案是否定的，只需要每个模型加载一次就行。我们需要做的是根据它的位置，大小和旋转来独立绘制它。当渲染这些模型时，我们需要对它们进行变换。
 
-Now, in order to apply those concepts we need to refactor our code a little bit. In our game we will be loading a set of models which can be used to render many objects at different positions according to our game logic \(imagine a FPS game which loads three models for different enemies. There are only three models but using these models we can draw as many enemies as we want\). Do we need to create a VAO and the set of VBOs for each of those objects? The answer is no. We only need to load it once per model. What we need to do is to draw it independently according to its position, size and rotation. We need to transform those models when we are rendering them.
-
-So we will create a new class named `GameItem` that will hold a reference to a model, to a `Mesh` instance. A `GameItem` instance will have variables for storing its position, its rotation state and its scale. This is the definition of that class.
+因此，我们将创建一个名为`GameItem`的新类，该类将模型加载到`Mesh`实例中。一个`GameItem`实例将由变量储存它的位置、旋转状态和大小。这个就是这个类的定义。
 
 ```java
 package org.lwjglb.engine;
@@ -325,7 +317,7 @@ public class GameItem {
 }
 ```
 
-We will create another class which will deal with transformations named `Transformation`.
+我们将创建一个名为`Transformation`的类，让它来处理变换。
 
 ```java
 package org.lwjglb.engine.graph;
@@ -362,11 +354,11 @@ public class Transformation {
 }
 ```
 
-As you can see this class groups the projection and world matrices. Given a set of vectors that model the displacement, rotation and scale it returns the world matrix. The method `getWorldMatrix` returns the matrix that will be used to transform the coordinates for each `GameItem` instance. That class also provides a method that gets the projection matrix based on the Field Of View, the aspect ratio and the near and far distances.
+正如你所看到的，这个类把投影矩阵和世界矩阵结合起来。给定一组参数来进行位移、旋转和缩放，然后返回世界矩阵。`getWorldMatrix`返回的结果将为每个`GameItem`实例转换坐标。该类还提供了获得投影矩阵的方法。
 
-An important thing to notice is that the `mul` method of the `Matrix4f` class modifies the matrix instance which the method is being applied to. So if we directly multiply the projection matrix with the transformation matrix we will modify the projection matrix itself. This is why we are always initializing each matrix to the identity matrix upon each call.
+需要注意的一件事是，`Matrix4f`类的`mul`方法修改了该实例的内容。因此，如果直接将投影矩阵与变换矩阵相乘，我们会修改投影矩阵本身。这就是为什么总是在每次调用时将每个矩阵初始化为单位矩阵。
 
-In the `Renderer` class, in the constructor method, we just instantiate the `Transformation` with no arguments and in the `init` method we just create the uniform.
+在`Renderer`类的构造方法中，我们仅实例化了没有任何参数的`Transformation`类，而在`init`方法中，我们只创建了Uniform。
 
 ```java
 public Renderer() {
@@ -383,7 +375,7 @@ public void init(Window window) throws Exception {
 }
 ```
 
-In the render method of our `Renderer` class we now receive an array of GameItems:
+在`Renderer`类的渲染方法中，现在可以接收到一个`GameItem`的数组：
 
 ```java
 public void render(Window window, GameItem[] gameItems) {
@@ -417,27 +409,28 @@ public void render(Window window, GameItem[] gameItems) {
 }
 ```
 
-We update the projection matrix once per `render` call. By doing it this way we can deal with window resize operations. Then we iterate over the `GameItem` array and create a transformation matrix according to the position, rotation and scale of each of them. This matrix is pushed to the shader and the Mesh is drawn. The projection matrix is the same for all the items to be rendered. This is the reason why it’s a separate variable in our Transformation class.
+每次调用`render`时就更新投影矩阵一次。这样，我们可以处理窗口大小的调整。然后，我们遍历`GameItem`数组，并根据它们各自的位置、旋转和大小创建变换矩阵。这个矩阵将被传递到着色器并绘制`Mesh`。投影矩阵对于所有要渲染的项目都是相同的。这就是为什么它在`Transformation`类中是单独一个变量的原因。
 
+我们将渲染代码移动到`Mesh`类中。
 We moved the rendering code to draw a Mesh to this class:
 
 ```java
 public void render() {
-    // Draw the mesh
+    // 绘制Mesh
     glBindVertexArray(getVaoId());
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
     glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 
-    // Restore state
+    // 重置状态
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glBindVertexArray(0);
 }
 ```
 
-Our vertex shader is modified by simply adding a new `worldMatrix` matrix and it uses it with the `projectionMatrix` to calculate the position:
+顶点着色器只需简单地添加一个新的`worldMatrix`变量，然后用它与`projectionMatrix`一同计算坐标：
 
 ```glsl
 #version 330
@@ -457,11 +450,11 @@ void main()
 }
 ```
 
-As you can see the code is exactly the same. We are using the uniform to correctly project our coordinates taking into consideration our frustum, position, scale and rotation information.
+正如你所看到的，代码完全一样。我们使用Uniform来正确地计算坐标，并且考虑截锥、位置、大小和旋转等。
 
-Another important thing to think about is, why don’t we pass the translation, rotation and scale matrices instead of combining them into a world matrix? The reason is that we should try to limit the matrices we use in our shaders. Also keep in mind that the matrix multiplication that we do in our shader is done once per each vertex. The projection matrix does not change between render calls and the world matrix does not change per `GameItem` instance. If we passed the translation, rotation and scale matrices independently we would be doing many more matrix multiplications. Think about a model with tons of vertices. That’s a lot of extra operations.
+另外一个重要的问题是，为什么不使用位移、旋转和缩放矩阵，而是把它们组合成一个世界矩阵？原因是我们应该尽量减少在着色器中使用的矩阵。还要记住，在着色器中所做的矩阵乘法是每个顶点一次。投影矩阵在渲染调用期间不会改变，而每一个`GameItem`实例的世界矩阵也不会改变。如果我们独立位移、旋转和缩放矩阵，我们要做更多的矩阵乘法运算。想象一个有超多顶点的模型，这是很多余的操作。
 
-But you may now think, that if the world matrix does not change per `GameItem` instance, why didn't we do the matrix multiplication in our Java class? We would multiply the projection matrix and the world matrix just once per GameItem and we send it as a single uniform. In this case we would be saving many more operations. The answer is that this is a valid point right now. But when we add more features to our game engine we will need to operate with world coordinates in the shaders anyway, so it’s better to handle those two matrices in an independent way.
+但你现在可能会想，如果每个`GameItem`中的世界矩阵都不会发生变化，为什么不在Java类中做矩阵乘法？我们将投影矩阵和世界矩阵与每个`GameItem`相乘，把它们作为一个Uniform，这种情况下，我们确实能节省更多的操作。但是，当我们向游戏引擎中添加更多的特性时，我们需要在着色器中使用世界坐标，所以最好以独立的方式处理这两个矩阵。
 
-Finally we only need to change the `DummyGame` class to create an instance of `GameItem` with its associated `Mesh` and add some logic to translate, rotate and scale our quad. Since it’s only a test example and does not add too much you can find it in the source code that accompanies this book.
+最后只需要修改一下`DummyGame`类，创建一个`GameItem`实例，让其与`Mesh`关联，并添加一些操作来位移，旋转和缩放正方形。因为这只是个测试示例，所有没有添加太多，你可以在本书的源代码中找到相关内容。
 
