@@ -104,3 +104,89 @@ $$ color = diffuseColour * lColour * diffuseFactor * intensity$$
 
 ![平面](_static/10/surface.png)
 
+但是，当光线照射抛光平面时，例如金属，光线会受到较低扩散的影响，并且大部分光线会反射到相反的方向。
+
+![抛光平面](_static/10/polished_surface.png)
+
+这就是高光分量模型，它取决于材质特性。关于镜面反射，要注意的一点是，只有当摄像机处于适当的位置时，即反射光的发射区域内，反射光才可见。
+
+![高光](_static/10/specular_lightining.png)
+
+解释了反射的机制，我们接下来准备计算这个分量。首先，我们需要一个从光源指向顶点的向量。当我们计算漫反射分量时，我们使用的是方向与之相反的向量，它指向的是光源。 $toLightDirection$，所以让我们将其计算为$fromLightDirection = -(toLightDirection)$。
+
+然后我们需要计算正常情况下由$fromLightDirection$到平面所产生的反射光。有一个名为reflect的GLSL函数。所以，$reflectLight = reflect(fromLightSource, normal)$。
+
+我们还需要一个指向相机的向量，并将其命名为$cameraDirection$，然后计算出相机位置和顶点位置之间的差值：$cameraDirection = cameraPos - vPos$。相机位置向量和顶点位置需要处于相同的坐标系中，并且生成的向量需要进行归一化。下图概述了我们目前计算的主要分量：
+
+![高光运算](_static/10/specular_lightining_calc.png)
+
+现在我们需要计算光强，即$specularFactor$。如果$cameraDirection$和$reflectLight$向量指向相同的方向，该值就越高，如果它们方向相反其值则越低。为了计算这个值我们将再次使用点积。$specularFactor = cameraDirection \cdot reflectLight$。我们只希望这个值在$0$和$1$之间，所以如果它低于$0$，就设置它为0。
+
+我们还需要考虑到，如果相机指向反射光锥，则该光更强烈。这可以通过计算$specularFactor$的$specularPower$幂来实现，其中$specularPower$为给定的参数：
+
+$$ specularFactor = specularFactor ^ {specularPower} $$。
+
+最后，我们需要对材质的反射率进行建模，反射率将影响反射光的强度，这将使用一个名为reflectance的参数。所以镜面反射分量的颜色分量为：$$ specularColour * lColour * reflectance * specularFactor * intensity $$。
+
+## 衰减
+
+我们现在知道如何计算这三个分量了，这些分量可以帮助我们用环境光模拟点光源。 但是我们的光照模型还不完整，物体反射的光与光的距离无关，我们需要模拟光线衰减。
+
+衰减是一个有关距离和光的函数。光的强度与距离的平方成反比。这很容易理解，随着光线的传播，其能量沿着球体表面分布，其半径等于光线行进的距离，而球的表面与其半径的平方成正比。我们可以用下式来计算衰减因子：$1.0 /(atConstant + atLineardist + atExponentdist ^ {2})$。
+
+为了模拟衰减，我们只需要将衰减因子乘以最终的颜色即可。
+
+## 实现
+
+现在我们可以开始编程实现上面描述的所有概念，我们将从着色器开始。大部分工作将在片段着色器中完成，但我们还需要将顶点着色器中的一些数据传递给它。在前一章中，片段着色器只是接收纹理坐标，现在我们还将传递两个参数：
+
+* 已转换为模型视图空间坐标系并已归一化的顶点法线。
+* 已转换为模型视图空间坐标系的顶点位置。
+
+这是顶点着色器的代码：
+
+```glsl
+#version 330
+
+layout (location=0) in vec3 position;
+layout (location=1) in vec2 texCoord;
+layout (location=2) in vec3 vertexNormal;
+
+out vec2 outTexCoord;
+out vec3 mvVertexNormal;
+out vec3 mvVertexPos;
+
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+
+void main()
+{
+    vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+    gl_Position = projectionMatrix * mvPos;
+    outTexCoord = texCoord;
+    mvVertexNormal = normalize(modelViewMatrix * vec4(vertexNormal, 0.0)).xyz;
+    mvVertexPos = mvPos.xyz;
+}
+```
+
+在我们继续讲解片段着色器之前，必须强调一个非常重要的概念。从上面的代码可以看到，`mvVertexNormal`，该变量包含已转换为模型视图空间坐标的顶点法线。这是通过将`vertexNormal`乘上`modelViewMatrix`来实现的，就像顶点位置一样。但有一个细微的差别，该顶点法线的w分量在乘以矩阵之前被设置为0：`vec4（vertexNormal，0.0）`。我们为什么要这样做呢 ？因为我们希望法线可以旋转和缩放，但我们不希望它被变换，所以我们只对它的方向感兴趣，而不是它的位置。而这是通过将w分量设置为0来实现的，这也是是使用齐次坐标的优点之一，通过设置w分量，我们可以控制应用了哪些变换。你可以用手做矩阵乘法，看看为什么是这样。
+
+现在我们可以开始在片段着色器中干点事情了，除了将来自顶点着色器的值声明为输入参数之外，我们将定义一些有用的结构体来模拟光照和材质特性。首先，我们将定义用于模拟光的结构。
+
+```glsl
+struct Attenuation
+{
+    float constant;
+    float linear;
+    float exponent;
+};
+
+struct PointLight
+{
+    vec3 colour;
+    // 光源位置是在视图坐标系中的
+    vec3 position;
+    float intensity;
+    Attenuation att;
+};
+```
