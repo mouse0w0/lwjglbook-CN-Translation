@@ -22,19 +22,19 @@ Phong算法提供了三种光照分量：
 
 * 环境光：模拟来自任何地方的光，这将为我们提供（需要对应强度值）未被任何光线照射的区域，就像背景光。
 
-* 漫反射：考虑到面对光源的表面更亮。
+* 漫射：考虑到面对光源的表面更亮。
 
 * 高光：模拟光线如何在抛光或金属表面上反射。
 
-最后，我们还要知道的规律是，乘以分配给片段的颜色，将根据接收的光线将该颜色变得更亮或更暗。我们令$A$为环境组光、$D$为漫反射、$S$为高光。 以上规律对于分量的加法表示如下：
+最后，我们还要知道的规律是，乘以分配给片段的颜色，将根据接收的光线将该颜色变得更亮或更暗。我们令$A$为环境组光、$D$为漫射、$S$为高光。 以上规律对于分量的加法表示如下：
 
 $$L = A + D + S$$
 
 这些分量其实就是颜色，也就是每个光分量所贡献的颜色分量。 这是因为光分量不仅会提供一定程度的强度，还会改变模型的颜色。在我们的片段着色器中，我们只需将该光的颜色与原始片段颜色（从纹理或基色获得）相乘即可。
 
-我们也可以为相同的材质分配不同的颜色，这些颜色将用于环境，漫反射和高光分量。 因此，这些分量将由材质相关的颜色而受到调整。 如果材质具有纹理，我们将简单地为每个分量使用单个纹理。
+我们也可以为相同的材质分配不同的颜色，这些颜色将用于环境，漫射和高光分量。 因此，这些分量将由材质相关的颜色而受到调整。 如果材质具有纹理，我们将简单地为每个分量使用单个纹理。
 
-所以对于非纹理材质的最终颜色将是：$L = A * 环境光色 + D * 漫反射的颜色 + S * 高光颜色$
+所以对于非纹理材质的最终颜色将是：$L = A * 环境光色 + D * 漫射的颜色 + S * 高光颜色$
 
 对于有纹理材质的最终颜色将是：
 
@@ -46,11 +46,11 @@ $$L = A * 材质颜色 + D * 材质颜色 + S * 材质颜色$$
 
 环境光是运算最简单的分量，我们只需要传递一种颜色，并乘以基本颜色，以调整该基本颜色。 假如我们已经确定片段的颜色是$（1.0，0.0，0.0）$，即红色。 如果没有环境光时，它将显示为完全红色的片段。 如果我们将环境光设置为$（0.5,0.5,0.5）$，则最终颜色将为$（0.5,0,0）$，其实就是变暗的红色。 这种光会以同样的方式使所有片段变暗（说光照暗了物体似乎有点奇怪，实际上这就是我们得到的效果）。除此之外，如果光色的RGB分量不相同，它还可以为片段添加一些颜色，所以我们只需要一个向量来调节环境光强度和颜色。
 
-## 漫反射
+## 漫射
 
-现在我们来谈谈漫反射。 它模拟了这样的规律，即与光源垂直的面看起来比以更接近光的角度接收光的面更亮。 一个物体接收的光线越多，其光密度（让我这样称呼）就越高。
+现在我们来谈谈漫射。 它模拟了这样的规律，即与光源垂直的面看起来比以更接近光的角度接收光的面更亮。 一个物体接收的光线越多，其光密度（让我这样称呼）就越高。
 
-![漫反射光](_static/10/diffuse_light.png)
+![漫射光](_static/10/diffuse_light.png)
 
 但是，我们该如何计算它？ 你还记得上一章我们介绍过的法线概念吗？ 法线是垂直于平面并且长度为1的向量。 因此，让我们在上图中绘制三个点的法线，如你所见，每个点的法线将是垂直于每个点的切平面的向量。 我们不去绘制来自光源的光线，而是绘制从每个点到光源（即相反的方向）的向量。
 
@@ -68,11 +68,11 @@ $P2$点的法线$N2$，与指向光源的向量的夹角约为30度，所以它�
 
 ![点积](_static/10/dot_product.png)
 
-如果两个向量都归一化，即它们的长度，它们的模块将等于1，它们的点积即为夹角的余弦值。 我们同样使用该运算来计算漫反射分量。
+如果两个向量都归一化，即它们的长度，它们的模块将等于1，它们的点积即为夹角的余弦值。 我们同样使用该运算来计算漫射分量。
 
 所以我们需要计算指向光源的向量。 我们如何做到这一点？ 假如我们有每个点的位置（即顶点位置），我们有光源的位置。首先，这两个坐标必须位于相同的坐标系中。 为了简化，让我们假设它们都处于世界坐标系中，那么这些位置是指向顶点位置（$VP$）和光源（$VS$）的矢量的坐标，如下图所示：
 
-![漫反射光照运算](_static/10/diffuse_calc_i.png)
+![漫射光照运算](_static/10/diffuse_calc_i.png)
 
 如果我们从$VP$中减去$VS$，我们就得到了$L$向量。
 
@@ -88,7 +88,7 @@ $P2$点的法线$N2$，与指向光源的向量的夹角约为30度，所以它�
 
 首先，我们需要计算从当前位置指向光源的向量：$toLightDirection = lPos - vPos$。该操作的结果需要进行归一化。
 
-然后我们需要计算漫反射因子（标量）：$diffuseFactor = normal \cdot toLightDirection$。计算两个向量之间的点积，我们希望它在$-1$和$1$之间，所以两个向量都需要进行归一化。颜色需要在$0$到$1$之间，所以如果值低于$0$，我们将它设置为$0$。
+然后我们需要计算漫射因子（标量）：$diffuseFactor = normal \cdot toLightDirection$。计算两个向量之间的点积，我们希望它在$-1$和$1$之间，所以两个向量都需要进行归一化。颜色需要在$0$到$1$之间，所以如果值低于$0$，我们将它设置为$0$。
 
 最后，我们只需要通过漫射因子和光强来调制光色：
 
@@ -112,7 +112,7 @@ $$ color = diffuseColour * lColour * diffuseFactor * intensity$$
 
 ![高光](_static/10/specular_lightining.png)
 
-解释了反射的机制，我们接下来准备计算这个分量。首先，我们需要一个从光源指向顶点的向量。当我们计算漫反射分量时，我们使用的是方向与之相反的向量，它指向的是光源。 $toLightDirection$，所以让我们将其计算为$fromLightDirection = -(toLightDirection)$。
+解释了反射的机制，我们接下来准备计算这个分量。首先，我们需要一个从光源指向顶点的向量。当我们计算漫射分量时，我们使用的是方向与之相反的向量，它指向的是光源。 $toLightDirection$，所以让我们将其计算为$fromLightDirection = -(toLightDirection)$。
 
 然后我们需要计算正常情况下由$fromLightDirection$到平面所产生的反射光。有一个名为reflect的GLSL函数。所以，$reflectLight = reflect(fromLightSource, normal)$。
 
@@ -169,7 +169,7 @@ void main()
 }
 ```
 
-在我们继续讲解片段着色器之前，必须强调一个非常重要的概念。从上面的代码可以看到，`mvVertexNormal`，该变量包含已转换为模型视图空间坐标的顶点法线。这是通过将`vertexNormal`乘上`modelViewMatrix`来实现的，就像顶点位置一样。但有一个细微的差别，该顶点法线的w分量在乘以矩阵之前被设置为0：`vec4（vertexNormal，0.0）`。我们为什么要这样做呢 ？因为我们希望法线可以旋转和缩放，但我们不希望它被变换，所以我们只对它的方向感兴趣，而不是它的位置。而这是通过将w分量设置为0来实现的，这也是是使用齐次坐标的优点之一，通过设置w分量，我们可以控制应用了哪些变换。你可以用手做矩阵乘法，看看为什么是这样。
+在我们继续讲解片段着色器之前，必须强调一个非常重要的概念。从上面的代码可以看到，`mvVertexNormal`，该变量包含已转换为模型视图空间坐标的顶点法线。这是通过将`vertexNormal`乘上`modelViewMatrix`来实现的，就像顶点位置一样。但有一个细微的差别，该顶点法线的w分量在乘以矩阵之前被设置为0：`vec4（vertexNormal，0.0）`。我们为什么要这样做呢 ？因为我们希望法线可以旋转和缩放，但我们不希望它被平移，所以我们只对它的方向感兴趣，而不是它的位置。而这是通过将w分量设置为0来实现的，这也是是使用齐次坐标的优点之一，通过设置w分量，我们可以控制应用了哪些变换。你可以用手做矩阵乘法，看看为什么是这样。
 
 现在我们可以开始在片段着色器中干点事情了，除了将来自顶点着色器的值声明为输入参数之外，我们将定义一些有用的结构体来模拟光照和材质特性。首先，我们将定义用于模拟光的结构。
 
@@ -190,3 +190,135 @@ struct PointLight
     Attenuation att;
 };
 ```
+
+点光源由一个颜色，一个位置，以及一个介于$0$和$1$之间的数字来定义，这个数字模拟光的强度以及一组衰减方程的参数。
+
+模拟材质特性的结构体是：
+
+```glsl
+struct Material
+{
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 specular;
+    int hasTexture;
+    float reflectance;
+};
+```
+
+材质由一组颜色定义（假如我们不使用纹理为片段着色）：
+
+* 用于环境分量的颜色。
+* 用于漫射分量的颜色。
+* 用于高光分量的颜色。
+
+材质也由一个标志来定义，该标志控制它是否具有相关的纹理以及反射率指数。我们将在片段着色器中使用以下uniform。
+
+```glsl
+uniform sampler2D texture_sampler;
+uniform vec3 ambientLight;
+uniform float specularPower;
+uniform Material material;
+uniform PointLight pointLight;
+uniform vec3 camera_pos;
+```
+
+我们用新建的uniform设置下面的几个变量：
+
+* 环境光：包含会以同样方式影响每个片段的颜色。
+* 高光反射功率（在讨论高光反射光时提供的公式中使用的指数）。
+* 一个点光源。
+* 材质特性。
+* 相机在视图空间坐标系中的位置。
+
+我们还将定义一些全局变量，它们将保存要在环境、漫射和高光分量中使用的材质颜色分量。我们使用这些变量是因为如果分量具有纹理，我们将对所有分量使用相同的颜色，并且我们不希望进行冗余的纹理查找。这些变量是这样定义的：
+
+```glsl
+vec4 ambientC;
+vec4 diffuseC;
+vec4 speculrC;
+```
+
+我们现在可以定义一个函数，来根据材质特性设置这些变量：
+
+```glsl
+void setupColours(Material material, vec2 textCoord)
+{
+    if (material.hasTexture == 1)
+    {
+        ambientC = texture(texture_sampler, textCoord);
+        diffuseC = ambientC;
+        speculrC = ambientC;
+    }
+    else
+    {
+        ambientC = material.ambient;
+        diffuseC = material.diffuse;
+        speculrC = material.specular;
+    }
+}
+```
+
+现在我们要定义一个函数，以点光源、顶点位置及其法线为输入并返回前面描述的漫射和高光分量计算的颜色。
+
+```glsl
+vec4 calcPointLight(PointLight light, vec3 position, vec3 normal)
+{
+    vec4 diffuseColour = vec4(0, 0, 0, 0);
+    vec4 specColour = vec4(0, 0, 0, 0);
+
+    // 漫射
+    vec3 light_direction = light.position - position;
+    vec3 to_light_source  = normalize(light_direction);
+    float diffuseFactor = max(dot(normal, to_light_source ), 0.0);
+    diffuseColour = diffuseC * vec4(light.colour, 1.0) * light.intensity * diffuseFactor;
+
+    // 高光
+    vec3 camera_direction = normalize(-position);
+    vec3 from_light_source = -to_light_source;
+    vec3 reflected_light = normalize(reflect(from_light_source, normal));
+    float specularFactor = max( dot(camera_direction, reflected_light), 0.0);
+    specularFactor = pow(specularFactor, specularPower);
+    specColour = speculrC * specularFactor * material.reflectance * vec4(light.colour, 1.0);
+
+    // 衰减
+    float distance = length(light_direction);
+    float attenuationInv = light.att.constant + light.att.linear * distance +
+        light.att.exponent * distance * distance;
+    return (diffuseColour + specColour) / attenuationInv;
+}
+```
+
+前面的代码相对比较直白简单，它只是计算了漫射分量的颜色，另一个是计算高光分量的颜色，并通过光线在行进到我们正在处理的顶点时受到的衰减来调制它们。
+
+请注意，顶点坐标是位于视图空间中的。在计算高光分量时，我们必须指出视角，即相机。这可以这样做：
+
+```glsl
+ vec3 camera_direction = normalize(camera_pos - position);
+```
+
+但是，由于`位置`在视图空间中，相机位置始终位于原点，即$（0,0,0）$，所以我们如下计算它：
+
+```glsl
+ vec3 camera_direction = normalize(vec3(0, 0, 0) - position);
+```
+
+可以如此简化：
+
+```glsl
+ vec3 camera_direction = normalize(-position);
+```
+
+有了前面的函数，定点着色器的主函数就变得非常简单了。
+
+```glsl
+void main()
+{
+    setupColours(material, outTexCoord);
+
+    vec4 diffuseSpecularComp = calcPointLight(pointLight, mvVertexPos, mvVertexNormal);
+
+    fragColor = ambientC * vec4(ambientLight, 1) + diffuseSpecularComp;
+}
+```
+
