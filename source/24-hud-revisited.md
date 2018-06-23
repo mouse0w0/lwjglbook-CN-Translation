@@ -1,4 +1,4 @@
-# (HUD 重温)HUD Revisited - NanoVG
+#HUD 重温(HUD 重温)- NanoVG
 
 在之前的章节中，解释了如何使用正交投影在场景的顶部渲染形状和纹理。 在本章中，我们将学习如何使用 [NanoVG](https://github.com/memononen/nanovg) 库来渲染反锯齿矢量图形，以简单的方式构建更复杂的HUD。
 
