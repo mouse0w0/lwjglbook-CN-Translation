@@ -322,3 +322,68 @@ void main()
 }
 ```
 
+调用setupColours函数将使用适当的颜色来设置变量ambientC、diffuseC和speculrC。然后，我们计算漫射和高光分量，并考虑衰减。为了方便，我们使用单个函数调用来完成此操作，如上所述。最终的颜色是通过添加环境光分量来计算的（将ambientC乘以环境光）。正如你所看到的，环境光不受衰减的影响。
+
+在着色器中我们引入了一些需要进一步解释的新概念，定义结构体并将它们用作uniform。但我们要怎么传递这些结构体？首先，我们将定义两个新类，它们模拟点点光源和材质的特性，名为`PointLight`和`Material`。它们只是普通的POJO，所以你可以在本书附带的源代码中查看它们。然后，我们需要在ShaderProgram类中创建新方法，首先要能够为点光源和材质结构创建uniform。
+
+```java
+public void createPointLightUniform(String uniformName) throws Exception {
+    createUniform(uniformName + ".colour");
+    createUniform(uniformName + ".position");
+    createUniform(uniformName + ".intensity");
+    createUniform(uniformName + ".att.constant");
+    createUniform(uniformName + ".att.linear");
+    createUniform(uniformName + ".att.exponent");
+}
+
+public void createMaterialUniform(String uniformName) throws Exception {
+    createUniform(uniformName + ".ambient");
+    createUniform(uniformName + ".diffuse");
+    createUniform(uniformName + ".specular");
+    createUniform(uniformName + ".hasTexture");
+    createUniform(uniformName + ".reflectance");
+}
+```
+
+正如你所看到的，它非常简单，我们只为构成结构体的所有属性创建一个单独的uniform。现在我们需要创建另外两个方法来设置这些uniform的值，并且将使用参数`PointLight`和材质的实例。
+
+```java
+public void setUniform(String uniformName, PointLight pointLight) {
+    setUniform(uniformName + ".colour", pointLight.getColor() );
+    setUniform(uniformName + ".position", pointLight.getPosition());
+    setUniform(uniformName + ".intensity", pointLight.getIntensity());
+    PointLight.Attenuation att = pointLight.getAttenuation();
+    setUniform(uniformName + ".att.constant", att.getConstant());
+    setUniform(uniformName + ".att.linear", att.getLinear());
+    setUniform(uniformName + ".att.exponent", att.getExponent());
+}
+
+public void setUniform(String uniformName, Material material) {
+    setUniform(uniformName + ".ambient", material.getAmbientColour());
+    setUniform(uniformName + ".diffuse", material.getDiffuseColour());
+    setUniform(uniformName + ".specular", material.getSpecularColour());
+    setUniform(uniformName + ".hasTexture", material.isTextured() ? 1 : 0);
+    setUniform(uniformName + ".reflectance", material.getReflectance());
+}
+```
+
+在本章源代码中，你还将看到我们还修改了`Mesh`类来存放材质实例，并且我们创建了一个简单的示例，并在其中创建了一个可用“N”和“M”键控制移动的点光源，以显示点光源聚焦在反射率值高于0的网格上时是怎样的。
+
+让我们回到片段着色器，正如我们所说的，我们需要另一种包含相机位置camera_pos的uniform。这些坐标必须位于视图空间中。通常我们将在世界空间坐标中设置光坐标，因此我们需要将它们乘以视图矩阵以便能够在着色器中使用它们，所以我们需要在`Transformation`类中创建一个新方法，该方法返回视图矩阵让我们转换光照坐标。
+
+```java
+// 获得光源对象的副本并将它的坐标转换为视图坐标
+PointLight currPointLight = new PointLight(pointLight);
+Vector3f lightPos = currPointLight.getPosition();
+Vector4f aux = new Vector4f(lightPos, 1);
+aux.mul(viewMatrix);
+lightPos.x = aux.x;
+lightPos.y = aux.y;
+lightPos.z = aux.z; 
+shaderProgram.setUniform("pointLight", currPointLight);
+```
+
+我们不会在这里引用整个源代码，因为如果这样这一章就太长了，对于解释概念并没有太多的作用。您可以在本书附带的源代码中查看它。
+
+![Lightning results](_static/10/lightning_result.png)
+
