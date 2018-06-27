@@ -11,3 +11,5 @@
    04-rendering
    05-more-on-rendering
    06-transformations
+   08-camera
+   10-let-there-be-light
