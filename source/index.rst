@@ -16,3 +16,4 @@
    09-loading-more-complex-models
    10-let-there-be-light
    11-let-there-be-even-more-light
+   12-game-hud

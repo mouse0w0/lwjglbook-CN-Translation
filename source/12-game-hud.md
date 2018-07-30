@@ -233,7 +233,7 @@ private void setupHudShader() throws Exception {
     hudShaderProgram.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.fs"));
     hudShaderProgram.link();
 
-    // Create uniforms for Ortographic-model projection matrix and base colour
+    // 为正投影模型矩阵和颜色创建Uniform
     hudShaderProgram.createUniform("projModelMatrix");
     hudShaderProgram.createUniform("colour");
 }
@@ -268,12 +268,12 @@ private void renderHud(Window window, IHud hud) {
     Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
     for (GameItem gameItem : hud.getGameItems()) {
         Mesh mesh = gameItem.getMesh();
-        // Set ortohtaphic and model matrix for this HUD item
+        // HUD元素的正投影矩阵与模型矩阵相乘
         Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(gameItem, ortho);
         hudShaderProgram.setUniform("projModelMatrix", projModelMatrix);
         hudShaderProgram.setUniform("colour", gameItem.getMesh().getMaterial().getAmbientColour());
 
-        // Render the mesh for this HUD item
+        // 渲染HUD元素
         mesh.render();
     }
 
@@ -363,11 +363,11 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 ## 完成HUD
 
-Now that we have rendered a text we can add more elements to the HUD. We will add a compass that rotates depending on the direction the camera is facing. In this case, we will add a new GameItem to the Hud class that will have a mesh that models a compass.
+现在我们已经渲染了文本，但还可以向HUD添加更多的元素。我们将添加一个根据摄像机朝向旋转的指针。现在，我们将向`Hud`类添加一个新的`GameItem`，它将有一个指针的模型。
 
-![Compass](_static/12/compass.png)
+![指针](_static/12/compass.png)
 
-The compass will be modeled by an .obj file but will not have a texture associated, instead it will have just a background colour. So we need to change the fragment shader for the HUD a little bit to detect if we have a texture or not. We will be able to do this by setting a new uniform named `hasTexture`.
+指针的模型是.obj文件，但它不会关联任何纹理，相反，它只有背景颜色。所以我们需要修改HUD的片段着色器，来检测是否使用纹理。我们将通过设置一个名为`hasTexture`的新Uniform来实现它。
 
 ```glsl
 #version 330
@@ -392,25 +392,24 @@ void main()
     }
 }
 ```
-
-To add the compass the the HUD we just need to create a new `GameItem` instance, tn the `Hud` class, that loads the compass model and adds it to the list of items. In this case we will need to scale up the compass. Remember that it needs to be expressed in screen coordinates, so usually you will need to increase its size.
+要添加指针到HUD上，我们只需要在`Hud`类中创建一个新的`GameItem`实例。它加载指针模型，并将其添加到数组中。现在，我们需要放大指针。因为它在屏幕坐标中渲染，所以通常你需要放大它。
 
 ```java
-// Create compass
+// 创建指针
 Mesh mesh = OBJLoader.loadMesh("/models/compass.obj");
 Material material = new Material();
 material.setAmbientColour(new Vector4f(1, 0, 0, 1));
 mesh.setMaterial(material);
 compassItem = new GameItem(mesh);
 compassItem.setScale(40.0f);
-// Rotate to transform it to screen coordinates
+// 进行旋转变换，使它转换到屏幕坐标系
 compassItem.setRotation(0f, 0f, 180f);
 
-// Create list that holds the items that compose the HUD
+// 创建一个数组，用于储存HUD组件
 gameItems = new GameItem[]{statusTextItem, compassItem};
 ```
 
-Notice also that, in order for the compass to point upwards we need to rotate 180 degrees since the model will often tend to use OpenGL space  coordinates. If we are expecting screen coordinates it would pointing downwards. The `Hud` class will also provide a method to update the angle of the compass that must take this also into consideration.
+还要注意的是，为了使罗盘向上指，我们需要旋转180°，因为模型通常倾向于使用OpenGL空间坐标系。如果我们要求使用屏幕坐标，它会指向下方。`Hud`类还提供一个方法来更新指针的指向，这也必须要考虑。
 
 ```java
 public void rotateCompass(float angle) {
@@ -418,34 +417,34 @@ public void rotateCompass(float angle) {
 }
 ```
 
-In the `DummyGame` class we will update the angle whenever the camera is moved. We need to use the y angle rotation.
+在`DummyGame`类中，每当摄像机移动时，我们需要更新角度。我们需要使用Y角旋转。
 
 ```java
-// Update camera based on mouse            
+// 根据鼠标更新摄像机            
 if (mouseInput.isRightButtonPressed()) {
     Vector2f rotVec = mouseInput.getDisplVec();
     camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
 
-    // Update HUD compass
+    // 更新HUD指针
     hud.rotateCompass(camera.getRotation().y);
 }
 ```
 
-We will get something like this \(remember that it is only a sample, in a real game you may probably want to use some texture to give the compass a different look\).
+我们会看到这样的东西(记住它只是个例子，在实际的游戏中，你可能想使用一些纹理来更改指针的外观)。
 
-![HUD with a compass](_static/12/hud_compass.png)
+![有指针的HUD](_static/12/hud_compass.png)
 
 ## 再谈文本渲染
 
-Before reviewing other topics let’s go back to the text rendering approach we have presented here. The solution is very simple and handy to introduce the concepts involved in rendering HUD elements but it presents some problems:
+在回顾其他主题之前，让我们再谈谈之前介绍的文本渲染方法。该方案非常简单和方便地介绍了渲染HUD所涉及的概念，但它有一些问题：
 
-* It does not support non latin character sets.
-* If you want to use several fonts you need to create a separate texture file for each font. Also, the only way to change the text size is either to scale it, which may result in a poor quality rendered text, or to generate another texture file.
-* The most important one, characters in most of the fonts do not occupy the same size but we are dividing the font texture in equally sized elements.  We have cleverly used “Consolas” font  which is [monospaced](https://en.wikipedia.org/wiki/Monospaced_font) \(that is, all the characters occupy the same amount of horizontal space\), but if you use  a non-monospaced font you will see annoying variable white spaces between the characters. 
+* 它不支持非拉丁字符。
+* 如果你想使用多种字体，则需要为每种字体创建单独的纹理文件。此外，改变文本大小的唯一方法是缩放，这会导致渲染文本的质量较差，或者需要创建额外的纹理文件。
+* 最重要的是，大多数字体中的字符之间的大小并不同，而我们将字体纹理分割成同样大小的元素。我们使用了[Monospaced](https://en.wikipedia.org/wiki/Monospaced_font)风格(即所有字符具有相同的宽度)的“Consolas”字体，但如果使用非Monospaced的字体，就会看到字符之间恼人的空白。
 
-We need to change our approach an provide a more flexible way to render text. If you think about it, the overall mechanism is ok, that is, the way of rendering text by texturing quads for each character. The issue here is how we are generating the textures. We need to be able to generate those texture dynamically by using the fonts available in the System.
+我们需要更改方法，提供一种更灵活的渲染文本方式。如果你思考一下，整个想法是可行的，也就是通过单独渲染每个字符的矩形来渲染文本。这里的问题就是该如何生成纹理。我们需要通过系统中可用的字体动态地生成这些纹理。
 
-This is where `java.awt.Font` comes to the rescue, we will generate the textures by drawing each letter for a specified font family and size dynamically. That texture will be used in the same way as described previously, but it will solve perfectly all the issues mentioned above. We will create a new class named `FontTexture` that will receive a Font instance and a charset name and will dynamically create a texture that contains all the available characters. This is the constructor.
+这就需要`java.awt.Font`出马了，我们将通过指定字体系列和大小动态地绘制每一个字符来生成纹理。该纹理的使用方式与之前描述的相同，但它将完美地解决上述所有问题。我们将创建一个名为`FontTexture`的新类，该类将接受`Font`实例和字符集名称，并将动态地创建包含所有可用字符的纹理。下面是构造函数。
 
 ```java
 public FontTexture(Font font, String charSetName) throws Exception {
@@ -457,7 +456,7 @@ public FontTexture(Font font, String charSetName) throws Exception {
 }
 ```
 
-The first step is to handle the non latin issue, given a char set and a font we will build a `String` that contains all the characters that can be rendered.
+首先要处理非拉丁字符问题，指定字符集和字体，我们将创建一个包含所有可渲染字符的`String`。
 
 ```java
 private String getAllAvailableChars(String charsetName) {
@@ -472,11 +471,11 @@ private String getAllAvailableChars(String charsetName) {
 }
 ```
 
-Let’s now review the method that actually creates the texture, named `buildTexture`.
+让我们来看看实际创建纹理的`buildTexture`方法。
 
 ```java
 private void buildTexture() throws Exception {
-    // Get the font metrics for each character for the selected font by using image
+    // 使用FontMetrics获取每个字符信息
     BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2D = img.createGraphics();
     g2D.setFont(font);
@@ -486,7 +485,7 @@ private void buildTexture() throws Exception {
     this.width = 0;
     this.height = 0;
     for (char c : allChars.toCharArray()) {
-        // Get the size for each character and update global image size
+        // 获取每个字符的大小，并更新图像大小
         CharInfo charInfo = new CharInfo(width, fontMetrics.charWidth(c));
         charMap.put(c, charInfo);
         width += charInfo.getWidth();
@@ -495,7 +494,8 @@ private void buildTexture() throws Exception {
     g2D.dispose();
 ```
 
-We first obtain the font metrics by creating a temporary image. Then we iterate over the `String` that contains all the available characters and get the width, with the help of the font metrics, of each of them. We store that information on a map, `charMap`, which will use as a key the character. With that process we determine the size of the image that will have the texture \(with a height equal to the maximum size of all the characters and its with equal to the sum of each character width\). `CharSet` is an inner class that holds the information about a character \(its width and where it starts, in the x coordinate, in the texture image\).
+我们首先通过创建创建临时图像来获得`FontMetrics`，然后遍历包含所有可用字符的`String`，并在`FontMetrics`的帮助下获取字体的宽度。我们把这些信息储存在一个`charMap`上，以字符作为`Map`的键。这样，我们就确定了纹理图像的大小(图像的高度等于所有字符的最大高度，而宽度等于所有字符的宽度总和)。
+`ChatSet`是一个内部类，它储存关于字符的信息(它的宽度和它在纹理图像中的起点)。
 
 ```java
     public static class CharInfo {
@@ -519,10 +519,10 @@ We first obtain the font metrics by creating a temporary image. Then we iterate 
     }
 ```
 
-Then we will create an image that will contain all the available characters. In order to do this, we just draw the string over a `BufferedImage`.
+然后，我们将创建一个包含所有可用字符的图像，只需要在`BufferedImage`上绘制字符串即可。
 
 ```java
-    // Create the image associated to the charset
+    // 创建与字符集相关的图像
     img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     g2D = img.createGraphics();
     g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -533,20 +533,20 @@ Then we will create an image that will contain all the available characters. In 
     g2D.dispose();
 ```
 
-We are generating an image which contains all the characters in a single row \(we maybe are not fulfilling  the premise that the texture should have a size of a power of two, but it should work on most modern cards. In any caseyou could always achieve that by adding some extra empty space\). You can even see the image that we are generating, if after that block of code, you put a line like this:
+我们正在生成一个包含所有字符的单行图像(可能不满足纹理大小应该为二的幂的前提，但是它仍适用于大多数现代显卡。在任何情况下，你都可以通过增加额外的空白来解决这个问题)。你甚至可以看到生成的图像，在代码之后，添加这样的一行代码：
 
 ```java
 ImageIO.write(img, IMAGE_FORMAT, new java.io.File("Temp.png"));
 ```
 
-The image will be written to a temporary file. That file will contain a long strip with all the available characters, drawn in white over transparent background using anti aliasing.
+图像将被写入一个临时文件。该文件将包含一长条可用的所有字符，在白色背景下启用反走样绘制。
 
-![Font texture](_static/12/texture_font.png)
+![字体纹理](_static/12/texture_font.png)
 
-Finally, we just need to create a `Texture` instance from that image, we just dump the image bytes using a PNG format \(which is what the `Texture` class expects\).
+最后只需要从那个图像创建一个`Texture`实例，我们只需使用PNG格式转储图像字节(这就是`Texture`类所需要的)。
 
 ```java
-    // Dump image to a byte buffer
+    // 将图像转储到字节缓冲区
     InputStream is;
     try (
         ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -559,7 +559,7 @@ Finally, we just need to create a `Texture` instance from that image, we just du
 }
 ```
 
-You may notice that we have modified a little bit the `Texture` class to have another constructor that receives an `InputStream`. Now we just need to change the `TextItem` class to receive a `FontTexture` instance in its constructor.
+你可能注意到，我们已经稍微修改了`Texture`类，以便可以使用一个接收`InputStream`的构造函数。现在我们只需要修改`TextItem`类，就可以在构造函数中接收`FontTexture`实例。
 
 ```java
 public TextItem(String text, FontTexture fontTexture) throws Exception {
@@ -570,49 +570,49 @@ public TextItem(String text, FontTexture fontTexture) throws Exception {
 }
 ```
 
-The `buildMesh` method only needs to be changed a little bit when setting quad and texture coordinates, this is a sample for one of the vertices.
+`buildMesh`方法只需要稍稍改变矩形坐标和纹理坐标的设置，这是其中一个顶点的示例。
 
 ```java
     float startx = 0;
     for(int i=0; i<numChars; i++) {
         FontTexture.CharInfo charInfo = fontTexture.getCharInfo(characters[i]);
 
-        // Build a character tile composed by two triangles
+        // 构造由两个三角形组成的字符片段
 
-        // Left Top vertex
+        // 左上角顶点
         positions.add(startx); // x
-        positions.add(0.0f); //y
-        positions.add(ZPOS); //z
+        positions.add(0.0f); // y
+        positions.add(ZPOS); // z
         textCoords.add( (float)charInfo.getStartX() / (float)fontTexture.getWidth());
         textCoords.add(0.0f);
         indices.add(i*VERTICES_PER_QUAD);
 
-      // .. More code
+      // 更多代码...
       startx += charInfo.getWidth();
     }
 ```
 
-You can check the rest of the changes directly in the source code. The following picture shows what you will get for an Arial font with a size of 20:
+你可以在源代码中查看其他修改。下面的图片是一个大小为20的Arial字体的渲染结果：
 
-![Text rendered improved](_static/12/text_rendered_improved.png)
+![改进后的文本](_static/12/text_rendered_improved.png)
 
-As you can see the quality of the rendered text has been improved a lot, you can play with different fonts and sizes and check it by your own. There’s still plenty of room for improvement \(like supporting multiline texts, effects, etc.\), but this will be left as an exercise for the reader.
+你可以看到文本渲染的质量已经有了很大的提升，你可以用不同的字体和大小来渲染。这仍然有很大的改进空间(比如支持多行文本、特效等)，但这留给各位读者作为练习。
 
-You may also notice that we are still able to apply scaling to the text \(we pass a model view matrix in the shader\). This may not be needed now for text but it may be useful for other HUD elements.
+你可能还注意到，我们仍然能够缩放文本(通过着色器中的模型观察矩阵)。文本可能不需要，但对其他的HUD元素可能有用。
 
-We have set up all the infrastructure needed in order to create a HUD for our games. Now it is just a matter of creating all the elements that represent relevant information to the user and  give them a professional look and feel.
+我们已经建立了所有的基础结构来为游戏创建一个HUD。现在，只剩一个问题，那就是创建所有的元素，传递相关信息给用户，并给他们一个专业的外观。
 
 ## OSX
 
-If you try to run the samples in this chapter, and the next ones that render text, you may find that the application blocks and nothing is shown in the screen. This is due to the fact that AWT and GLFW do get along very well under OSX. But, what does it have to do with AWT ? We are using the `Font` class, which belongs to AWT, and just by instantiating it, AWT gets initialized also. In OSX AWT tries to run under the main thread, which is also required by GLFW. This is what causes this mess.
+如果你试图运行本章中的示例，以及下一个渲染文本的示例，则可能会发现应用程序和屏幕上没有显示任何内容。这是由于AWT和GLFW在OSX下相处得“很好”。但这和AWT有什么关系呢？我们使用的是`Font`类，它属于AWT，如果要实例化它，AWT也需要初始化。在OSX中，AWT试图在主线程运行，但GLFW也需要这样。这就是造成这种混乱的原因。
 
-In order to be able to use the `Font` class, GLFW must be initialized before AWT and the samples need to be run in headless mode. You need to setup this property before anything gets intialized:
+为了能够使用`Font`类，GLFW必须在AWT之前初始化，并且示例需要以Headless模式运行。你需要在任何东西被初始化之前设置这个属性：
 
 ```java
 System.setProperty("java.awt.headless", "true");
 ```
 
-You may get a warning, but the samples will run.
+你也许会得到一个警告，但示例成功运行了。
 
-A much more clean approach would be to use the [stb](https://github.com/nothings/stb/) library to render text.
+一个更简洁的方法是使用[stb](https://github.com/nothings/stb/)库来渲染文本。
 
