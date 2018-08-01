@@ -198,9 +198,9 @@ float[] positions = new float[]{
 
 现在为了实现这种渲染，我们需要提供一些基本操作来操作模型：
 
-* 移动: 在三个轴中的任意一个轴上移动一个物体。
-* 旋转: 按任意一个轴旋转物体任意角度。
-* 缩放: 调整物体的大小。
+* 移动(`translation`): 在三个轴中的任意一个轴上移动一个物体。
+* 旋转(`Rotation`): 按任意一个轴旋转物体任意角度。
+* 缩放(`Scale`): 调整物体的大小。
 
 ![Transformations](_static/06/transformations.png)
 
