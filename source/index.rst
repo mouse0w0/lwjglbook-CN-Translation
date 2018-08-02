@@ -17,4 +17,4 @@
    10-let-there-be-light
    11-let-there-be-even-more-light
    12-game-hud
-   13-sky-box-and-som-optimizations
+   13-sky-box-and-some-optimizations
