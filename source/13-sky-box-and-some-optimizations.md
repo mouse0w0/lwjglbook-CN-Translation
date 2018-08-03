@@ -134,7 +134,7 @@ private void renderSkyBox(Window window, Camera camera, Scene scene) {
 
     skyBoxShaderProgram.setUniform("texture_sampler", 0);
 
-    // Update projection Matrix
+    // 更新投影矩阵
     Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
     skyBoxShaderProgram.setUniform("projectionMatrix", projectionMatrix);
     SkyBox skyBox = scene.getSkyBox();
