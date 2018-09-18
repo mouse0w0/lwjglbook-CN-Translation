@@ -18,3 +18,4 @@
    11-let-there-be-even-more-light
    12-game-hud
    13-sky-box-and-some-optimizations
+   14-height-maps
