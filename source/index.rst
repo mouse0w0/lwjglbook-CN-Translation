@@ -40,7 +40,7 @@ LWJGL是一个Java库，提供了访问OpenGL、OpenAL和OpenCL的接口。这�
 ****
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a>进行许可。
 
-所有的源代码的许可协议均为 `Apache v2.0<https://www.apache.org/licenses/LICENSE-2.0>`_
+所有的源代码的许可协议均为 `Apache v2.0 <https://www.apache.org/licenses/LICENSE-2.0>`_
 
 原作者
 ****
@@ -49,7 +49,7 @@ Antonio Hernández Bejarano
 支持作者
 ****
 如果你喜欢这本书，请Star并且分享它。如果你想捐助作者，你可以通过下面的按钮捐助：
-`.. image:: https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5MH9AA9TPQQBN>`_
+`PayPal <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5MH9AA9TPQQBN>`_
 
 或者你更喜欢用比特币: 1Kwe78faWarzGTsWXtdGvjjbS9RmW1j3nb.
 
