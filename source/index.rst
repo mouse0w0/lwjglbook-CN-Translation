@@ -32,13 +32,13 @@ LWJGL是一个Java库，提供了访问OpenGL、OpenAL和OpenCL的接口。这�
 
 源代码
 ****
-本书中所有的源码示例均上传至`GitHub <https://github.com/lwjglgamedev/lwjglbook>`_
+本书中所有的源码示例均上传至 `GitHub <https://github.com/lwjglgamedev/lwjglbook>`_
 
-本书英文原文地址`GitBook <https://legacy.gitbook.com/book/lwjglgamedev/3d-game-development-with-lwjgl/details>`_ `GitHub <https://github.com/lwjglgamedev/lwjglbook-bookcontents>`_.
+本书英文原文地址 `GitBook <https://legacy.gitbook.com/book/lwjglgamedev/3d-game-development-with-lwjgl/details>`_ `GitHub <https://github.com/lwjglgamedev/lwjglbook-bookcontents>`_.
 
 许可证
 ****
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a>进行许可。
+本作品采用 `知识共享署名-相同方式共享 4.0 国际许可协议 <http://creativecommons.org/licenses/by-sa/4.0/>`_ 进行许可。
 
 所有的源代码的许可协议均为 `Apache v2.0 <https://www.apache.org/licenses/LICENSE-2.0>`_
 
