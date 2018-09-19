@@ -1,4 +1,4 @@
-# 天空盒与一些优化(Sky Box and some optimizations)
+# 天空盒与一些优化 (Sky Box and some optimizations)
 
 ## 天空盒
 
