@@ -63,8 +63,7 @@ public class Material {
 }
 ```
 
-我们将在场景的片元着色器中使用法线贴图纹理。
-We will use the normal map texture in the scene fragment shader. But, since we are working in view coordinates space we need to pass the model view matrix in order to do the proper transformation. Thus, we need to modify the scene vertex shader.
+我们将在场景的片元着色器中使用法线贴图纹理。但是，由于我们在观察坐标空间操作，所以需要通过模型观察矩阵来进行适当的变换。因此，我们需要修改场景的顶点着色器。
 
 ```glsl
 #version 330
@@ -92,19 +91,19 @@ void main()
 }
 ```
 
-In the scene fragment shader we need to add another input parameter.
+在场景的片元着色器中，我们需要添加另一个输入参数。
 
 ```glsl
 in mat4 outModelViewMatrix;
 ```
 
-In the fragment shader, we will need to pass a new uniform for the normal map texture sampler:
+在片元着色器中，我们需要为法线贴图纹理采样器传递一个新的Uniform：
 
 ```glsl
 uniform sampler2D texture_sampler;
 ```
 
-Also, in the fragment shader, we will create a new function that calculates the normal for the current fragment.
+此外，在片元着色器中，我们将创建一个新函数，该函数计算当前片元的法线。
 
 ```glsl
 vec3 calcNormal(Material material, vec3 normal, vec2 text_coord, mat4 modelViewMatrix)
@@ -120,51 +119,50 @@ vec3 calcNormal(Material material, vec3 normal, vec2 text_coord, mat4 modelViewM
 }
 ```
 
-The function takes the following parameters:
+该函数有以下参数：
+* `Material`实例。
+* 顶点法线。
+* 纹理坐标。
+* 模型视图矩阵。
 
-* The material instance.
-* The vertex normal.
-* The texture coordinates.
-* The model view matrix.
+我们在此函数中做的第一件事是检查这个`Material`实例是否有法线贴图。如果没有，我们就像平常一样简单地使用顶点法线。如果它有法线贴图，我们使用储存着法线数据的法线纹理关联到当前纹理坐标。
 
-The first thing we do in that function is to check if this material has a normal map associated or not. If not, we just simply use the vertex normal as usual. If it has a normal map, we use the normal data stored in the normal texture map associated to the current texture coordinates.
+记住我们取得的颜色是法线坐标，但因为它们被储存为RGB值，所以它们的值在范围\[0, 1\]中。我们需要将其范围转换为\[-1, 1\]，所以我们将其乘以2然后减去1。然后，我们将它归一化，并将其转换到模型观察坐标系（就像顶点法线那样）。
 
-Remember that the colour we get are the normal coordinates, but since they are stored as RGB values they are contained in the range \[0, 1\]. We need to transform them to be in the range \[-1, 1\], so we just multiply by two and subtract 1 . Then, we normalize that value and transform it to view model coordinate space \(as with the vertex normal\).
+就这样，我们可以使用返回值作为片元所有光照计算中的法线。
 
-And that’s all, we can use the returned value as the normal for that fragment in all the lightning calculations.
-
-In the `Renderer` class we need to create the normal map uniform, and in the `renderScene` method we need to set it up like this:
+在`Renderer`类中，我们需要创建法线贴图，在`renderScene`方法中，我们做如下设置：
 
 ```java
-...
+//...
 sceneShaderProgram.setUniform("fog", scene.getFog());
 sceneShaderProgram.setUniform("texture_sampler", 0);
 sceneShaderProgram.setUniform("normalMap", 1);
-...
+//...
 ```
 
-You may notice some interesting thing in the code above. We are setting $$0$$ for the material texture uniform \(`texture_sampler`\) and $$1$$ for the normal map texture \(`normalMap`\). If you recall from the texture chapter. We are using more than one texture, so we must set up the texture unit for each separate texture.
+上述代码中你可能注意到一些有趣的事情。我们将材质纹理Uniform（`texture_sampler`）设置为**0**，然后将法线贴图纹理（`normalMap`）设置为**1**。如果你回想纹理章节，我们不止使用一个纹理，所以我们必须为每个单独的纹理设置纹理单元。
 
-We need to take this also into consideration when we are rendering a `Mesh`.
+当我们渲染`Mesh`时，也需要考虑这一点。
 
 ```java
 private void initRender() {
     Texture texture = material.getTexture();
     if (texture != null) {
-        // Activate first texture bank
+        // 激活第一纹理库
         glActiveTexture(GL_TEXTURE0);
-        // Bind the texture
+        // 绑定纹理
         glBindTexture(GL_TEXTURE_2D, texture.getId());
     }
     Texture normalMap = material.getNormalMap();
     if ( normalMap != null ) {
-        // Activate first texture bank
+        // 激活第二纹理库
         glActiveTexture(GL_TEXTURE1);
-        // Bind the texture
+        // 绑定纹理
         glBindTexture(GL_TEXTURE_2D, normalMap.getId());
     }
 
-    // Draw the mesh
+    // 绘制网格
     glBindVertexArray(getVaoId());
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -172,18 +170,19 @@ private void initRender() {
 }
 ```
 
-As you can see we need to bind to each of the textures available and activate the associated texture unit in order to be able to work with more than one texture. In the `renderScene` method in the `Renderer` class we do not need to explicitly set up the uniform of the texture since it’s already contained in the `Material`.
+如你所见，我们需要绑定每个可用的纹理，并激活相关的纹理单元，以便多个纹理能够同时工作。在`Renderer`类的`renderScene`方法中，我们不需要显式设置纹理的Uniform，因为它已经包含在`Material`中。
 
-In order to show the improvements that normal maps provide, we have created an example that shows two quads side by side. The right quad has a texture map applied and the left one not. We also have removed the terrain, the skybox and the HUD and setup a directional light with can be changed with the left and right cursor keys so you can see the effect. We have modified the base source code a bit in order to support not having a skybox or a terrain. We have also clamped the light effect in the fragment shader in the rang \[0, 1\] to avoid over exposing effect of the image.
+为了展示法线贴图带来的提升，我已经创建了两个并排显示的四边形示例。右边的有一张法线贴图，而左边没有。我们还删除了地形、天空盒和HUD，并设置了平行光照，可以用鼠标左右键改变方向，这样你就可以看到效果了。我已经修改了基本源代码，以支持关闭天空盒和地形。我们还在片元着色器中设置了光效果的范围为\[0, 1\]，以避免图像过度曝光。
 
-The result is shown in the next figure.
+结果如下图所示。
 
-![Normal mapping result](_static/17/normal_mapping_result.png)
+![法线贴图结果](_static/17/normal_mapping_result.png)
 
-As you can see the quad that has a normal texture applied gives the impression of having more volume. Although it is, in essence, a plain surface like the other quad, you can see how the light reflects.  
-But, although the code we have set up, works perfectly with this example you need to be aware of its limitations. The code only works for normal map textures that are created using object space coordinates. If this is the case we can apply the model view matrix transformations to translate the normal coordinates to the view space.
+如你所见，具有法线贴图的四边形感觉更大。虽然它本质上是一个像其他四边形一样的平面，但你可以看到光线是如何反射的。
 
-But, usually normal maps are not defined in that way. They usually are defined in the called tangent space. The tangent space is a coordinate system that is local to each triangle of the model. In that coordinate space the $$z$$ axis always points out of the surface. This is the reason why when you look at a normal map its usually bluish, even for complex models with opposing faces.
+尽管我们已经编写的代码完全符合这个示例，但你需要知道它的局限性。该代码仅适用与使用模型坐标空间创建的法线贴图纹理。如果是这种情况，我们可以使用模型视图矩阵来将法线坐标转换到观察空间。
 
-We will stick with this simple implementation by now, but keep in mind that you must always use normal maps defined in object space. If you use maps defined in tangent space you will get weird results. In order to be able to work with them we need to setup specific matrices to transform coordinates to the tangent space.
+但通常法线贴图不是这样定义的。它们通常被定义在所谓的**切线空间（`Tangent Space`）**中。切线空间是一个坐标系，它定位在模型的每个三角形，其坐标系的**z**轴总是垂直于表面。这就是为什么当你看一个法线贴图时，它通常是蓝色的，甚至对于面相对复杂的模型也是如此。
+
+我们现在仍使用这个简单的实现，但请记住，你必须总是使用在模型空间中定义的法线贴图。如果使用切线空间中定义的贴图，就会变得很奇怪。为了能够让它们一同工作，我们需要使用特定的矩阵来将坐标变换到切线空间。
 

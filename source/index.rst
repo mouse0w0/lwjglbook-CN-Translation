@@ -21,6 +21,7 @@
    14-height-maps
    15-terrain-collisions
    16-fog
+   17-normal-mapping
 
 本书原介绍
 ****
