@@ -1,0 +1,38 @@
+site_name: Lwjglbook中文翻译
+site_author: Mouse0w0
+site_copyright: '2018, Mouse0w0'
+
+repo_url: https://github.com/Mouse0w0/lwjglbook-CN-Translation
+
+nav:
+- 事前准备（First Steps）: '01-first-steps.md'
+- 游戏循环（The Game Loop）: '02-the-game-loop.md'
+- 坐标简介（A brief about coordinates）: '03-a-brief-about-coordinates.md'
+- 渲染（Rendering）: '04-rendering.md'
+- 更多关于渲染的事情（More on Rendering）: '05-more-on-rendering.md'
+- 变换（Transformations）: '06-transformations.md'
+- 纹理（Textures）: '07-textures.md'
+- 摄像机（Camera）: '08-camera.md'
+- 加载更复杂的模型（Loading more complex models）: '09-loading-more-complex-models.md'
+- 要有光（Let there be light）: '10-let-there-be-light.md'
+- 要有更多的光（Let there be even more light）: '11-let-there-be-even-more-light.md'
+- 游戏HUD（Game HUD）: '12-game-hud.md'
+- 天空盒与一些优化 (Sky Box and some optimizations): '13-sky-box-and-some-optimizations.md'
+- 高度图（Height Maps）: '14-height-maps.md'
+- 地形碰撞 (Terrain Collisions): '15-terrain-collisions.md'
+- 雾 (Fog): '16-fog.md'
+- 法线贴图（Normal Mapping）: '17-normal-mapping.md'
+
+docs_dir: source
+
+theme: readthedocs
+
+extra_javascript:
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML
+
+markdown_extensions:
+  - admonition
+  - extra
+  - toc
+  - mdx_math:
+      enable_dollar_delimiter: true
