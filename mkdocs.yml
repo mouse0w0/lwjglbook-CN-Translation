@@ -16,14 +16,14 @@ nav:
 - 地形碰撞 (Terrain Collisions): 15-terrain-collisions.md
 - 雾 (Fog): 16-fog.md
 - 法线贴图（Normal Mapping）: 17-normal-mapping.md
+- 阴影（Shadows）: 18-shadows.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
-copyright: 2018, Mouse0w0
+copyright: 2019, Mouse0w0
 
 repo_url: https://github.com/Mouse0w0/lwjglbook-CN-Translation
-
-docs_dir: source
+remote_branch: master
 
 theme: readthedocs
 
