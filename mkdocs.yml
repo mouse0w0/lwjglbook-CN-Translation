@@ -17,6 +17,7 @@ nav:
 - 雾 (Fog): 16-fog.md
 - 法线贴图（Normal Mapping）: 17-normal-mapping.md
 - 阴影（Shadows）: 18-shadows.md
+- 动画（Animations）: 19-animations.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
