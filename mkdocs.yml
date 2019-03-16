@@ -18,6 +18,7 @@ nav:
 - 法线贴图（Normal Mapping）: 17-normal-mapping.md
 - 阴影（Shadows）: 18-shadows.md
 - 动画（Animations）: 19-animations.md
+- 粒子（Particles）: 20-particles.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
