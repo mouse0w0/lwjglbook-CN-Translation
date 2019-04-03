@@ -69,20 +69,20 @@ for (int i = 0; i < 4; i++) {
 }
 ```
 
-The first thing that we do is create a new VBO and a new `FloatBuffer` to store the data on it. The size of that buffer is measured in floats, so it will be equal to the number of instances multiplied by the size in floats of a 4x4 matrix, which is equal to 16.
+我们首先要做的事是创建一个新的VBO和一个新的`FloatBuffer`以在其内储存数据。缓冲区的大小是用浮点数数量计算的，所以它等于实例数乘以4x4矩阵的浮点数大小（等于16）。
 
-Once the VBO has been bond we start defining the attributes for it. You can see that this is done in a for loop that iterates four times. Each turn of the loop defines one vector the matrix. Why not simply defining a single attribute for the whole matrix? The reason for that is that a vertex attribute cannot contain more than four floats. Thus, we need to split the matrix definition into four pieces. Let’s refresh the parameters of the `glVertexAttribPointer`:
+一旦VBO被绑定，我们就开始为它定义属性。你可以看到这是在`for`循环中完成的，循环进行了四次。每轮循环定义一个矩阵向量。为什么不简单地为整个矩阵定义一个属性呢？原因是顶点属性不能储存超过四个浮点数。因此，我们需要把矩阵定义分为四部分。让我们重新认识一下`glVertexAttribPointer`的参数：
 
-* Index: The index of the element to be defined.
-* Size: The number of components for this attribute. In this case it’s 4, 4 floats, which is the maximum accepted value.
-* Type: The type of data \(floats in our case\).
-* Normalize: If fixed-point data should be normalized or not.
-* Stride: This is important to understand here, this sets the byte offsets between consecutive attributes. In this case, we need to set it to the whole size of a matrix in bytes. This acts like a mark that packs the data so it can be changed between vertex or instances.
-* Pointer: The offset that this attribute definition applies to. In our case, we need to split the matrix definition into four calls. Each vector of the matrix increments the offset.
+* Index: 要定义的元素的索引。
+* Size: 该属性的分量数。在本例中，它是四个浮点数，这是可接受的最大值。
+* Type: 数据类型（在本例中为浮点型）。
+* Normalize: 是否应该归一化指定数据。
+* Stride（步长）: 理解这里的概念很重要，它设置了连续属性之间的字节偏移量。在本例中，我们需要将其设置为整个矩阵的字节大小。这就像一个用于包装数据的标记，从而可以在顶点或实例之间进行更改。
+* Pointer: 此属性定义应用的偏移量。在本例中，我们需要将矩阵定义拆分为四次调用。依矩阵的每个向量增加偏移量。
 
-After defining the vertex attribute, we need to call the `glVertexAttribDivisor` using the same index.
+定义了顶点属性之后，我们需要使用相同的索引调用`glVertexAttribDivisor`。
 
-The definition of the light view matrix is similar to the previous one, you can check it in the source code. Continuing with the `InstancedMesh` class definition it’s important to override the methods that enable the vertex attributes before rendering \(and the one that disables them after\).
+光照观察矩阵的定义与上述过程类似，你可以在源代码中查看它。继续进行`InstancedMesh`类的定义，重写方法以在渲染之前启用顶点属性（以及在渲染之后要禁用它们）是很重要的。
 
 ```java
 @Override
@@ -106,7 +106,7 @@ protected void endRender() {
 }
 ```
 
-The `InstancedMesh` class defines a public method, named `renderListInstanced`, that renders a list of game items, this method splits the list of game items into chunks of size equal to the number of instances used to create the `InstancedMesh`. The real rendering method is called `renderChunkInstanced` and is defined like this.
+`InstancedMesh`类定义了一个名为`renderListInstanced`的公共方法，它渲染一系列的游戏项，这个方法将游戏项列表分割为大小与创建`InstancedMesh`所设实例数量相等的块。真正的渲染方法是`renderChunkInstanced`，定义如下：
 
 ```java
 private void renderChunkInstanced(List<GameItem> gameItems, boolean depthMap, Transformation transformation, Matrix4f viewMatrix, Matrix4f lightViewMatrix) {
@@ -132,16 +132,16 @@ private void renderChunkInstanced(List<GameItem> gameItems, boolean depthMap, Tr
 }
 ```
 
-The method is quite simple, we basically iterate over the game items and calculate the model view and light view matrices. These matrices are dumped into their respective buffers. The contents of those buffers are sent to to the GPU and finally we render all of them with a single call to the `glDrawElementsInstanced` method.
+该方法很简单，我们遍历游戏项，计算模型观察矩阵和光照观察矩阵。这些矩阵被转储到它们各自的缓冲区中。这些缓冲区的内容被发送到GPU，最后通过对方法`glDrawElementsInstanced`的调用来渲染它们。
 
-Going back to the shaders, we need to modify the vertex shader to support instanced rendering. We will first add new input parameters for the model and view matrices that will be passed when using instanced rendering.
+回到着色器，我们需要修改顶点着色器以支持实例化渲染。首先我们为模型观察矩阵添加新的输入参数，这些参数将在使用实例化渲染时传递。
 
 ```glsl
 layout (location=5) in mat4 modelViewInstancedMatrix;
 layout (location=9) in mat4 modelLightViewInstancedMatrix;
 ```
 
-As you can see, the model view matrix starts at location 5. Since a matrix is defined by a set of four attributes \(each one containing a vector\), the light view matrix starts at location 9. Since we want to use a single shader for both non instanced and instanced rendering, we will maintain the uniforms for model and light view matrices. We only need to change their names.
+如你所见，模型观察矩阵从位置5开始。由于矩阵是由一组共四个属性（每个属性储存一个向量）定义的，所以光照观察矩阵从位置9开始。因为我们想在非实例化渲染和实例化渲染中使用同一着色器，所以我们将维护模型观察矩阵和光照观察矩阵的Uniform。我们只需更改它们的名字。
 
 ```glsl
 uniform int isInstanced;
@@ -150,7 +150,7 @@ uniform mat4 modelViewNonInstancedMatrix;
 uniform mat4 modelLightViewNonInstancedMatrix;
 ```
 
-We have created another uniform to specify if we are using instanced rendering or not. In the case we are using instanced rendering the code is very simple, we just use the matrices from the input parameters.
+我们创建了另一个Uniform来指定是否使用实例化渲染。在使用实例化渲染的情况下代码非常简单，我们只使用输入参数中的矩阵。
 
 ```glsl
 void main()
@@ -168,8 +168,9 @@ void main()
     }
 ```
 
-We don’t support animations for instanced rendering to simplify the example, but this technique can be perfectly used for this.   
-Finally, the shader just set up appropriate values as usual.
+我们暂时不支持动画实例化渲染，以简化示例，但是该技术可以完美地用于此处。
+
+最后，着色器像往常一样设置恰当的值。
 
 ```glsl
     vec4 mvPos = modelViewMatrix * initPos;
@@ -182,39 +183,39 @@ Finally, the shader just set up appropriate values as usual.
 }
 ```
 
-Of course, the `Renderer` has been modified to support the uniforms changes and to separate the rendering of non instanced meshes from the instanced ones. You can check the changes in the source code.
+当然，`Renderer`类已经被修改，以支持Uniform的修改，并将非实例化网格的渲染从实例化网格中分离出来。你可以查看源代码中的修改。
 
-In addition to that, some optimizations have been added to the source code by the JOML author [Kai Burjack](https://github.com/httpdigest). These optimizations have been applied to the `Transformation` class and are summarized in the following list:
+此外，JOML的作者[Kai Burjack](https://github.com/httpdigest)还向源代码添加了一些优化。这些优化已经用于`Transformation`类，并总结为如下几条：
 
-* Removed redundant calls to set up matrices with identity values.
-* Use quaternions for rotations which are more efficient.
-* Use specific methods for rotating and translating matrices which are optimized for those operations.
+* 删除冗余调用，以设置具有单位值的矩阵。
+* 使用四元数进行更有效的旋转。
+* 使用特定的旋转和平移矩阵的方法，这些方法是针对这些操作优化的。
 
-![Instanced Rendering](_static/21/instanced_rendering.png)
+![实例化渲染](_static/21/instanced_rendering.png)
 
 ## 回顾粒子
 
-With the support of instanced rendering we can also improve the performance for the particles rendering. Particles are the best use case for this.
+在实例化渲染的支持下，我们还可以提高粒子渲染的性能。粒子就是最好的用例。
 
-In order to apply instance rendering to particles we must provide support for texture atlas. This can be achieved by adding a new VBO with texture offsets for instanced rendering. The texture offsets can be modeled by a single vector of tow floats, so there's no need to split the definition as in the matrices case.
+为了将实例化渲染应用到粒子上我们必须提供对纹理集的支持。这可以通过添加一个带有纹理偏移量的VBO来实现。纹理偏移量可以由两个浮点数组成的单个向量定义，因此不需要像矩阵那样拆分定义。
 
 ```java
-// Texture offsets
+// 纹理偏移量
 glVertexAttribPointer(start, 2, GL_FLOAT, false, INSTANCE_SIZE_BYTES, strideStart);
 glVertexAttribDivisor(start, 1);
 ```
 
-But, instead of adding a new VBO we will set all the instance attributes inside a single VBO. The next figure shows the concept. We are packing up all the attributes inside a single VBO. The values will change per each instance.
+但是，我们将在单个VBO中设置所有实例属性，而不是添加一个新的VBO。下图展示了这个概念。我们将所有属性打包在一个VBO中，每个实例的值都会发生变化。
 
-![Single VBO](_static/21/single_vbo.png)
+![单个VBO](_static/21/single_vbo.png)
 
-In order to use a single VBO we need to modify the attribute size for all the attributes inside an instance. As you can see from the code above, the definition of the texture offsets uses a  constant named  `INSTANCE_SIZE_BYTES`. This constant is equal to the size in bytes of two matrices \(one for the view model and the other one for the light view model\) plus two floats \(texture offesets\), which in total is 136. The stride also needs to be modified properly.
+为了使用单个VBO，我们需要修改实例中所有属性的属性大小。从上述代码中可以看到，纹理偏移量的定义使用了一个名为`INSTANCE_SIZE_BYTES`的常量。这个常量等于两个矩阵（一个用于模型观察矩阵定义，另一个用于光照观察矩阵定义）的字节大小再加上两个浮点数（纹理偏移量）的字节大小，总共是136。步长也需要适当地调整。
 
-You can check the modifications in the source code.
+你可以在源代码中查看修改。
 
-The `Renderer` class needs also to be modified to use instanced rendering for particles and support texture atlas in scene rendering. In this case, there's no sense in support both types of rendering \(non instance and instanced\), so the modifications are simpler.
+`Renderer`类也需要修改，以实用实例化渲染粒子和支持纹理集在场景中渲染。在本例中，支持这两种类型（非实例化和实例化）的渲染是没有意义的，所以修改更简单。
 
-The vertex shader for particles is also straight froward.
+粒子的顶点着色器如下所示：
 
 ```glsl
 #version 330
@@ -231,21 +232,21 @@ void main()
 {
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 
-    // Support for texture atlas, update texture coordinates
+    // 支持纹理集，更新纹理坐标
     float x = (texCoord.x / numCols + texOffset.x);
     float y = (texCoord.y / numRows + texOffset.y);
     outTexCoord = vec2(x, y);}
 ```
 
-The results of this changes, look exactly the same as when rendering non instanced particles but the performance is much higher. A FPS counter has been added to the window title, as an option. You can play with instanced and non instanced rendering to see the improvements by yourself.
+上述修改的效果，看起来和非实例化粒子渲染时完全一样，但性能更高。FPS计数器已作为选项添加到窗口标题中。你可以使用实例化渲染和非实例化渲染来看看自身的性能提升。
 
-![Particles](_static/21/particles.png)
+![粒子](_static/21/particles.png)
 
-## Extra bonus
+## 扩展
 
-With all the infrastructure that we have right now, I've modified the rendering cubes code to use a height map as a base, using also texture atlas to use different textures. It also combines particles rendering. It looks like this.
+结合我们现在所拥有的所有基础构造，我已经基于使用高度图修改了渲染方块数据的代码，还使用了纹理集以使用不同的纹理。它还融合了粒子渲染。看起来是这样的：
 
-![Cubes with height map](_static/21/cubes_height_map.png)
+![使用高度图的方块](_static/21/cubes_height_map.png)
 
-Please keep in mind that there's still much room for optimization, but the aim of the book is guiding you in learning LWJGL and OpenGL concepts and techniques. The goal is not to create a full blown game engine \(an definitely not a voxel engine, which require a different approach and more optimizations\).
+请记住，这还有很大的优化空间，但这本书的目的是指导你学习LWJGL和OpenGL的概念和技术。我们的目标不是创建一个完整的游戏引擎（绝对不是一个体素引擎，它需要不同的方法和更多的优化）。
 
