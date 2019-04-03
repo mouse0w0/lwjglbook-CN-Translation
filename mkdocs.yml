@@ -19,6 +19,7 @@ nav:
 - 阴影（Shadows）: 18-shadows.md
 - 动画（Animations）: 19-animations.md
 - 粒子（Particles）: 20-particles.md
+- 实例化渲染（Instanced Rendering）: 21-instanced-rendering.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
