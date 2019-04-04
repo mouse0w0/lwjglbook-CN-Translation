@@ -20,6 +20,7 @@ nav:
 - 动画（Animations）: 19-animations.md
 - 粒子（Particles）: 20-particles.md
 - 实例化渲染（Instanced Rendering）: 21-instanced-rendering.md
+- 音效（Audio）: 22-audio.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
