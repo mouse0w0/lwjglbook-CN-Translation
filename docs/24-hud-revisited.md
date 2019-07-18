@@ -1,10 +1,10 @@
-#HUD 重温 - NanoVG
+# 回顾HUD - NanoVG（HUD Revisited - NanoVG）
 
-在之前的章节中，解释了如何使用正交投影在场景的顶部渲染形状和纹理。 在本章中，我们将学习如何使用 [NanoVG](https://github.com/memononen/nanovg) 库来渲染反锯齿矢量图形，以简单的方式构建更复杂的HUD。
+在此前的章节中，我们讲解了如何使用正交投影在场景顶部创建一个HUD以渲染图形和纹理。在本章中，我们将学习如何使用[NanoVG](https://github.com/memononen/nanovg)库来渲染抗锯齿矢量图形，从而以简单的方式创建更复杂的HUD。
 
-还有很多其他库可用于支持此任务，例如[Nifty GUI](https://github.com/nifty-gui/nifty-gui)，[Nuklear](https://github.com/vurtun/nuklear)等。在本章中，将重点介绍Nanovg，因为它非常易于使用，但如果您想制作菜单和窗口，开发出复杂的GUI按钮交互，您应该查看[Nifty GUI](https://github.com/nifty-gui/nifty-gui)。
+你可以使用许多其他库来完成此事，例如[Nifty GUI](https://github.com/nifty-gui/nifty-gui)，[Nuklear](https://github.com/vurtun/nuklear)等。在本章是，我们将重点介绍NanoVG，因为它使用起来非常简单，但是如果你希望开发可与按钮、菜单和窗口交互的复杂GUI，那你可能需要的是[Nifty GUI](https://github.com/nifty-gui/nifty-gui)。
 
-开始使用[NanoVG](https://github.com/memononen/nanovg) 的第一步是在`pom.xml`文件中添加依赖关系\(一个用于编译时需要的依赖项，另一个用于编译时需要的依赖项 为运行时所需的本机\)。
+使用[NanoVG](https://github.com/memononen/nanovg)首先是要在`pom.xml`文件中添加依赖项（一个是用于编译时所需的依赖项，另一个是用于运行时所需的本地代码）：
 
 ```xml
 ...
@@ -22,13 +22,14 @@
     <scope>runtime</scope>
 </dependency>
 ```
-在我们开始使用[NanoVG](https://github.com/memononen/nanovg)之前，我们必须在OpenGL里面设置一些东西，这样代码测试样本才能正常工作。 我们需要启用对模板缓冲区测试的支持。 到现在为止，已经讨论了颜色和深度缓冲区，但是我们没有提到模板缓冲区。 该缓冲区为每个像素存储一个值\(an integer\)\(整数值\)，该像素用于控制应该绘制哪些像素。 该缓冲区用于根据其存储的值屏蔽或丢弃绘图区域。 例如，它可以用于以简单的方式剪切场景的某些部分。 我们通过将这一行添加到`Window`类\(after we enable depth testing\)\(在启用深度测试后\)来启用模板缓冲区测试：
+
+在开始使用[NanoVG](https://github.com/memononen/nanovg)之前，我们必须在OpenGL设置一些东西，以便示例能够正常工作。我们需要启用对模板测试（Stencil Test）的支持。到目前为止，我们已经讲解了颜色和深度缓冲区，但我们没有提到模板缓冲区。该缓冲区为用于控制应绘制哪些像素的每个像素储存一个值（整数），用于根据储存的值以屏蔽或放弃绘图区域。例如，它可以用来以一种简单的方式切割场景的某些部分。我们通过将此行添加到`Window`类中来启用模板测试（在启用深度测试之后）：
 
 ```java
 glEnable(GL_STENCIL_TEST);
 ```
 
-由于程序正在使用另一个缓冲区，因此我们在每次渲染调用之前还必须注意删除其值。 因此，需要修改`Renderer`类的clear方法
+因为我们使用的是另一个缓冲区，所以在每次渲染调用之前，我们还必须注意删除它的值。因此，我们需要修改`Renderer`类的`clear`方法：
 
 ```java
 public void clear() {
@@ -36,7 +37,7 @@ public void clear() {
 }
 ```
 
-我们还将添加一个用于激活抗锯齿的新窗口选项。 因此，在Window类中，将通过以下方式启用它：
+我们还将添加一个新的窗口选项来激活抗锯齿（Anti-aliasing）。因此，在`Window`类中，我们将通过如下方式启用它：
 
 ```java
 if (opts.antialiasing) {
@@ -44,9 +45,9 @@ if (opts.antialiasing) {
 }
 ```
 
-现在我们准备使用[NanoVG](https://github.com/memononen/nanovg)库。 我们要做的第一件事就是丢弃已经创建的HUD作品，那就是`IHud`接口的着色器，`Renderer`类中的HUD渲染方法等。你可以在源代码中找到这一点。
+现在我们可以使用[NanoVG](https://github.com/memononen/nanovg)库了。我们要做的第一件事就是删掉我们创建的HUD代码，即着色器，`IHud`接口，`Renderer`类中的HUD渲染方法等。你可以在源代码中查看。
 
-在这种情况下，新的`Hud`类会照顾它的渲染，所以我们不需要将它委托给`Renderer`类。 让我们通过定义该类来开始讨论，它将有一个`init`方法来设置构建HUD所需的库和资源。 该方法是这样定义的：
+在此情况下，新的`Hud`类将负责其渲染，因此我们不需要将其委托给`Renderer`类。让我们先定义这个类，它将有一个`init`方法来设置库和构建HUD所需要的资源。方法定义如下：
 
 ```java
 public void init(Window window) throws Exception {
@@ -68,11 +69,12 @@ public void init(Window window) throws Exception {
     counter = 0;
 }
 ```
-我们要做的第一件事就是创建一个NanoVG环境。 在这种情况下，我们使用的是OpenGL3.0 后端，因为引用了`org.lwjgl.nanovg.NanoVGGL3`来命名空间。 如果要激活抗锯齿功能先得激活`NVG_ANTIALIAS`标志。
 
-接下来，我们使用先前加载到 `ByteBuffer` 中的True Type(全真字体)来创建。 给它分配一个名称，以便稍后在呈现文本时使用它。 其中一个重要的事情是，在使用字体时，用于加载字体的`ByteBuffer`必须保存在内存中。 也就是说，它不能被垃圾收集，除非你有一个很好的核心转储它。 这就是为什么它作为类属性存储的原因。
+我们首先要做的是创建一个NanoVG上下文。在本例中，我们使用的是OpenGL3.0后端，因此我们引用的是`org.lwjgl.nanovg.NanoVGGL3`命名空间。如果抗锯齿被启用，我们将设置`NVG_ANTIALIAS`标志。
 
-然后，我们创建一个颜色实例和一些有用的变量，这些变量将在渲染时使用。 在渲染初始化之前，该方法在游戏`init`方法中被调用：
+接下来，我们使用此前加载到`ByteBuffer`中的TrueType字体来创建字体。我们为它指定一个名词，以便稍后在渲染文本时使用它。关于这点，一件很重要的事情是用于加载字体的`ByteBuffer`必须在使用字体时储存在内存中。也就是说，它不能被回收，否则你将得到一个不错的核心崩溃。这就是将它储存为类属性的原因。
+
+然后，我们创建一个颜色实例和一些有用的变量，这些变量将在渲染时使用。在初始化渲染之前，在游戏初始化方法中调用该方法：
 
 ```java
 @Override
@@ -82,7 +84,7 @@ public void init(Window window) throws Exception {
     ...
 ```
 
-`Hud`类还定义了一个渲染方法，在场景渲染完成之后应该调用这个渲染方法，这样HUD也会同时被绘制。
+`Hud`类还定义了一个渲染方法，该方法应在渲染场景后调用，以便在其上绘制Hud。
 
 ```java
 @Override
@@ -92,41 +94,40 @@ public void render(Window window) {
 }
 ```
 
-Hud类的`render`方法是从这里开始的：
-
+Hud类的`render`方法的开头如下所示：
 ```java
 public void render(Window window) {
     nvgBeginFrame(vg, window.getWidth(), window.getHeight(), 1);
 ```
 
-我们必须做的第一件事就是调用`nvgBeginFrame`方法。 ```nvgBeginFrame``  method.  所有的NanoVG渲染操作都必须包含在两个之中```nvgBeginFrame`与`nvgEndFrame`.\`\`\`根据以下参数：
+首先必须要做的第一件事是调用`nvgBeginFrame`方法。所有NanoVG渲染操作都必须保护在`nvgBeginFrame`和`nvgEndFrame`调用之间。`nvgBeginFrame`接受以下参数：
 
-* NanoVG的文本
-* 要渲染的窗口的大小 \(宽度和高度\).\(width an height\).
-* 像素比例。 如果您需要Hi-DPI的支持，则可以更改这个值。 对于这个示例，我们将它设置为1。
+* NanoVG环境
+* 要渲染的窗口的大小（宽度和高度）。
+* 像素比。如果需要支持Hi-DPI，可以修改此值。对于本例，我们只将其设置为1。
 
-    然后我们创建几个条子，它会占据整个屏幕。 第一个是这样画的：
+然后我们创建了几个占据整个屏幕的色带。第一条是这样绘制的：
 
 ```java
-// Upper ribbon
+// 上色带
 nvgBeginPath(vg);
 nvgRect(vg, 0, window.getHeight() - 100, window.getWidth(), 50);
 nvgFillColor(vg, rgba(0x23, 0xa1, 0xf1, 200, colour));
 nvgFill(vg);
 ```
 
-渲染一个形状时，第一个应该调用的方法是`nvgBeginPath`，它指示NanoVG开始绘制一个新的形状。 然后我们定义要绘制的内容，矩形，填充颜色以及调用我们绘制的`nvgFill`。
+渲染图形时，应调用的第一个方法是`nvgBeginPath`，它指示NanoVG开始绘制新图形。然后定义要绘制的内容，一个矩形，填充颜色并通过调用`nvgFill`绘制它。
 
-您可以查看源代码的其余部分，以查看其余形状的绘制方式。 在渲染字体之前，不需要调用 nvgBeginPath。
+你可以查看源代码的其他部分，以了解其余图形是如何绘制的。当渲染文本是，不需要在渲染前调用`nvgBeginPath`。
 
-在完成绘制所有形状之后，我们只需调用`nvgEndFrame`来结束渲染，但在离开该方法之前还有一件重要的事情要做。 我们必须恢复OpenGL状态。 NanoVG修改OpenGL状态以执行其操作，如果状态未正确恢复，您可能会看到场景未正确呈现或者甚至已被消除。 因此，我们需要恢复我们渲染所需的相关OpenGL状态。 这是在`Window`类中委托的：
+完成所有图形的绘制后，我们只需要调用`nvgEndFrame`来结束渲染，但在离开方法之前还有一件重要的事情要做。我们必须恢复OpenGL状态，NanoVG修改OpenGL以执行其操作，如果状态未正确还原，你可能会看到场景没有正确渲染，甚至被擦除。因此，我们需要恢复渲染所需的相关OpenGL状态。这是委派到`Window`类中的：
 
 ```java
-// Restore state
+// 还原状态
 window.restoreState();
 ```
 
-    该方法是这样定义的:
+方法的定义如下：
 
 ```java
 public void restoreState() {
@@ -140,7 +141,7 @@ public void restoreState() {
 }
 ```
 
-这就是所有的\(除了一些其他的方法来清除\)\(besides some additional methods to clear things up\)，代码完成。 当你执行这个样本时，你会得到如下的结果：
+这就完事了（除了一些其它的清理方法），代码完成了。当你运行示例时，你将得到如下结果：
 
-![HUD](_static/24/hud.png)
+![Hud](_static/24/hud.png)
 
