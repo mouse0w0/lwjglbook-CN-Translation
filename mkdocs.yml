@@ -23,6 +23,7 @@ nav:
 - 音效（Audio）: 22-audio.md
 - 三维物体选取（3D Object Picking）: 23-3d-object-picking.md
 - 回顾HUD - NanoVG（HUD Revisited - NanoVG）: 24-hud-revisited.md
+- 优化 - 截锥剔除 (Optimizations - Frustum Culling) : 25-optimizations-frustum-culling.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
