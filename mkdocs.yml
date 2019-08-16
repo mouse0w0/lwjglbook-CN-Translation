@@ -3,7 +3,7 @@ nav:
 - 游戏循环（The Game Loop）: 02-the-game-loop.md
 - 坐标简介（A brief about coordinates）: 03-a-brief-about-coordinates.md
 - 渲染（Rendering）: 04-rendering.md
-- 更多关于渲染的事情（More on Rendering）: 05-more-on-rendering.md
+- 渲染补充（More on Rendering）: 05-more-on-rendering.md
 - 变换（Transformations）: 06-transformations.md
 - 纹理（Textures）: 07-textures.md
 - 摄像机（Camera）: 08-camera.md

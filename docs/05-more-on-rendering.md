@@ -1,4 +1,4 @@
-# 更多关于渲染的事情（More on Rendering）
+# 渲染补充（More on Rendering）
 
 本章中，我们将继续讨论OpenGL如何渲染物体。为了整理代码，我们要创建一个名为`Mesh`的新类，把一个坐标数组作为输入，创建VBO和VAO对象，把VBO和VAO对象加载到显卡中。
 
