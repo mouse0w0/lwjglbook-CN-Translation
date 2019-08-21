@@ -1,4 +1,4 @@
-# 优化 - 截锥剔除 (Optimizations - Frustum Culling)
+# 优化 - 截锥剔除（Optimizations - Frustum Culling）
 
 ## 优化 - 截锥剔除一
 
