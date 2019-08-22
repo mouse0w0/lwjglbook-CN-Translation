@@ -669,7 +669,6 @@ public void setMatrix(int pos, Matrix4f localJointMatrix, Matrix4f invJointMatri
 
 * 一个数组，储存着与该顶点相关的权重偏倚。
 * 一个输出，储存这与该顶点相关的关节索引（通过权重）。
-* An array that hold the joint indices associated to this vertex \(through the weights\).
 
 我们将这些数组的大小限制为4。`Mesh`类也被修改为接收这些参数，并将其包含在着色器处理的VAO数据中。你可以在源代码中查看详细内容，但来回顾一下我们所做的：
 
