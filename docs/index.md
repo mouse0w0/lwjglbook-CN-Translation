@@ -25,11 +25,15 @@ LWJGL是一个Java库，提供了访问OpenGL、OpenAL和OpenCL的接口。这�
 Antonio Hernández Bejarano
 
 ## 支持作者
-
 如果你喜欢这本书，请Star并且分享它。如果你想捐助作者，你可以通过下面的按钮捐助：
 [![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5MH9AA9TPQQBN)
 
 或者你更喜欢用比特币: 1Kwe78faWarzGTsWXtdGvjjbS9RmW1j3nb.
 
+## 特别感谢
+感谢所有提供了指正、意见和建议的读者。
+
 ## 译者的话
-本书是本人为了学习LWJGL 3而翻译的，由于本人的能力有限，如有不正确的地方，欢迎各位指正。
+本书是译者为了学习LWJGL3和OpenGL而翻译的。限于译者的能力，本译本中如有不妥之处欢迎各位读者指正。
+
+如果你喜欢本译本，请Star并分享它。如果你想捐助译者，请通过下面的链接捐助：[爱发电](https://afdian.net/@mouse)。
