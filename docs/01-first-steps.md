@@ -76,7 +76,7 @@ LWJGL平台依赖库已经可以为你的操作系统自动解压本地库，因
 
 Jar文件包含着LWJGL类和本地库。LWJGL还将负责提取它们，并将它们添加到JVM的库路径中。
 
-本章的源代码是LWJGL网站([http://www.lwjgl.org/guide](http://www.lwjgl.org/guide))的入门示例，你可以看到我们没有使用Swing或JavaFX作为我们的GUI库。我们使用的是[GLFW](www.glfw.org)，它是一个用来处理GUI组件（窗口等）和事件（按键按下、鼠标移动等），并且与OpenGL上下文进行简单连接的库。此前版本的LWJGL提供了一个自定义GUI API，但在LWJGL 3中，GLFW是首选的窗口API。
+本章的源代码是LWJGL网站([https://www.lwjgl.org/guide](https://www.lwjgl.org/guide))的入门示例，你可以看到我们没有使用Swing或JavaFX作为我们的GUI库。我们使用的是[GLFW](https://www.glfw.org/)，它是一个用来处理GUI组件（窗口等）和事件（按键按下、鼠标移动等），并且与OpenGL上下文进行简单连接的库。此前版本的LWJGL提供了一个自定义GUI API，但在LWJGL 3中，GLFW是首选的窗口API。
 
 示例源码是简单的并且有着良好的文档，所以我们不会在书中再次说明。
 

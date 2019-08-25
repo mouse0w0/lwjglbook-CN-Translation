@@ -93,7 +93,7 @@ public void selectGameItem(GameItem[] gameItems, Camera camera) {
 
 在游戏循环中，每个`GameItem`都要进行相交计算。但是，我们该怎么做呢？这就是[JOML](https://github.com/JOML-CI/JOML "JOML")库来帮忙的地方了。我们使用的是[JOML](https://github.com/JOML-CI/JOML "JOML")的`Intersectionf`类，它提供了几种计算二维和三维交点的方法。具体来说，我们使用的是`intersectRayAab`方法。
 
-该方法实现了轴对齐边界框（Axis Aligned Bounding Box，简称AABB）交点检测算法。你可以查看JOML文档中指出的[详细信息]((http://people.csail.mit.edu/amy/papers/box-jgt.pdf "这里")。
+该方法实现了轴对齐边界框（Axis Aligned Bounding Box，简称AABB）交点检测算法。你可以查看JOML文档中指出的[详细信息](http://people.csail.mit.edu/amy/papers/box-jgt.pdf "这里")。
 
 该方法测试由原点和方向定义的射线是否与由最小和最大坐标定义的边界框相交。这个算法是有效的，因为我们的立方体是轴对齐的，如果旋转它们，这个方法就不起作用。因此，该方法接收以下参数：
 
