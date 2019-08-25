@@ -26,6 +26,7 @@ nav:
 - 优化 - 截锥剔除: 25-optimizations-frustum-culling.md
 - 级联阴影映射: 26-cascaded-shadow-maps.md
 - Assimp库: 27-assimp.md
+- 延迟着色法: 28-deferred-shading.md
 - 附录 A - OpenGL调试: a01-opengl-debugging.md
 
 site_name: Lwjglbook中文翻译
