@@ -6,7 +6,7 @@ LWJGL是一个底层的API，它像一个OpenGL包装库。如果你是想在短
 
 在上文说到，在本书中我们将使用Java，更确切来说我们将使用Java 10。所以你需要从Oracle的页面下载对应版本的JDK。请选择适合你的操作系统的安装程序。本书假定你对Java语言有一定的了解。
 
-如果你需要一个可以运行示例代码的Java IDE（集成开发环境），你可以下载为Java 10提供良好支持的IntelliJ IDEA。由于Java 10仅支持64位的平台，记得下载64位版本的IntelliJ。IntelliJ提供有一个免费且开源的社区版，你可以在这里下载它： [https://www.jetbrains.com/idea/download/](https://www.jetbrains.com/idea/download/ "Intellij").
+如果你需要一个可以运行示例代码的Java IDE（集成开发环境），你可以下载为Java 10提供良好支持的IntelliJ IDEA。由于Java 10仅支持64位的平台，记得下载64位版本的IntelliJ。IntelliJ提供有一个免费且开源的社区版，你可以在这里下载它： [https://www.jetbrains.com/idea/download/](https://www.jetbrains.com/idea/download/ "Intellij")。
 
 ![IntelliJ](_static/01/intellij.png)
 
