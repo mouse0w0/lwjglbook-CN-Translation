@@ -28,6 +28,7 @@ nav:
 - Assimp库: 27-assimp.md
 - 延迟着色法: 28-deferred-shading.md
 - 附录 A - OpenGL调试: a01-opengl-debugging.md
+- 术语表: glossary.md
 
 site_name: Lwjglbook中文翻译
 site_author: Mouse0w0
