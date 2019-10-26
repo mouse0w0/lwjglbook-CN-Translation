@@ -1,41 +1,50 @@
 # 摄像机（Camera）
 
-在本章中，我们将学习如何在三维场景中移动，就像一个可以在三维世界穿梭的摄像机，然而实际上这就是描述它的专用术语。
+本章中我们将学习如何在渲染的三维场景中移动。该功能就像是有一台可以在三维世界中运动的摄像机，然而事实上摄像机就是描述该功能的术语。
 
-但是如果你尝试在OpenGL寻找中的摄像机功能，你会发现这根本不是摄像机，换句话说摄像机一直是固定在以屏幕(0, 0, 0)为中心点的位置。
+但如果你尝试在OpenGL寻找摄像机功能，你会发现没有摄像机这个概念，换句话说，摄像机一直是固定在屏幕中心的以(0, 0, 0)为中心点的位置。
 
-因此，我们需要模拟出一个可以在三维空间中移动的摄像机。但是怎么做呢？摄像机是不能移动的，因此我们必须要移动世界中的全部的实体。换句话说，如果移动不了摄像机就移动整个世界。
+因此，我们需要模拟出一个可以在三维空间中移动的摄像。但要怎么做呢？摄像机是不能移动的，因此我们必须要移动世界中的全部物体。换句话说，如果移动不了摄像机就移动整个世界。
 
-因此，假设摄像机从(Cx, Cy, Cz)沿着Z轴移动到(Cx, Cy, Cz+dz)，从而靠近在(Ox, Oy, Oz)放置的物体。
+假设摄像机从(Cx, Cy, Cz)沿着Z轴移动到(Cx, Cy, Cz+dz)，从而靠近在(Ox, Oy, Oz)放置的物体。
 
-![摄像机的运动](_static/08/camera_movement.png)
+![摄像机运动](_static/08/camera_movement.png)
 
-我们要做的是如何向相反的方向精确地移动物体(在三维空间中的所有物体)。换句话说，其实物体就像在跑步机上跑步一样。
+我们实际上做的是将物体（在三维空间中的所有物体）按摄像机应移动的相反方向移动。其实物体就像是放在跑步机上一样向后退。
 
 ![实际的运动](_static/08/actual_movement.png)
 
-摄像机可以沿着三个轴(x, y和z)移动，也可以绕着它们旋转(翻滚(`roll`)、俯仰(`pitch`)和偏航(`yaw`))。
+摄像机可以沿着三个轴（X、Y和Z）移动，也可以绕着它们旋转（翻滚（Roll）、俯仰（Pitch）和偏航（Yaw））。
 
-![俯仰和偏航](_static/08/roll_pitch_yaw.png)
+![翻滚、俯仰和偏航](_static/08/roll_pitch_yaw.png)
 
-所以从基本上我们要做的就是让移动和旋转应用于所设置的三维世界全部物体。应该怎么做呢？答案是用另外一种变换，让它变换所有在摄像机运动方向上相反的顶点，再根据摄像机的旋转来旋转它们。当然，这将要用到另外一个矩阵，即所谓的观察矩阵(`View Matrix`)来完成。这个矩阵首先进行平移，然后沿着轴线进行旋转。
+基本上要做的就是让移动和旋转应用于三维世界全部物体。那要怎么做呢？答案是应用另一种变换，该变换将所有物体的所有顶点按摄像机移动的相反方向平移，再根据摄像机的旋转来旋转它们。当然，这将用到另一个矩阵，即所谓的观察矩阵（View Matrix）来完成。这个矩阵首先进行平移，然后沿着轴线进行旋转。
 
-来看看如何构造这个矩阵。如果你记得变换章节（第6章）的变换矩阵:
+来看看如何构造这个矩阵。如果你想起变换一章（第6章），其中的变换方程如下所示：
 
-$$Transf = \lbrack ProjMatrix \rbrack \cdot \lbrack TranslationMatrix \rbrack \cdot \lbrack  RotationMatrix \rbrack \cdot \lbrack  ScaleMatrix \rbrack = \lbrack   ProjMatrix \rbrack  \cdot \lbrack  WorldMatrix \rbrack$$
+$$
+\begin{array}{lcl}
+Transf & = & \lbrack 投影矩阵 \rbrack \cdot \lbrack 位移矩阵 \rbrack \cdot \lbrack  旋转矩阵 \rbrack \cdot \lbrack  缩放矩阵 \rbrack \\ 
+ & = & \lbrack   投影矩阵 \rbrack  \cdot \lbrack  世界矩阵 \rbrack
+\end{array}
+$$
 
-在使用观察矩阵之前，应将它与投影矩阵相乘，之后矩阵应该是这样的：
+观察矩阵应在应用投影矩阵之前应用，因此我们的方程应如下所示：
 
-$$Transf = \lbrack  ProjMatrix \rbrack \cdot \lbrack  ViewMatrix \rbrack \cdot \lbrack  TranslationMatrix \rbrack \cdot \lbrack  RotationMatrix \rbrack \cdot \lbrack ScaleMatrix \rbrack = \lbrack ProjMatrix \rbrack \cdot \lbrack  ViewMatrix \rbrack \cdot \lbrack  WorldMatrix \rbrack $$
+$$
+\begin{array}{lcl}
+Transf & = & \lbrack  投影矩阵 \rbrack \cdot \lbrack  观察矩阵 \rbrack \cdot \lbrack  位移矩阵 \rbrack \cdot \lbrack  旋转矩阵 \rbrack \cdot \lbrack 缩放矩阵 \rbrack \\
+  & = & \lbrack 投影矩阵 \rbrack \cdot \lbrack  观察矩阵 \rbrack \cdot \lbrack  世界矩阵 \rbrack 
+\end{array}
+$$
 
-现在已经有三个矩阵了，我们应该思考一下这些矩阵的生命周期。在游戏运行的时候，投影矩阵不应该更改太多，最坏的情况，每次渲染可能改变一次。如果摄像机移动，则观察矩阵可以在每次渲染改变一次。世界矩阵每渲染一个`GameItem`改变一次，所以每次渲染调用都会改变许多次。
+现在有三个矩阵了，我们应稍微思考一下这些矩阵的生命周期。在游戏运行时，投影矩阵应该不会有太多的变化，最坏的情况下，每次渲染可能改变一次。如果摄像机移动，则观察矩阵在每次渲染时可能改变一次。每渲染一个`GameItem`实例世界矩阵都会改变一次，一次每次渲染调用都会改变多次。
 
-因此，如何把每一个矩阵传递到顶点着色器呢？你可能会看到一些代码，为三个矩阵分别定义一个Uniform，但理论上，最有效的方法是组合投影和观察矩阵，将其称为`PV`矩阵，并传递`world`和`PV`矩阵到着色器。这样，将可以与世界坐标一起运算，并且可以避免一些额外的运算。
+因此我们应该将多少矩阵传递到顶点着色器呢？你可能会看到一些代码，为三个矩阵分别定义一个Uniform，但理论上最有效的方法是将投影矩阵和观察矩阵组合，将其称为`pv`矩阵，并传递`world`和`pv`矩阵到着色器。这样，我们可以使用世界坐标，并可以避免一些额外的运算。
 
-实际上，最方便的方法是将观察矩阵与世界矩阵相组合。为什么会这样？因为要记住整个摄像机的概念就是戏法，要做的是移动整个世界来模拟摄像机的位移和只显示一小部分的三维世界。因此，如果直接与世界坐标一起处理，可能会让远离中心点的世界坐标遇到一些精度问题。如果在所谓的摄像机空间中工作利用点的性质，虽然远离世界的中心点，但也靠近摄像机。可以将观察和世界矩阵相结合的矩阵称为模型观察矩阵(`Model View Matrix`)。
+但实际上，最方便的方法是将观察矩阵与世界矩阵组合。为什么这样？因为要记住整个摄像机概念就是个骗局，我们所做的是移动整个世界来模拟摄像机的位移，并仅显示一小部分的三维世界。因此，如果直接处理世界坐标，可能会让远离原点的世界坐标遇到一些精度问题。如果在所谓的摄像机空间中处理，我们将处理的点虽然远离世界原点，但也靠近摄像机。可以将观察矩阵和世界矩阵组合的矩阵称为模型观察矩阵（Model View Matrix）。
 
-来开始修改代码实现摄像机吧。首先，先创建一个名为`Camera`的类，它将储存摄像机的位置与旋转的方向。该类将提供设置位置或旋转方向\(`setPosition` 或 `setRotation`\)的方法，或在当前状态\(`movePosition` 或 `moveRotation`\)下用偏移量更新这些值。
-
+让我们开始修改代码以支持摄像机吧。先创建一个名为`Camera`的类，它将储存摄像机的位置与旋转状态。该类将提供设置位置或旋转状态的方法（`setPosition`或`setRotation`），或在当前状态下用偏移量更新这些值的方法（`movePosition`或`moveRotation`）。
 
 ```java
 package org.lwjglb.engine.graph;
@@ -98,13 +107,13 @@ public class Camera {
 }
 ```
 
-接下来在`Transformation`中，将添加一个新矩阵来储存观察矩阵。
+接下来在`Transformation`中，将定义一个新矩阵来储存观察矩阵。
 
 ```java
 private final Matrix4f viewMatrix;
 ```
 
-我们要提供一个更新这个值的方法。与投影矩阵一样，这个矩阵对于渲染周期中所面对的对象都是相同的。
+我们要提供一个更新这个值的方法。与投影矩阵相似，这个矩阵对于渲染周期中渲染的所有物体都是相同的。
 
 ```java
 public Matrix4f getViewMatrix(Camera camera) {
@@ -112,66 +121,65 @@ public Matrix4f getViewMatrix(Camera camera) {
     Vector3f rotation = camera.getRotation();
 
     viewMatrix.identity();
-    // First do the rotation so camera rotates over its position
+    // 首先进行旋转，使摄像机在其位置上旋转
     viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
         .rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
-    // Then do the translation
+    // 然后做位移
     viewMatrix.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
     return viewMatrix;
 }
 ```
 
-正如你所见的，我们首先需要做旋转，然后变换。如果操作顺序相反，我们不会沿着摄像机位置旋转，而是沿着坐标原点旋转。请注意，在`Camera`类的`movePosition`方法中，我们不只是简单地增加摄像机位置的偏移量。我们还考虑了沿Y轴的旋转，偏航，以便计算最终位置。如果我们只是通过偏移来增加摄像机的位置，摄像机就不会朝着它的方向移动。
+如你所见，我们首先需要做旋转，然后位移。如果操作顺序相反，我们将不会沿着摄像机位置旋转，而是沿着坐标原点旋转。请注意，在`Camera`类的`movePosition`方法中，我们不只是简单地增加摄像机位置的偏移量。我们还考虑了沿Y轴的旋转，也就是偏航，以便计算最终位置。如果只是通过偏移来增加摄像机的位置，摄像机就不会朝着它所朝向的方向移动。
 
-除了上面提到的，我们现在还没有得到一个可以完全自由移动的摄像机\(例如，如果我们沿着X轴旋转，当我们向前移动时，摄像机不会在空中向上或向下移动\)。这将在之后的章节中完成，因为这有点复杂。 
+除了上述所说的，我们现在还没有得到一个可以完全自由移动的摄像机（例如，如果我们沿着X轴旋转，当向前移动时，摄像机不会在空间中向上或向下移动），这将在此后的章节中完成，因为这有点复杂。 
 
 最后，我们将移除之前的`getWorldMatrix`方法，并添加一个名为`getModelViewMatrix`的新方法。 
 
 ```java
 public Matrix4f getModelViewMatrix(GameItem gameItem, Matrix4f viewMatrix) {
     Vector3f rotation = gameItem.getRotation();
-    modelViewMatrix.identity().translate(gameItem.getPosition()).
-        rotateX((float)Math.toRadians(-rotation.x)).
-        rotateY((float)Math.toRadians(-rotation.y)).
-        rotateZ((float)Math.toRadians(-rotation.z)).
-        scale(gameItem.getScale());
-    Matrix4f viewCurr = new Matrix4f(viewMatrix);
-    return viewCurr.mul(modelViewMatrix);
+    modelViewMatrix.set(viewMatrix).translate(gameItem.getPosition()).
+		rotateX((float)Math.toRadians(-rotation.x)).
+		rotateY((float)Math.toRadians(-rotation.y)).
+		rotateZ((float)Math.toRadians(-rotation.z)).
+			scale(gameItem.getScale());
+    return modelViewMatrix;
 }
 ```
 
-`getModelViewMatrix`方法将在每个`GameItem`实例中调用，因此我们必须对观察矩阵的副本进行处理，因此在每次调用中都不会积累转换\(记住`Matrix4f`类不是不可变的\)。
+每个`GameItem`实例都将调用一次`getModelViewMatrix`方法。
 
-`Renderer`类的`render`方法中，在投影矩阵更新之后只需要根据摄像机的值更新观察矩阵。
+`Renderer`类的`render`方法中，我们只需要根据摄像机的值，在投影矩阵更新之后更新观察矩阵。
 
 ```java
-// Update projection Matrix
+// 更新投影矩阵
 Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
 shaderProgram.setUniform("projectionMatrix", projectionMatrix);
 
-// Update view Matrix
+// 更新观察矩阵
 Matrix4f viewMatrix = transformation.getViewMatrix(camera);
 
 shaderProgram.setUniform("texture_sampler", 0);
-// Render each gameItem
+// 渲染每个游戏项
 for(GameItem gameItem : gameItems) {
-    // Set model view matrix for this item
+    // 为该项设置模型观察矩阵
     Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
     shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
-    // Render the mes for this game item
+    // 渲染该游戏项的网格
     gameItem.getMesh().render();
 }
 ```
 
-这就是我们实现摄像机的基本代码，现在我们需要用它。我们Key更改输入处理和更新摄像机的方式。我们将设置以下按键：
+这就是实现摄像机概念的基本代码，现在需要使用它。我们可以修改输入处理和更新摄像机的方式，将设置如下按键：
 
-* “A”和“D”键使摄像机左右\(x轴\)移动。
-* “W”和“S”键使摄像机前后\(z轴\)移动。
-* “Z”和“X”键使摄像机上下\(y轴\)移动。
+* “A”和“D”键使摄像机左右（X轴）移动。
+* “W”和“S”键使摄像机前后（Z轴）移动。
+* “Z”和“X”键使摄像机上下（Y轴）移动。
 
-当鼠标按下右键时，我们可以使用鼠标位置沿X和Y轴旋转摄像机。 
+当鼠标按下右键时，我们将使用鼠标位置沿X和Y轴旋转摄像机。 
 
-正如你所看到的，我们将首次使用鼠标。创建一个名为`MouseInput`的新类，该类将封装鼠标处理的代码。
+如你所见，我们将首次使用鼠标，创建一个名为`MouseInput`的新类，该类将封装鼠标访问。该类代码如下所示：
 
 ```java
 package org.lwjglb.engine;
@@ -247,15 +255,15 @@ public class MouseInput {
 }
 ```
 
-`MouseInput`类提供了一个在初始化过程中应该调用的`init`方法，并注册一组回调来处理鼠标事件：
+`MouseInput`类提供了一个应在在初始化阶段调用的`init`方法，并注册一组回调以处理鼠标事件：
 
 * `glfwSetCursorPosCallback`：注册一个回调，该回调将在鼠标移动时被调用。
-* `glfwSetCursorEnterCallback`：注册一个回调，该回调将在鼠标进入窗口时被调用。即使鼠标不在窗口内，我们也会收到鼠标事件。当鼠标在窗口内时，使用这个回调来确认鼠标进入窗口。
+* `glfwSetCursorEnterCallback`：注册一个回调，该回调将在鼠标进入窗口时被调用。即使鼠标不在窗口内，我们也会收到鼠标事件。我们使用这个回调来确认鼠标进入窗口。
 * `glfwSetMouseButtonCallback`：注册一个回调，该回调在按下鼠标按钮时被调用。
 
-`MouseInput`类提供了一个`input`方法，在处理游戏输入时应调用该方法。该方法计算鼠标从先前位置的位移，并将其存储到`Vector2f`类型的`displVec`变量中，以便它被游戏使用。
+`MouseInput`类提供了一个`input`方法，在处理游戏输入时应调用该方法。该方法计算鼠标从上一个位置的位移，并将其存储到`Vector2f`类型的`displVec`变量中，以便游戏使用它。
 
-`MouseInput`类将在`GameEngine`类中被实例化，并且将作为游戏实现的`init`和`update`方法中的参数传递（因此需要相应地更改接口）。 
+`MouseInput`类将在`GameEngine`类中实例化，并且将作为参数传递给游戏实现的`init`和`update`方法（因此需要相应地更改`IGameLogic`接口）。 
 
 ```java
 void input(Window window, MouseInput mouseInput);
@@ -272,7 +280,7 @@ protected void input() {
 }
 ```
 
-现在已经准备好更改`DummyGame`类来处理键盘和鼠标输入了。该类的输入方法将如下所示：
+现在已经准备好修改`DummyGame`类来处理键盘和鼠标输入了。该类的输入方法如下所示：
 
 ```java
 @Override
@@ -296,19 +304,19 @@ public void input(Window window, MouseInput mouseInput) {
 }
 ```
 
-这将更新一个名为`cameraInc`的`Vector3f`变量，它储存了摄像机应有的位移。
+这只是更新一个名为`cameraInc`的`Vector3f`变量，它储存了摄像机应用的位移。
 
-`DummyGame`类的`update`方法将根据处理键盘和鼠标事件，来修改摄像机的位置和旋转。
+`DummyGame`类的`update`方法将根据处理的键盘和鼠标事件，修改摄像机的位置和旋转。
 
 ```java
 @Override
 public void update(float interval, MouseInput mouseInput) {
-    // Update camera position
+    // 更新摄像机位置
     camera.movePosition(cameraInc.x * CAMERA_POS_STEP,
         cameraInc.y * CAMERA_POS_STEP,
         cameraInc.z * CAMERA_POS_STEP);
 
-    // Update camera based on mouse            
+    // 基于鼠标更新摄像机           
     if (mouseInput.isRightButtonPressed()) {
         Vector2f rotVec = mouseInput.getDisplVec();
         camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
@@ -316,7 +324,7 @@ public void update(float interval, MouseInput mouseInput) {
 }
 ```
 
-现在可以向世界添加更多的立方体，将它们放在特定位置并使用新摄像机进行观察。正如你所见的，所有的立方体共享相同的`Mesh`实例。
+现在可以添加更多的立方体到世界中，缩放它们，将它们设置在特定位置，并使用新摄像机游玩。如你所见，所有的立方体共享相同的网格。
 
 ```java
 GameItem gameItem1 = new GameItem(mesh);
@@ -338,7 +346,7 @@ gameItem4.setPosition(0.5f, 0, -2.5f);
 gameItems = new GameItem[]{gameItem1, gameItem2, gameItem3, gameItem4};
 ```
 
-你会得到如下所示的东西：
+你会得到如下所示的结果。
 
-![方块](_static/08/cubes.png)
+![立方体们](_static/08/cubes.png)
 
