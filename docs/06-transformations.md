@@ -418,14 +418,10 @@ public void render(Window window, GameItem[] gameItems) {
 public void render() {
     // 绘制Mesh
     glBindVertexArray(getVaoId());
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
 
     glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 
     // 重置状态
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
     glBindVertexArray(0);
 }
 ```

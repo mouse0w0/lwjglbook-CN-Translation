@@ -265,7 +265,7 @@ glBindVertexArray(vaoId);
 vboId = glGenBuffers();
 glBindBuffer(GL_ARRAY_BUFFER, vboId);
 glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
-memFree(verticesBuffer);
+glEnableVertexAttribArray(0);
 ```
 
 接下来是最重要的部分。我们需要定义数据结构，并将其储存在VAO的属性列表中，这是用下述代码完成的：
@@ -316,13 +316,11 @@ public void render(Window window) {
 
     // 绑定VAO
     glBindVertexArray(vaoId);
-    glEnableVertexAttribArray(0);
 
     // 绘制顶点
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     // 还原状态
-    glDisableVertexAttribArray(0);
     glBindVertexArray(0);
 
     shaderProgram.unbind();
