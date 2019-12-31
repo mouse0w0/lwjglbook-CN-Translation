@@ -1,36 +1,36 @@
 # 要有更多的光（Let there be even more light）
 
-在本章中，我们将实现在前面章节中介绍的其他类型的光。我们先从平行光源开始。
+在本章中，我们将实现在此前章节中介绍的其他类型的光。我们先从平行光开始。
 
-## 平行光源
+## 平行光
 
-平行光照击中所有物体的平行射线都来自同一方向，因此它用来模拟遥远但具有高光强的光源，比如太阳。
+如果你回想一下，平行光从同一方向照射到所有物体上。它用来模拟遥远但光强很高的光源，比如太阳。
 
-![平行光源](_static/11/directional_light.png)
+![平行光](_static/11/directional_light.png)
 
-平行光源的另一个特点是它不受衰减的影响。再想一想太阳光，所有被光线照射的地球上的物体都以相同强度被照射，地球上的物体离太阳的距离之大，以至于它们之间的相对位置是影响的。事实上，平行光源被定义为放在无限远处的光源，如果它受到衰减的影响，它将对任何物体都没有光照(它对颜色的影响将等于0)。 
+平行光的另一个特点是它不受衰减的影响，联想太阳光，所有被阳光照射的物体都以相同的光强被照射，因为离太阳的距离太大，以至于它们之间的相对位置都是无关紧要的。事实上，平行光被模拟为位于无穷远处的光源，如果它受到衰减的影响，那么它将对任何物体都没有影响（它对物体颜色的影响将等于0）。
 
-此外，平行光源也由漫反射和镜面光分量组成，与点光源的唯一区别在于它没有位置，而有方向，并且它不受衰减的影响。让我们回到平行光属性的讨论，想象我们正在模拟太阳在三维世界中运动，下图显示了黎明、正午和黄昏时的光照方向。
+此外，平行光也由漫反射和镜面反射分量组成，与点光源的区别在于它没有位置，但有方向，并且它不受衰减的影响。回到平行光的属性，想象我们正在模拟太阳在三维世界中运动，下图展示了黎明、正午和黄昏时的光线方向。
 
-![太阳是一种平行光源](_static/11/sun_directional_light.png)
+![太阳像一个平行光](_static/11/sun_directional_light.png)
 
-上述位置的照明方向为：
+上图中的光线的方向为：
 
 * 黎明: \(-1, 0, 0\)
 * 正午: \(0, 1, 0\)
 * 黄昏: \(1, 0, 0\)
 
-注意：你可能认为上面的坐标是位置坐标，但是它们是向量，方向，而不是位置。从数学的角度来看，向量和位置是不可区分的，它们有着完全不同的含义。
+注意：你可能认为上述坐标是位置坐标，但它们只是一个矢量，一个方向，而不是一个位置。以数学的角度来看，矢量和位置是不可分辨的，但它们有着完全不同的含义。
 
-但是，我们如何定义这个光位于无穷远处呢？答案是使用W坐标，也就是说，使用其次坐标然后将W坐标设置为0。
+但是，我们如何模拟这个光位于无穷远处呢？答案是使用$w$分量，即使用齐次坐标并将$w$分量设置为$0$。
 
 * 黎明: \(-1, 0, 0, 0\)
 * 正午: \(0, 1, 0, 0\)
 * 黄昏: \(1, 0, 0, 0\)
 
-这就像我们在使用法线时一样。对于法线，我们将W分量设置为0，表示我们对位移不感兴趣，只对方向感兴趣。此外，当我们处理平行光照时，也需要这样做，摄像机的平移不应该影响平行光照的方向。
+这就如同我们在传递法线。对于法线，我们将其$w$分量设置为$0$，表示我们对其位移不感兴趣，只对方向感兴趣。此外，当我们处理平行光时，也需要这样做，摄像机的位移不应影响平行光的方向。
 
-让我们开始编写和模拟我们的方向光。我们要做的第一件事是创建一个模型来储存它的属性。它只是另一个具有复制构造函数的普通的Java对象，并储存方向、颜色和强度。
+让我们开始编码实现和模拟平行光，首先要做的是创建一个类来储存它的属性。它只是另一个普通的Java对象，其具有复制构造函数，并储存光的方向、颜色和强度。
 
 ```java
 package org.lwjglb.engine.graph;
@@ -55,12 +55,12 @@ public class DirectionalLight {
         this(new Vector3f(light.getColor()), new Vector3f(light.getDirection()), light.getIntensity());
     }
 
-    // Getters and settes beyond this point...
+    // 接下来是Getter和Setter...
 ```
 
-正如你所看到的，我们使用`Vector3f`来储存方向。保持冷静，当将平行光照传递到着色器时，我们将处理W分量。顺便说一个，我们接下来要做的就是更新`ShaderProgram`来创建和更新储存平行光照的Uniform。
+如你所见，我们用`Vector3f`来储存方向。保持冷静，当将平行光传递到着色器时，我们将处理$w$分量。顺便一提，接下来要做的就是更新`ShaderProgram`来创建和更新储存平行光的Uniform。
 
-在片元着色器中，我们将定义一个结构体来模拟平行光源。
+在片元着色器中，我们将定义一个结构体来模拟平行光。
 
 ```glsl
 struct DirectionalLight
@@ -71,7 +71,7 @@ struct DirectionalLight
 };
 ```
 
-在这个定义中，`ShaderProgram`类中的新方法也是直接了当的。
+有了上述定义，`ShaderProgram`类中的新方法就很简单了。
 
 ```java
 // ...
@@ -88,18 +88,18 @@ public void setUniform(String uniformName, DirectionalLight dirLight) {
 }
 ```
 
-我们现在需要使用Uniform。我们将通过`DummyGame`类控制太阳的角度来模拟它跨越天空。
+我们现在需要使用Uniform，通过`DummyGame`类控制太阳的角度来模拟它是如何在天上移动的。
 
 ![太阳的移动](_static/11/sun_movement.png)
 
-我们需要更新光的方向，所以当黎明时(-90°)太阳在(-1, 0, 0)方向上，它的X坐标从-1逐渐增加到0，Y坐标逐渐从0增加到1。然后，X坐标增加到1，Y坐标又下降到0。这可以通过将X坐标设置为正弦角和Y坐标设置为余弦角来完成。
+我们需要更新光的方向，所以太阳在黎明时（$-90°$），光线在$(-1, 0, 0)$方向上，其$x$分量从$-1$逐渐增加到$0$，$y$分量逐渐从$0$增加到$1$。接下来，$x$分量增加到$1$，$y$分量减少到$0$。这可以通过将$x$分量设置为角的正弦和将$y$分量设置为角的余弦来实现。
 
 ![正弦和余弦](_static/11/sine_cosine.png)
 
-我们也会调整光照强度，当它离黎明越远，强度将越强，并且随着黄昏的临近而减弱。我们将通过设置强度为0来模拟夜晚。此外，我们还将调节颜色，使光线在黎明和黄昏时变得更红。这将在`DummyGame`类的`update`方法中实现。
+我们也会调节光强，当它远离黎明时强度将增强，当它临近黄昏时强度将减弱。我们通过将强度设置为$0$来模拟夜晚。此外，我们还将调节颜色，使光在黎明和黄昏时变得更红。这将在`DummyGame`类的`update`方法中实现。
 
 ```java
-// Update directional light direction, intensity and colour
+// 更新平行光的方向，强度和颜色
 lightAngle += 1.1f;
 if (lightAngle > 90) {
     directionalLight.setIntensity(0);
@@ -122,10 +122,10 @@ directionalLight.getDirection().x = (float) Math.sin(angRad);
 directionalLight.getDirection().y = (float) Math.cos(angRad);
 ```
 
-然后，我们需要将平行光源传递给`Renderer`类中的`render`方法中的着色器。
+然后，我们需要在`Renderer`类中的`render`方法中将平行光传给着色器。
 
 ```java
-// Get a copy of the directional light object and transform its position to view coordinates
+// 获取平行光对象的副本并将其坐标变换到观察坐标系
 DirectionalLight currDirLight = new DirectionalLight(directionalLight);
 Vector4f dir = new Vector4f(currDirLight.getDirection(), 0);
 dir.mul(viewMatrix);
@@ -133,15 +133,15 @@ currDirLight.setDirection(new Vector3f(dir.x, dir.y, dir.z));
 shaderProgram.setUniform("directionalLight", currDirLight);
 ```
 
-正如你所看到的，我们需要变换光照向量到观察空间，但是我们将W分量设置为0，因为我们对变换不感兴趣。
+如你所见，我们需要变换光的方向到观察空间，但我们不想应用位移，所以将$w$分量设置为$0$。
 
-现在，我们已经准备好在片元着色器上完成剩下的工作，因为顶点着色器不需要修改。之前已经说过，我们需要定义一个名为`DirectionalLight`的新结构体，来储存平行光源数据，所以需要一个新的Uniform类型。
+现在，我们已经准备好在片元着色器上完成剩下的工作了，因为顶点着色器不需要修改。此前已经说过，我们需要定义一个名为`DirectionalLight`的新结构体来模拟平行光，所以需要一个新的Uniform。
 
 ```glsl
 uniform DirectionalLight directionalLight;
 ```
 
-我们需要重构代码，在前一章中，我们有一个叫做`calcPointLight`的函数，它负责计算漫反射和镜面反射分类，也使用衰减。但正如我们所说的，平行光照使用漫反射和镜面反射分量，但不受衰减影响，所以我们将创建一个名为`calcLightColour`新的函数，只计算那些内容。
+我们需要重构一下代码，在上一章中，我们有一个名为`calcPointLight`的函数，它计算漫反射和镜面反射分量，并应用衰减。但如上所述，平行光使用漫反射和镜面反射分量，但不受衰减影响，所以我们将创建一个名为`calcLightColour`的新函数来计算那些分量。
 
 ```glsl
 vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, vec3 to_light_dir, vec3 normal)
@@ -149,11 +149,11 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
     vec4 diffuseColour = vec4(0, 0, 0, 0);
     vec4 specColour = vec4(0, 0, 0, 0);
 
-    // Diffuse Light
+    // 漫反射光
     float diffuseFactor = max(dot(normal, to_light_dir), 0.0);
     diffuseColour = diffuseC * vec4(light_colour, 1.0) * light_intensity * diffuseFactor;
 
-    // Specular Light
+    // 镜面反射光
     vec3 camera_direction = normalize(camera_pos - position);
     vec3 from_light_dir = -to_light_dir;
     vec3 reflected_light = normalize(reflect(from_light_dir , normal));
@@ -165,7 +165,7 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
 }
 ```
 
-然后，`calcPointLight`方法将衰减应用到先前函数中计算的结果。
+然后，`calcPointLight`方法将衰减因数应用到上述函数计算的结果上。
 
 ```glsl
 vec4 calcPointLight(PointLight light, vec3 position, vec3 normal)
@@ -174,7 +174,7 @@ vec4 calcPointLight(PointLight light, vec3 position, vec3 normal)
     vec3 to_light_dir  = normalize(light_direction);
     vec4 light_colour = calcLightColour(light.colour, light.intensity, position, to_light_dir, normal);
 
-    // Apply Attenuation
+    // 应用衰减
     float distance = length(light_direction);
     float attenuationInv = light.att.constant + light.att.linear * distance +
         light.att.exponent * distance * distance;
@@ -182,7 +182,7 @@ vec4 calcPointLight(PointLight light, vec3 position, vec3 normal)
 }
 ```
 
-我们还将创建一个新的函数来计算平行光源的效果，它只调用`calcLightColour`方法。
+我们还将创建一个新的函数来计算平行光的效果，它只调用仅需光照方向的`calcLightColour`方法。
 
 ```glsl
 vec4 calcDirectionalLight(DirectionalLight light, vec3 position, vec3 normal)
@@ -191,7 +191,7 @@ vec4 calcDirectionalLight(DirectionalLight light, vec3 position, vec3 normal)
 }
 ```
 
-最后，`main`方法通过环境光和平行光的颜色分量来计算片元颜色。
+最后，`main`方法通过环境光和平行光的颜色分量综合起来计算片元颜色。
 
 ```glsl
 void main()
@@ -205,57 +205,57 @@ void main()
 }
 ```
 
-就是这样，现在我们可以模拟太阳在天空中的移动，就像这样(运动速度加快，不用等待太久就可以看到)。
+就这样，现在我们可以模拟太阳在天空中的运动，如下所示（在示例代码中运动速度加快，不用等待太久就可以看到）。
 
-![平行光照结果](_static/11/directional_light_result.png)
+![平行光效果](_static/11/directional_light_result.png)
 
 ## 聚光源
 
-现在我们将实现与点光源非常相似的光源，但是它发出的光被限制在三维锥体中。它模拟从焦点或者其他不向四面八方发射光的光源。聚光源具有和点光源一样的参数，但它还增加了两个新的参数，锥角和锥方向。
+现在我们将实现与点光源非常相似的聚光源，但是它发射的光仅限于三维圆锥体中。它模拟从焦点或任何其他不向所有方向发射光的光源。聚光源有着和点光源一样的属性，但它添加了两个新的参数，圆锥角和圆锥方向。
 
-![聚光](_static/11/spot_light.png)
+![聚光源](_static/11/spot_light.png)
 
 聚光源与点光源的计算方法相同，但有一些不同。从顶点位置到光源的矢量不在光锥内的点不受光照的影响。
 
-![聚光2](_static/11/spot_light_ii.png)
+![聚光源2](_static/11/spot_light_ii.png)
 
-该如何计算它是否在光锥里呢？我们需要在点光源和圆锥方向矢量(它们都归一化)之间再次做数量积。
+该如何计算它是否在光锥内呢？我们需要在光源和圆锥方向矢量（两者都归一化了）之间再做次数量积。
 
-![聚光计算](_static/11/spot_light_calc.png)
+![聚光源计算](_static/11/spot_light_calc.png)
 
-L和C向量之间的数量积等于：$$\vec{L}\cdot\vec{C}=|\vec{L}|\cdot|\vec{C}|\cdot Cos(\alpha)$$。在聚光源的定义中，我们储存锥角的余弦值，如果数量积高于该值，我们就知道它在光锥内部(想想余弦图，当α角为0°时，余弦将为1。在0°~180°时，角越小，余弦值越大)。
+$L$和$C$向量之间的数量积等于：$\vec{L}\cdot\vec{C}=|\vec{L}|\cdot|\vec{C}|\cdot Cos(\alpha)$。在聚光源的定义中，我们储存锥角的余弦值，如果数量积高于该值，我们就知道它位于光锥内部（想想余弦图，当$α$角为$0$时，其余弦值为$1$。在0°~180°时，角度越小余弦值越大）。
 
-第二个区别是远离光源的点将接收更少的光，也就是说，衰减将更强。有几种计算方法，我们将选择一种简单的方法，通过将衰减与以下公式相乘：
+第二个不同之处是远离光锥方向的点将受到更少的光照，换句话说，衰减影响将更强。有几种计算方法，我们将选择一种简单的方法，通过将衰减与下述公式相乘：
 
 $$1 - (1-Cos(\alpha))/(1-Cos(cutOffAngle)$$
 
-(在片元着色器中，我们没有传递角度，而是传递角的余弦值。你可以从0~1检查上面的公式，当角度为0时，余弦值为1。)
+(在片元着色器中，我们没有传递角度，而是传递角度的余弦值。你可以检查上面的公式的结果是否位于0到1之间，当角度为0时，余弦值为1。)
 
-实现非常类似于其他的光源，我们需要创建一个名为`SpotLight`的类，设置适当的Uniform，将其传递给着色器并修改片元着色器。你可以查看本章的源代码。
+实现非常类似于其他的光源，我们需要创建一个名为`SpotLight`的类，设置适当的Uniform，将其传递给着色器并修改片元着色器以获取它。你可以查看本章的源代码。
 
-当传递Uniform时，另一个重要的事情是变换不应该应用到光锥方向上，因为我们只对方向感兴趣。因此，和平行光源的情况一样，当转换到观察矩阵空间时，必须把w值设置为0。
+当传递Uniform时，另一件重要的事是位移不应该应用到光锥方向上，因为我们只对方向感兴趣。因此，和平行光的情况一样，当变换到观察空间坐标系时，必须将$w$分量设置为$0$。
 
 ![聚光源示例](_static/11/spot_light_sample.png)
 
 ## 多光源
 
-我们最终实现了所有类型的光源，但是目前每个类型的光源只能有一个。这对于环境光和平行光来说没问题，但是我们确实希望使用多个点光源和聚光源。我们需要修改片元着色器来接收光源列表，所以使用数组来储存这些数据。
+我们终于实现了四种类型的光源，但是目前每种类型的光源只能使用一个实例。这对于环境光和平行光来说没问题，但是我们确实希望使用多个点光源和聚光源。我们需要修改片元着色器来接收光源列表，所以使用数组来储存这些数据。来看看怎么实现吧。
 
-在开始之前要注意的事情，是在GLSL中数组的长度必须在编译时设置，因此它必须足够大，以便在运行时能够容纳所有对象。第一件事情是定义一些常量来设置我们要使用的最大点光源数和聚光源数。
+在开始之前要注意的是，在GLSL中，数组的长度必须在编译时设置，因此它必须足够大，以便在运行时能够储存所需的所有对象。首先是定义一些常量来设置要使用的最大点光源数和聚光源数。
 
 ```glsl
 const int MAX_POINT_LIGHTS = 5;
 const int MAX_SPOT_LIGHTS = 5;
 ```
 
-然后我们需要修改之前只储存一个点光源和一个聚光源的Uniform为数组。
+然后我们需要修改此前只储存一个点光源和一个聚光源的Uniform，以便使用数组。
 
 ```glsl
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 ```
 
-在main函数中，我们只需要对这些数组进行迭代，以使用现有函数计算每个对象对颜色的贡献。我们可能不会像Uniform数组长度那样传递很多光，所以需要控制它。有很多可行的方法，但这可能不适用于旧的显卡，最终我们将检查光强度(在数组中的空位的对象，光强为0)。
+在main函数中，我们只需要对这些数组进行迭代，以使用现有函数计算每个对象对颜色的影响。我们可能不会像Uniform数组长度那样传递很多光源，所以需要控制它。有很多可行的方法，但这可能不适用于旧的显卡。最终我们选择检查光强（在数组中的空位，光强为0）。
 
 ```glsl
 for (int i=0; i<MAX_POINT_LIGHTS; i++)
@@ -275,7 +275,7 @@ for (int i=0; i<MAX_SPOT_LIGHTS; i++)
 }
 ```
 
-现在我们需要在`Render`类中创建这些Uniform。当我们使用数组时，我们需要为列表中的每个元素创建一个Uniform。例如，对于`pointLights`数组，我们需要创建名为`pointLights[0]`、`pointLights[1]`之类的Uniform。当然，这也适用于结构体属性，所以我们将创建`pointLights[0].colour`、`pointLights[1].colour`等等。创建这些Uniform的方法如下。
+现在我们需要在`Render`类中创建这些Uniform。当使用数组时，我们需要为列表中的每个元素创建一个Uniform。例如，对于`pointLights`数组，我们需要创建名为`pointLights[0]`、`pointLights[1]`之类的Uniform。当然，这也适用于结构体属性，所以我们将创建`pointLights[0].colour`、`pointLights[1].colour`等等。创建这些Uniform的方法如下所示：
 
 ```java
 public void createPointLightListUniform(String uniformName, int size) throws Exception {
@@ -291,7 +291,7 @@ public void createSpotLightListUniform(String uniformName, int size) throws Exce
 }
 ```
 
-我们也需要方法来设置这些Uniform的值。
+我们也需要方法来设置这些Uniform的值：
 
 ```java
 public void setUniform(String uniformName, PointLight[] pointLights) {
@@ -317,7 +317,7 @@ public void setUniform(String uniformName, SpotLight spotLight, int pos) {
 }
 ```
 
-最后我们只需要更新`Render`类来接收点光源和聚光源列表，并相应地修改`DummyGame`类来创建这些列表。最后看起来就像这样。
+最后，我们只需要更新`Render`类来接收点光源和聚光源列表，并相应地修改`DummyGame`类以创建这些列表，最终效果如下所示。
 
 ![多光源](_static/11/multiple_lights.png)
 
