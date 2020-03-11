@@ -127,3 +127,9 @@
 **漫反射（Diffuse Reflectance）：** 考虑到面向光源的表面更亮。
 
 **镜面反射（Specular Reflectance）：** 模拟光线在抛光或金属表面上的反射。
+
+**HUD（Heads-Up Display）：** 平视显示器，常用于飞机上将重要信息投影于挡风玻璃或头盔上，以便飞行员同时查看前方情况和飞行信息。现用于游戏中，将游戏中的重要信息显示于三维场景前。
+
+**正交投影（Orthographic Projection，Orthogonal Projection）：** 也称为正投影，正射投影。指不受近大远小影响的将三维物体投影到二维平面上的投影方式。
+
+**混合（Blend）：** 实现3D渲染中物体透明的一个功能，启用透明将允许使用Alpha分量混合颜色。
