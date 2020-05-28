@@ -26,9 +26,8 @@ Antonio Hernández Bejarano
 
 ## 支持作者
 如果你喜欢这本书，请Star并且分享它。如果你想捐助作者，你可以通过下面的按钮捐助：
-[![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5MH9AA9TPQQBN)
 
-或者你更喜欢用比特币: 1Kwe78faWarzGTsWXtdGvjjbS9RmW1j3nb.
+[![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5MH9AA9TPQQBN)
 
 ## 特别感谢
 感谢所有提供了指正、意见和建议的读者。
