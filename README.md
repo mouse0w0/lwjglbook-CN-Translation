@@ -1,6 +1,5 @@
 # 《用LWJGL 3开发3D游戏(3D Game Development with LWJGL 3)》中文翻译
-
-[![](https://img.shields.io/badge/%E5%A4%87%E7%94%A8%E5%9C%B0%E5%9D%80-Gitee-red)](https://mouse0w0.gitee.io/lwjglbook-cn-translation/)
+![](https://img.shields.io/badge/license-CC--BY--SA--4.0-green) ![](https://img.shields.io/github/stars/Mouse0w0/MinecraftDeveloperGuide) [![](https://img.shields.io/badge/%E5%A4%87%E7%94%A8%E5%9C%B0%E5%9D%80-Gitee-red)](https://mouse0w0.gitee.io/lwjglbook-cn-translation/)
 
 ## 本书原介绍
 这本在线电子书主要讲解使用LWJGL 3库开发3D游戏。
