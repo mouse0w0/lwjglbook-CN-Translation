@@ -35,7 +35,7 @@ site_author: Mouse0w0
 copyright: 2019, Mouse0w0
 
 repo_url: https://github.com/Mouse0w0/lwjglbook-CN-Translation
-remote_branch: master
+remote_branch: pages
 
 theme: readthedocs
 
