@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mouse0w0">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>事前准备 - Lwjglbook中文翻译</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u4e8b\u524d\u51c6\u5907";
+    var mkdocs_page_input_path = "01-first-steps.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lwjglbook中文翻译</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">事前准备</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../02-the-game-loop/">游戏循环</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../03-a-brief-about-coordinates/">坐标简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../04-rendering/">渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../05-more-on-rendering/">渲染补充</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../06-transformations/">变换</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../07-textures/">纹理</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../08-camera/">摄像机</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../09-loading-more-complex-models/">加载更复杂的模型</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../10-let-there-be-light/">要有光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../11-let-there-be-even-more-light/">要有更多的光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../12-game-hud/">游戏HUD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../13-sky-box-and-some-optimizations/">天空盒与一些优化</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../14-height-maps/">高度图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../15-terrain-collisions/">地形碰撞</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../16-fog/">雾</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../17-normal-mapping/">法线贴图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../18-shadows/">阴影</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../19-animations/">动画</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../20-particles/">粒子</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../21-instanced-rendering/">实例化渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../22-audio/">音效</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../23-3d-object-picking/">三维物体选取</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../24-hud-revisited/">回顾HUD - NanoVG</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../25-optimizations-frustum-culling/">优化 - 截锥剔除</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../26-cascaded-shadow-maps/">级联阴影映射</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../27-assimp/">Assimp库</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../28-deferred-shading/">延迟着色法</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../a01-opengl-debugging/">附录 A - OpenGL调试</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../glossary/">术语表</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lwjglbook中文翻译</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>事前准备</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/edit/master/docs/01-first-steps.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="first-steps">事前准备（First Steps）</h1>
+<p>在本书中，我们将学习开发3D游戏所涉及的主要技术。本书将使用Java语言和Java轻量级游戏库(<a href="http://www.lwjgl.org/">LWJGL</a>)来编写示例代码。LWJGL库允许我们访问底层的API（应用程序接口），例如OpenGL。</p>
+<p>LWJGL是一个底层的API，它像一个OpenGL包装库。如果你是想在短时间内开始制作一个3D游戏，那么你也许该考虑其它选择，比如使用引擎[JmonkeyEngine]。使用LWJGL这个底层API，在你收到成效之前，需要了解许多概念并且编写大量的代码。这样做的好处是你可以更好的理解3D图形渲染，并且可以更好的控制它。</p>
+<p>在上文说到，在本书中我们将使用Java，更确切来说我们将使用Java 10。所以你需要从Oracle的页面下载对应版本的JDK。请选择适合你的操作系统的安装程序。本书假定你对Java语言有一定的了解。</p>
+<p>如果你需要一个可以运行示例代码的Java IDE（集成开发环境），你可以下载为Java 10提供良好支持的IntelliJ IDEA。由于Java 10仅支持64位的平台，记得下载64位版本的IntelliJ。IntelliJ提供有一个免费且开源的社区版，你可以在这里下载它： <a href="https://www.jetbrains.com/idea/download/" title="Intellij">https://www.jetbrains.com/idea/download/</a>。</p>
+<p><img alt="IntelliJ" src="../_static/01/intellij.png" /></p>
+<p>为了构建示例代码，我们将使用<a href="https://maven.apache.org/">Maven</a>。Maven已经集成在大多数IDE中，你可以在IDE中直接打开不同章节的示例代码。只要打开了示例代码所在的文件夹，IntelliJ就会检测到它是一个Maven项目。</p>
+<p><img alt="Maven项目" src="../_static/01/maven_project.png" /></p>
+<p>Maven基于一个名为<code>pom.xml</code>（Project Object Model，项目对象模型）的XML文件来构建项目，它管理了项目的依赖（需要使用的库）和在构建过程中需要执行的步骤。Maven遵循约定高于配置的原则，即如果你遵守标准的项目结构和命名约定，就不需要在配置文件中明确地声明源文件在哪里或者应该在哪里编译类。</p>
+<p>本书不是一个Maven教程，如果有需要，请在网上搜索Maven的相关资料。源代码文件夹定义了一个父项目，它声明需要使用的插件并且声明需要使用的库的版本。</p>
+<p>LWJGL 3.1在项目构建上有一些变化。现在，它变得更加模块化，我们可以有选择地使用类库，而不是导入一个巨大的Jar文件。但这是有代价的：你需要仔细地逐个指定依赖关系。不过<a href="https://www.lwjgl.org/download">LWJGL下载</a>页面提供了一个为您生成POM文件的脚本。在本例中，我们将只使用GLFW和OpenGL。你可以在源代码中查看我们的POM文件。</p>
+<p>LWJGL平台依赖库已经可以为你的操作系统自动解压本地库，因此不需要使用其他插件（例如<code>mavennatives</code>）。我们只需要配置三个Profile来设置LWJGL所处的操作系统。Profile将会为Windows、Linux和Mac OS系列设置正确的值。</p>
+<pre><code class="language-xml">    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;windows-profile&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;os&gt;
+                    &lt;family&gt;Windows&lt;/family&gt;
+                &lt;/os&gt;
+            &lt;/activation&gt;
+            &lt;properties&gt;
+                &lt;native.target&gt;natives-windows&lt;/native.target&gt;
+            &lt;/properties&gt;                
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;linux-profile&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;os&gt;
+                    &lt;family&gt;Linux&lt;/family&gt;
+                &lt;/os&gt;
+            &lt;/activation&gt;
+            &lt;properties&gt;
+                &lt;native.target&gt;natives-linux&lt;/native.target&gt;
+            &lt;/properties&gt;                
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;OSX-profile&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;os&gt;
+                    &lt;family&gt;mac&lt;/family&gt;
+                &lt;/os&gt;
+            &lt;/activation&gt;
+            &lt;properties&gt;
+                &lt;native.target&gt;natives-osx&lt;/native.target&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+</code></pre>
+<p>在每个项目中，LWJGL平台依赖项将使用配置文件为当前平台设置的正确的属性。</p>
+<pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.lwjgl&lt;/groupId&gt;
+            &lt;artifactId&gt;lwjgl-platform&lt;/artifactId&gt;
+            &lt;version&gt;${lwjgl.version}&lt;/version&gt;
+            &lt;classifier&gt;${native.target}&lt;/classifier&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<p>此外，每个项目可生成一个可运行的Jar（一种可以通过输入<code>java -jar name_of_the_jar.jar</code>就可运行的Jar），这是通过使用Maven的<code>maven-jar-plugin</code>插件实现的。该插件创建了一个含有<code>MANIFEST.MF</code>文件的Jar，并且文件内有指定的值，该文件最重要的属性就是<code>Main-Class</code>，它指明了程序的入口。此外，所有的依赖库都被设置在该文件的<code>Class-Path</code>属性中。要在另一台计算机上运行它，你只需要复制位于目标目录下的主Jar文件和Lib目录（包括其中所有的Jar文件）。</p>
+<p>Jar文件储存着LWJGL类和本地库。LWJGL还将负责提取它们，并将它们添加到JVM的库路径中。</p>
+<p>本章的源代码是LWJGL网站(<a href="https://www.lwjgl.org/guide">https://www.lwjgl.org/guide</a>)提供的的入门示例，你可以看到我们没有使用Swing或JavaFX作为我们的GUI库。我们使用的是<a href="https://www.glfw.org/">GLFW</a>，它是一个用于处理GUI组件（窗口等）和事件（按键按下、鼠标移动等），并且与OpenGL上下文进行简单连接的库。此前版本的LWJGL提供了一个自定义GUI API，但在LWJGL 3中，GLFW是首选的窗口API。</p>
+<p>示例源码很简单并有着良好的文档，所以我们不会在书中再次说明。</p>
+<p>如果你正确地配置了环境，你应该能够运行它并看到一个有红色背景的窗口。</p>
+<p><img alt="Hello World" src="../_static/01/hello_world.png" /></p>
+<p><strong>本书中源代码发布于<a href="https://github.com/lwjglgamedev/lwjglbook"><strong>GitHub</strong></a></strong>。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../02-the-game-loop/" class="btn btn-neutral float-right" title="游戏循环">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>2019, Mouse0w0</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+      <span><a href="../02-the-game-loop/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

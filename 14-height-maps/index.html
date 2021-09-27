@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mouse0w0">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>高度图 - Lwjglbook中文翻译</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u9ad8\u5ea6\u56fe";
+    var mkdocs_page_input_path = "14-height-maps.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lwjglbook中文翻译</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../01-first-steps/">事前准备</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../02-the-game-loop/">游戏循环</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../03-a-brief-about-coordinates/">坐标简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../04-rendering/">渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../05-more-on-rendering/">渲染补充</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../06-transformations/">变换</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../07-textures/">纹理</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../08-camera/">摄像机</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../09-loading-more-complex-models/">加载更复杂的模型</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../10-let-there-be-light/">要有光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../11-let-there-be-even-more-light/">要有更多的光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../12-game-hud/">游戏HUD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../13-sky-box-and-some-optimizations/">天空盒与一些优化</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">高度图</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../15-terrain-collisions/">地形碰撞</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../16-fog/">雾</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../17-normal-mapping/">法线贴图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../18-shadows/">阴影</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../19-animations/">动画</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../20-particles/">粒子</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../21-instanced-rendering/">实例化渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../22-audio/">音效</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../23-3d-object-picking/">三维物体选取</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../24-hud-revisited/">回顾HUD - NanoVG</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../25-optimizations-frustum-culling/">优化 - 截锥剔除</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../26-cascaded-shadow-maps/">级联阴影映射</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../27-assimp/">Assimp库</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../28-deferred-shading/">延迟着色法</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../a01-opengl-debugging/">附录 A - OpenGL调试</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../glossary/">术语表</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lwjglbook中文翻译</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>高度图</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/edit/master/docs/14-height-maps.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="height-maps">高度图（Height Maps）</h1>
+<p>本章中我们将学习如何使用高度图创建复杂的地形。在开始前，你会注意到我们做了一些重构。我们创建了一些新的包和移动了一些类以更好地组织它们。你可以在源代码中了解这些改变。</p>
+<p>所以什么是高度图？高度图是用于生成三维地形的图像，它使用像素颜色来获取表面高度。高度图图像通常是灰度图，它可以由<a href="http://planetside.co.uk/">Terragen</a>等软件生成。一张高度图图像看起来就像这样。</p>
+<p><img alt="高度图" src="../_static/14/heightmap.png" /> </p>
+<p>上图就像你俯视一片陆地一样。利用上图，我们将构建由顶点组成的三角形所组成的网格。每个顶点的高度将根据图像的每个像素的颜色来计算。黑色是最低，白色是最高。</p>
+<p>我们将为图像的每个像素创建一组顶点，这些顶点将组成三角形，这些三角形将组成下图所示的网格。</p>
+<p><img alt="高度图网格" src="../_static/14/heightmap_grid.png" /> </p>
+<p>网格将组成一个巨大的四边形，它将会在X和Z轴上渲染，并根据像素颜色来改变它的Y轴高度。</p>
+<p><img alt="高度图坐标系" src="../_static/14/heightmap_coordinates.png" /> </p>
+<p>由高度图创建三维地形的过程可概括为以下步骤：
+* 加载储存高度图的图像(我们将使用一个<code>BufferedImage</code>实例以获取每个像素)。
+* 为每个图像像素创建一个顶点，其高度基于像素颜色。
+* 将正确的纹理坐标分配给顶点。
+* 设置索引以绘制与顶点相关的三角形。</p>
+<p>我们将创建一个名为<code>HeightMapMesh</code>的类，该类将基于高度图按以上步骤创建一个<code>Mesh</code>。让我们先看看该类定义的常量：</p>
+<pre><code class="language-java">private static final int MAX_COLOUR = 255 * 255 * 255;
+</code></pre>
+<p>如上所述，我们将基于高度图图像的每个像素的颜色来计算每个顶点的高度。图像通常是灰度图，对于PNG图像来说，这意味着每个像素的每个RGB值可以在0到255之间变化，因此我们有256个值来表示不同的高度。这可能足够了，但如果精度不够，我们可以使用三个RGB值以有更多的值，在此情况下，高度计算范围为0到255^3。我们将使用第二种方法，因此我们不局限于灰度图。</p>
+<p>接下来的常量是：</p>
+<pre><code class="language-java">private static final float STARTX = -0.5f;
+
+private static final float STARTZ = -0.5f;
+</code></pre>
+<p>网格将由一组顶点（一个顶点对应一个像素）构成，其X和Z坐标的范围如下
+* X轴的范围为[-0.5, 0.5]，即[<code>STARTX</code>, <code>-STARTX</code>]。
+* Z轴的范围为[-0.5, 0.5]，即[<code>STARTZ</code>, <code>-STARTZ</code>]。</p>
+<p>不用太过担心这些值，稍后得到的网格可以被缩放以适应世界的大小。关于Y轴，我们将设置<code>minY</code>和<code>maxY</code>两个参数，用于设置Y坐标的最低和最高值。这些参数并不是常数，因为我们可能希望在运行时更改它们，而不使用缩放。最后，地形将包含在范围为<code>[STARTX, -STARTX]</code>，<code>[minY, maxY]</code>，<code>[STARTZ, -STARTZ]</code>的立方体内。</p>
+<p>网格将会在<code>HeightMapMesh</code>类的构造函数中创建，该类的定义如下。</p>
+<pre><code class="language-java">public HeightMapMesh(float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
+</code></pre>
+<p>它接收Y轴的最小值和最大值，被用作高度图的图像文件名和要使用的纹理文件名。它还接受一个名为<code>textInc</code>的整数，这稍后再说明。</p>
+<p>我们在构造函数中做的第一件事就是将高度图图像加载到<code>BufferedImage</code>实例中。</p>
+<pre><code class="language-java">this.minY = minY;
+this.maxY = maxY;
+
+PNGDecoder decoder = new PNGDecoder(getClass().getResourceAsStream(heightMapFile));
+int height = decoder.getHeight();
+int width = decoder.getWidth();
+ByteBuffer buf = ByteBuffer.allocateDirect(
+        4 * decoder.getWidth() * decoder.getHeight());
+decoder.decode(buf, decoder.getWidth() * 4, PNGDecoder.Format.RGBA);
+buf.flip();
+</code></pre>
+<p>然后，我们将纹理文件载入到一个<code>ByteBuffer</code>中，并设置构造<code>Mesh</code>所需的变量。<code>incx</code>和<code>incz</code>变量将储存每个顶点的X或Z坐标之间的最小间隔，因此<code>Mesh</code>包含在上述区域中。</p>
+<pre><code class="language-java">Texture texture = new Texture(textureFile);
+
+float incx = getWidth() / (width - 1);
+float incz = Math.abs(STARTZ * 2) / (height - 1);
+
+List&lt;Float&gt; positions = new ArrayList();
+List&lt;Float&gt; textCoords = new ArrayList();
+List&lt;Integer&gt; indices = new ArrayList();
+</code></pre>
+<p>之后，我们将遍历图像，为每个像素创建一个顶点，设置其纹理坐标与索引，以正确地定义组成<code>Mesh</code>的三角形。</p>
+<pre><code class="language-java">for (int row = 0; row &lt; height; row++) {
+    for (int col = 0; col &lt; width; col++) {
+        // 为当前位置创建顶点
+        positions.add(STARTX + col * incx); // x
+        positions.add(getHeight(col, row, width, buf)); // y
+        positions.add(STARTZ + row * incz); // z
+
+        // 设置纹理坐标
+        textCoords.add((float) textInc * (float) col / (float) width);
+        textCoords.add((float) textInc * (float) row / (float) height);
+
+        // 创建索引
+        if (col &lt; width - 1 &amp;&amp; row &lt; height - 1) {
+            int leftTop = row * width + col;
+            int leftBottom = (row + 1) * width + col;
+            int rightBottom = (row + 1) * width + col + 1;
+            int rightTop = row * width + col + 1;
+
+            indices.add(rightTop);
+            indices.add(leftBottom);
+            indices.add(leftTop);
+
+            indices.add(rightBottom);
+            indices.add(leftBottom);
+            indices.add(rightTop);
+        }
+    }
+}
+</code></pre>
+<p>创建顶点坐标的过程是不需要解释的。现在先别管为什么我们用一个数字乘以纹理坐标以及如何计算高度。你可以看到，对于每个顶点，我们定义两个三角形的索引(除非现在是最后一行或最后一列)。让我们用一个<strong>3×3</strong>的图像来想象它们是如何构造的。一个<strong>3×3</strong>的图像包含9个顶点，每因此有<strong>2×4</strong>个三角形组成4个正方形。下图展示了网格，每个顶点被命名为<code>Vrc</code>(r：行，c：列)。</p>
+<p><img alt="高度图顶点" src="../_static/14/heightmap_vertices.png" /></p>
+<p>当处理第一个顶点(V00)时，我们在红色阴影处定义了两个三角形的索引。</p>
+<p><img alt="高度图索引I" src="../_static/14/heightmap_indices_i.png" /> </p>
+<p>当处理第二个顶点(V01)时，我们在红色阴影处又定义了两个三角形的索引。但当处理第三个顶点(V02)时，我们不需要定义更多的索引，该行的所有三角形都已被定义。</p>
+<p><img alt="高度图索引II" src="../_static/14/heightmap_indices_ii.png" /> </p>
+<p>你可以很容易地想到其他顶点的处理过程是如何进行的。现在，一旦创建了所有的顶点位置、纹理坐标和索引，我们就只需要用所有这些数据创建<code>Mesh</code>和相关的<code>Material</code>。</p>
+<pre><code class="language-java">float[] posArr = Utils.listToArray(positions);
+int[] indicesArr = indices.stream().mapToInt(i -&gt; i).toArray();
+float[] textCoordsArr = Utils.listToArray(textCoords);
+float[] normalsArr = calcNormals(posArr, width, height);
+this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
+Material material = new Material(texture, 0.0f);
+mesh.setMaterial(material);
+</code></pre>
+<p>你可以看到，我们根据顶点位置计算法线。在看如何计算法线之前，来看看如何获取高度吧。我们已经创建了一个名为<code>getHeight</code>的方法，它负责计算顶点的高度。</p>
+<pre><code class="language-java">private float getHeight(int x, int z, int width, ByteBuffer buffer) {
+    byte r = buffer.get(x * 4 + 0 + z * 4 * width);
+    byte g = buffer.get(x * 4 + 1 + z * 4 * width);
+    byte b = buffer.get(x * 4 + 2 + z * 4 * width);
+    byte a = buffer.get(x * 4 + 3 + z * 4 * width);
+    int argb = ((0xFF &amp; a) &lt;&lt; 24) | ((0xFF &amp; r) &lt;&lt; 16)
+            | ((0xFF &amp; g) &lt;&lt; 8) | (0xFF &amp; b);
+    return this.minY + Math.abs(this.maxY - this.minY) * ((float) argb / (float) MAX_COLOUR);
+    }
+</code></pre>
+<p>该方法接受像素的X和Y坐标，图像的宽度以及与之相关的<code>ByteBuffer</code>，返回RGB颜色(R、G、B分量之和)并计算包含在<code>minY</code>和<code>maxY</code>之间的值(<code>minY</code>为黑色，<code>maxY</code>为白色)。</p>
+<p>你可以使用<code>BufferedImage</code>来编写一个更简单的方法，它有更方便的方法来获得RGB值，但这将使用AWT。记住AWT不能很好的兼容OSX，所以尽量避免使用它的类。</p>
+<p>现在来看看如何计算纹理坐标。第一个方法是将纹理覆盖整个网格，左上角的顶点纹理坐标为(0, 0)，右下角的顶点纹理坐标为(1, 1)。这种方法的问题是，纹理必须是巨大的，以便获得良好的渲染效果，否则纹理将会被过度拉伸。</p>
+<p>但我们仍然可以使用非常小的纹理，通过使用高效的技术来获得很好的效果。如果我们设置超出[1, 1]范围的纹理坐标，我们将回到原点并重新开始计算。下图表示在几个正方形中平铺相同的纹理，并超出了[1, 1]范围。</p>
+<p><img alt="纹理坐标I" src="../_static/14/texture_coordinates_i.png" /> </p>
+<p>这是我们在设置纹理坐标时所要做的。我们将一个参数乘以纹理坐标(计算好像整个网格被纹理包裹的情况)，即<code>textInc</code>参数，以增加在相邻顶点之间使用的纹理像素数。</p>
+<p><img alt="纹理坐标II" src="../_static/14/texture_coordinates_ii.png" /> </p>
+<p>目前唯一没有解决的是法线计算。记住我们需要法线，光照才能正确地应用于地形。没有法线，无论光照如何，地形将以相同的颜色渲染。我们在这里使用的方法不一定是最高效的，但它将帮助你理解如何自动计算法线。如果你搜索其他解决方案，可能会发现更有效的方法，只使用相邻点的高度而不需要做交叉相乘操作。尽管如此，这仅需要在启动时完成，这里的方法不会对性能造成太大的损害。</p>
+<p>让我们用图解的方式解释如何计算一个法线值。假设我们有一个名为<strong>P0</strong>的顶点。我们首先计算其周围每个顶点(<strong>P1</strong>, <strong>P2</strong>, <strong>P3</strong>, <strong>P4</strong>)和与连接这些点的面相切的向量。这些向量(<strong>V1</strong>, <strong>V2</strong>, <strong>V3</strong>, <strong>V4</strong>)是通过将每个相邻点与<strong>P0</strong>相减(例如<strong>V1 = P1 - P0</strong>)得到的。</p>
+<p><img alt="法线计算I" src="../_static/14/normals_calc_i.png" /> </p>
+<p>然后，我们计算连接每一个相邻点的平面的法线。这是与之前计算得到的向量交叉相乘计算的。例如，向量<strong>V1</strong>与<strong>V2</strong>所在的平面(蓝色阴影部分)的法线是由<strong>V1</strong>和<strong>V2</strong>交叉相乘得到的，即<strong>V12 = V1 × V2</strong>。</p>
+<p><img alt="法线计算II" src="../_static/14/normals_calc_ii.png" /> </p>
+<p>如果我们计算完毕其他平面的法线(<strong>V23 = V2 × V3</strong>，<strong>V34 = V3 × V4</strong>，<strong>V41 = V4 × V1</strong>)，则法线<strong>P0</strong>就是周围所有平面法线(归一化后)之和：<strong>N0 = V12 + V23 + V34 + V41</strong>。</p>
+<p><img alt="法线计算III" src="../_static/14/normals_calc_iii.png" /></p>
+<p>法线计算的方法实现如下所示。</p>
+<pre><code class="language-java">private float[] calcNormals(float[] posArr, int width, int height) {
+    Vector3f v0 = new Vector3f();
+    Vector3f v1 = new Vector3f();
+    Vector3f v2 = new Vector3f();
+    Vector3f v3 = new Vector3f();
+    Vector3f v4 = new Vector3f();
+    Vector3f v12 = new Vector3f();
+    Vector3f v23 = new Vector3f();
+    Vector3f v34 = new Vector3f();
+    Vector3f v41 = new Vector3f();
+    List&lt;Float&gt; normals = new ArrayList&lt;&gt;();
+    Vector3f normal = new Vector3f();
+    for (int row = 0; row &lt; height; row++) {
+        for (int col = 0; col &lt; width; col++) {
+            if (row &gt; 0 &amp;&amp; row &lt; height -1 &amp;&amp; col &gt; 0 &amp;&amp; col &lt; width -1) {
+                int i0 = row*width*3 + col*3;
+                v0.x = posArr[i0];
+                v0.y = posArr[i0 + 1];
+                v0.z = posArr[i0 + 2];
+
+                int i1 = row*width*3 + (col-1)*3;
+                v1.x = posArr[i1];
+                v1.y = posArr[i1 + 1];
+                v1.z = posArr[i1 + 2];                    
+                v1 = v1.sub(v0);
+
+                int i2 = (row+1)*width*3 + col*3;
+                v2.x = posArr[i2];
+                v2.y = posArr[i2 + 1];
+                v2.z = posArr[i2 + 2];
+                v2 = v2.sub(v0);
+
+                int i3 = (row)*width*3 + (col+1)*3;
+                v3.x = posArr[i3];
+                v3.y = posArr[i3 + 1];
+                v3.z = posArr[i3 + 2];
+                v3 = v3.sub(v0);
+
+                int i4 = (row-1)*width*3 + col*3;
+                v4.x = posArr[i4];
+                v4.y = posArr[i4 + 1];
+                v4.z = posArr[i4 + 2];
+                v4 = v4.sub(v0);
+
+                v1.cross(v2, v12);
+                v12.normalize();
+
+                v2.cross(v3, v23);
+                v23.normalize();
+
+                v3.cross(v4, v34);
+                v34.normalize();
+
+                v4.cross(v1, v41);
+                v41.normalize();
+
+                normal = v12.add(v23).add(v34).add(v41);
+                normal.normalize();
+            } else {
+                normal.x = 0;
+                normal.y = 1;
+                normal.z = 0;
+            }
+            normal.normalize();
+            normals.add(normal.x);
+            normals.add(normal.y);
+            normals.add(normal.z);
+        }
+    }
+    return Utils.listToArray(normals);
+}
+</code></pre>
+<p>最后，为了创建更大的地形，我们有两个选择：
+* 创建更大的高度图
+* 重用高度图并将其平铺在三维空间中。高度图将像一个地形块，在世界上像瓷砖一样平移。为了做到这一点，高度图边缘的像素必须是相同的(左侧边缘必须与右侧相同，上侧边缘必须与下侧相同)，以避免块之间的间隙。</p>
+<p>我们将使用第二种方法(并选择适当的高度图)。为了做到它，我们将创建一个名为<code>Terrain</code>的类，该类将创建一个正方形的高度图块，定义如下。</p>
+<pre><code class="language-java">package org.lwjglb.engine.items;
+
+import org.lwjglb.engine.graph.HeightMapMesh;
+
+public class Terrain {
+
+    private final GameItem[] gameItems;
+
+    public Terrain(int blocksPerRow, float scale, float minY, float maxY, String heightMap, String textureFile, int textInc) throws Exception {
+        gameItems = new GameItem[blocksPerRow * blocksPerRow];
+        HeightMapMesh heightMapMesh = new HeightMapMesh(minY, maxY, heightMap, textureFile, textInc);
+        for (int row = 0; row &lt; blocksPerRow; row++) {
+            for (int col = 0; col &lt; blocksPerRow; col++) {
+                float xDisplacement = (col - ((float) blocksPerRow - 1) / (float) 2) * scale * HeightMapMesh.getXLength();
+                float zDisplacement = (row - ((float) blocksPerRow - 1) / (float) 2) * scale * HeightMapMesh.getZLength();
+
+                GameItem terrainBlock = new GameItem(heightMapMesh.getMesh());
+                terrainBlock.setScale(scale);
+                terrainBlock.setPosition(xDisplacement, 0, zDisplacement);
+                gameItems[row * blocksPerRow + col] = terrainBlock;
+            }
+        }
+    }
+
+    public GameItem[] getGameItems() {
+        return gameItems;
+    }
+}
+</code></pre>
+<p>让我们详解整个过程，我们拥有由以下坐标定义的块(X和Z使用之前定义的常量)。</p>
+<p><img alt="地形构建I" src="../_static/14/terrain_construction_1.png" /></p>
+<p>假设我们创建了一个由3×3块网格构成的地形。我们假设我们不会缩放地形块(也就是说，变量<code>blocksPerRow</code>是<strong>3</strong>而变量<code>scale</code>将会是<strong>1</strong>)。我们希望网格的中央在坐标系的(0, 0)。</p>
+<p>我们需要移动块，这样顶点就变成如下坐标。</p>
+<p><img alt="地形构建II" src="../_static/14/terrain_construction_2.png" /></p>
+<p>移动是通过调用<code>setPosition</code>方法实现的，但记住，我们所设置的是一个位移而不是一个位置。如果你看到上图，你会发现中央块不需要任何移动，它已经定位在适当的坐标上。绘制绿色顶点需要在X轴上位移<strong>-1</strong>，而绘制蓝色顶点需要在X轴上位移<strong>+1</strong>。计算X位移的公式，要考虑到缩放和块的宽度，公式如下：</p>
+<p>
+<script type="math/tex; mode=display">xDisplacement=(col - (blocksPerRow -1 ) / 2) \times scale \times width</script>
+</p>
+<p>Z位移的公式为：</p>
+<p>
+<script type="math/tex; mode=display">zDisplacement=(row - (blocksPerRow -1 ) / 2) \times scale \times height</script>
+</p>
+<p>如果在<code>DummyGame</code>类中创建一个<code>Terrain</code>实例，我们可以得到如图所示的效果。</p>
+<p><img alt="地形结果" src="../_static/14/terrain_result.png" /> </p>
+<p>你可以在地形周围移动相机，看看它是如何渲染的。由于还没有实现碰撞检测，你可以穿过它并从上面看它。由于我们已经启用了面剔除，当从下面观察时，地形的某些部分不会渲染。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../15-terrain-collisions/" class="btn btn-neutral float-right" title="地形碰撞">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../13-sky-box-and-some-optimizations/" class="btn btn-neutral" title="天空盒与一些优化"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>2019, Mouse0w0</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../13-sky-box-and-some-optimizations/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../15-terrain-collisions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

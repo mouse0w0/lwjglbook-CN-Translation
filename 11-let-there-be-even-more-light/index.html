@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mouse0w0">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>要有更多的光 - Lwjglbook中文翻译</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u8981\u6709\u66f4\u591a\u7684\u5149";
+    var mkdocs_page_input_path = "11-let-there-be-even-more-light.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lwjglbook中文翻译</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../01-first-steps/">事前准备</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../02-the-game-loop/">游戏循环</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../03-a-brief-about-coordinates/">坐标简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../04-rendering/">渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../05-more-on-rendering/">渲染补充</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../06-transformations/">变换</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../07-textures/">纹理</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../08-camera/">摄像机</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../09-loading-more-complex-models/">加载更复杂的模型</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../10-let-there-be-light/">要有光</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">要有更多的光</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">平行光</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">聚光源</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">多光源</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../12-game-hud/">游戏HUD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../13-sky-box-and-some-optimizations/">天空盒与一些优化</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../14-height-maps/">高度图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../15-terrain-collisions/">地形碰撞</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../16-fog/">雾</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../17-normal-mapping/">法线贴图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../18-shadows/">阴影</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../19-animations/">动画</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../20-particles/">粒子</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../21-instanced-rendering/">实例化渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../22-audio/">音效</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../23-3d-object-picking/">三维物体选取</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../24-hud-revisited/">回顾HUD - NanoVG</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../25-optimizations-frustum-culling/">优化 - 截锥剔除</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../26-cascaded-shadow-maps/">级联阴影映射</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../27-assimp/">Assimp库</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../28-deferred-shading/">延迟着色法</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../a01-opengl-debugging/">附录 A - OpenGL调试</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../glossary/">术语表</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lwjglbook中文翻译</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>要有更多的光</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/edit/master/docs/11-let-there-be-even-more-light.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="let-there-be-even-more-light">要有更多的光（Let there be even more light）</h1>
+<p>在本章中，我们将实现在此前章节中介绍的其他类型的光。我们先从平行光开始。</p>
+<h2 id="_1">平行光</h2>
+<p>如果你回想一下，平行光从同一方向照射到所有物体上。它用来模拟遥远但光强很高的光源，比如太阳。</p>
+<p><img alt="平行光" src="../_static/11/directional_light.png" /></p>
+<p>平行光的另一个特点是它不受衰减的影响，联想太阳光，所有被阳光照射的物体都以相同的光强被照射，因为离太阳的距离太大，以至于它们之间的相对位置都是无关紧要的。事实上，平行光被模拟为位于无穷远处的光源，如果它受到衰减的影响，那么它将对任何物体都没有影响（它对物体颜色的影响将等于0）。</p>
+<p>此外，平行光也由漫反射和镜面反射分量组成，与点光源的区别在于它没有位置，但有方向，并且它不受衰减的影响。回到平行光的属性，想象我们正在模拟太阳在三维世界中运动，下图展示了黎明、正午和黄昏时的光线方向。</p>
+<p><img alt="太阳像一个平行光" src="../_static/11/sun_directional_light.png" /></p>
+<p>上图中的光线的方向为：</p>
+<ul>
+<li>黎明: <script type="math/tex">-1, 0, 0</script>
+</li>
+<li>正午: <script type="math/tex">0, 1, 0</script>
+</li>
+<li>黄昏: <script type="math/tex">1, 0, 0</script>
+</li>
+</ul>
+<p>注意：你可能认为上述坐标是位置坐标，但它们只是一个矢量，一个方向，而不是一个位置。以数学的角度来看，矢量和位置是不可分辨的，但它们有着完全不同的含义。</p>
+<p>但是，我们如何模拟这个光位于无穷远处呢？答案是使用<script type="math/tex">w</script>分量，即使用齐次坐标并将<script type="math/tex">w</script>分量设置为<script type="math/tex">0</script>。</p>
+<ul>
+<li>黎明: <script type="math/tex">-1, 0, 0, 0</script>
+</li>
+<li>正午: <script type="math/tex">0, 1, 0, 0</script>
+</li>
+<li>黄昏: <script type="math/tex">1, 0, 0, 0</script>
+</li>
+</ul>
+<p>这就如同我们在传递法线。对于法线，我们将其<script type="math/tex">w</script>分量设置为<script type="math/tex">0</script>，表示我们对其位移不感兴趣，只对方向感兴趣。此外，当我们处理平行光时，也需要这样做，摄像机的位移不应影响平行光的方向。</p>
+<p>让我们开始编码实现和模拟平行光，首先要做的是创建一个类来储存它的属性。它只是另一个普通的Java对象，其具有复制构造函数，并储存光的方向、颜色和强度。</p>
+<pre><code class="language-java">package org.lwjglb.engine.graph;
+
+import org.joml.Vector3f;
+
+public class DirectionalLight {
+
+    private Vector3f color;
+
+    private Vector3f direction;
+
+    private float intensity;
+
+    public DirectionalLight(Vector3f color, Vector3f direction, float intensity) {
+        this.color = color;
+        this.direction = direction;
+        this.intensity = intensity;
+    }
+
+    public DirectionalLight(DirectionalLight light) {
+        this(new Vector3f(light.getColor()), new Vector3f(light.getDirection()), light.getIntensity());
+    }
+
+    // 接下来是Getter和Setter...
+</code></pre>
+<p>如你所见，我们用<code>Vector3f</code>来储存方向。保持冷静，当将平行光传递到着色器时，我们将处理<script type="math/tex">w</script>分量。顺便一提，接下来要做的就是更新<code>ShaderProgram</code>来创建和更新储存平行光的Uniform。</p>
+<p>在片元着色器中，我们将定义一个结构体来模拟平行光。</p>
+<pre><code class="language-glsl">struct DirectionalLight
+{
+    vec3 colour;
+    vec3 direction;
+    float intensity;
+};
+</code></pre>
+<p>有了上述定义，<code>ShaderProgram</code>类中的新方法就很简单了。</p>
+<pre><code class="language-java">// ...
+public void createDirectionalLightUniform(String uniformName) throws Exception {
+    createUniform(uniformName + &quot;.colour&quot;);
+    createUniform(uniformName + &quot;.direction&quot;);
+    createUniform(uniformName + &quot;.intensity&quot;);
+}
+// ...
+public void setUniform(String uniformName, DirectionalLight dirLight) {
+    setUniform(uniformName + &quot;.colour&quot;, dirLight.getColor() );
+    setUniform(uniformName + &quot;.direction&quot;, dirLight.getDirection());
+    setUniform(uniformName + &quot;.intensity&quot;, dirLight.getIntensity());
+}
+</code></pre>
+<p>我们现在需要使用Uniform，通过<code>DummyGame</code>类控制太阳的角度来模拟它是如何在天上移动的。</p>
+<p><img alt="太阳的移动" src="../_static/11/sun_movement.png" /></p>
+<p>我们需要更新光的方向，所以太阳在黎明时（<script type="math/tex">-90°</script>），光线在<script type="math/tex">(-1, 0, 0)</script>方向上，其<script type="math/tex">x</script>分量从<script type="math/tex">-1</script>逐渐增加到<script type="math/tex">0</script>，<script type="math/tex">y</script>分量逐渐从<script type="math/tex">0</script>增加到<script type="math/tex">1</script>。接下来，<script type="math/tex">x</script>分量增加到<script type="math/tex">1</script>，<script type="math/tex">y</script>分量减少到<script type="math/tex">0</script>。这可以通过将<script type="math/tex">x</script>分量设置为角的正弦和将<script type="math/tex">y</script>分量设置为角的余弦来实现。</p>
+<p><img alt="正弦和余弦" src="../_static/11/sine_cosine.png" /></p>
+<p>我们也会调节光强，当它远离黎明时强度将增强，当它临近黄昏时强度将减弱。我们通过将强度设置为<script type="math/tex">0</script>来模拟夜晚。此外，我们还将调节颜色，使光在黎明和黄昏时变得更红。这将在<code>DummyGame</code>类的<code>update</code>方法中实现。</p>
+<pre><code class="language-java">// 更新平行光的方向，强度和颜色
+lightAngle += 1.1f;
+if (lightAngle &gt; 90) {
+    directionalLight.setIntensity(0);
+    if (lightAngle &gt;= 360) {
+        lightAngle = -90;
+    }
+} else if (lightAngle &lt;= -80 || lightAngle &gt;= 80) {
+    float factor = 1 - (float)(Math.abs(lightAngle) - 80)/ 10.0f;
+    directionalLight.setIntensity(factor);
+    directionalLight.getColor().y = Math.max(factor, 0.9f);
+    directionalLight.getColor().z = Math.max(factor, 0.5f);
+} else {
+    directionalLight.setIntensity(1);
+    directionalLight.getColor().x = 1;
+    directionalLight.getColor().y = 1;
+    directionalLight.getColor().z = 1;
+}
+double angRad = Math.toRadians(lightAngle);
+directionalLight.getDirection().x = (float) Math.sin(angRad);
+directionalLight.getDirection().y = (float) Math.cos(angRad);
+</code></pre>
+<p>然后，我们需要在<code>Renderer</code>类中的<code>render</code>方法中将平行光传给着色器。</p>
+<pre><code class="language-java">// 获取平行光对象的副本并将其坐标变换到观察坐标系
+DirectionalLight currDirLight = new DirectionalLight(directionalLight);
+Vector4f dir = new Vector4f(currDirLight.getDirection(), 0);
+dir.mul(viewMatrix);
+currDirLight.setDirection(new Vector3f(dir.x, dir.y, dir.z));
+shaderProgram.setUniform(&quot;directionalLight&quot;, currDirLight);
+</code></pre>
+<p>如你所见，我们需要变换光的方向到观察空间，但我们不想应用位移，所以将<script type="math/tex">w</script>分量设置为<script type="math/tex">0</script>。</p>
+<p>现在，我们已经准备好在片元着色器上完成剩下的工作了，因为顶点着色器不需要修改。此前已经说过，我们需要定义一个名为<code>DirectionalLight</code>的新结构体来模拟平行光，所以需要一个新的Uniform。</p>
+<pre><code class="language-glsl">uniform DirectionalLight directionalLight;
+</code></pre>
+<p>我们需要重构一下代码，在上一章中，我们有一个名为<code>calcPointLight</code>的函数，它计算漫反射和镜面反射分量，并应用衰减。但如上所述，平行光使用漫反射和镜面反射分量，但不受衰减影响，所以我们将创建一个名为<code>calcLightColour</code>的新函数来计算那些分量。</p>
+<pre><code class="language-glsl">vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, vec3 to_light_dir, vec3 normal)
+{
+    vec4 diffuseColour = vec4(0, 0, 0, 0);
+    vec4 specColour = vec4(0, 0, 0, 0);
+
+    // 漫反射光
+    float diffuseFactor = max(dot(normal, to_light_dir), 0.0);
+    diffuseColour = diffuseC * vec4(light_colour, 1.0) * light_intensity * diffuseFactor;
+
+    // 镜面反射光
+    vec3 camera_direction = normalize(camera_pos - position);
+    vec3 from_light_dir = -to_light_dir;
+    vec3 reflected_light = normalize(reflect(from_light_dir , normal));
+    float specularFactor = max( dot(camera_direction, reflected_light), 0.0);
+    specularFactor = pow(specularFactor, specularPower);
+    specColour = speculrC * light_intensity  * specularFactor * material.reflectance * vec4(light_colour, 1.0);
+
+    return (diffuseColour + specColour);
+}
+</code></pre>
+<p>然后，<code>calcPointLight</code>方法将衰减因数应用到上述函数计算的结果上。</p>
+<pre><code class="language-glsl">vec4 calcPointLight(PointLight light, vec3 position, vec3 normal)
+{
+    vec3 light_direction = light.position - position;
+    vec3 to_light_dir  = normalize(light_direction);
+    vec4 light_colour = calcLightColour(light.colour, light.intensity, position, to_light_dir, normal);
+
+    // 应用衰减
+    float distance = length(light_direction);
+    float attenuationInv = light.att.constant + light.att.linear * distance +
+        light.att.exponent * distance * distance;
+    return light_colour / attenuationInv;
+}
+</code></pre>
+<p>我们还将创建一个新的函数来计算平行光的效果，它只调用仅需光照方向的<code>calcLightColour</code>方法。</p>
+<pre><code class="language-glsl">vec4 calcDirectionalLight(DirectionalLight light, vec3 position, vec3 normal)
+{
+    return calcLightColour(light.colour, light.intensity, position, normalize(light.direction), normal);
+}
+</code></pre>
+<p>最后，<code>main</code>方法通过环境光和平行光的颜色分量综合起来计算片元颜色。</p>
+<pre><code class="language-glsl">void main()
+{
+    setupColours(material, outTexCoord);
+
+    vec4 diffuseSpecularComp = calcDirectionalLight(directionalLight, mvVertexPos, mvVertexNormal);
+    diffuseSpecularComp += calcPointLight(pointLight, mvVertexPos, mvVertexNormal); 
+
+    fragColor = ambientC * vec4(ambientLight, 1) + diffuseSpecularComp;
+}
+</code></pre>
+<p>就这样，现在我们可以模拟太阳在天空中的运动，如下所示（在示例代码中运动速度加快，不用等待太久就可以看到）。</p>
+<p><img alt="平行光效果" src="../_static/11/directional_light_result.png" /></p>
+<h2 id="_2">聚光源</h2>
+<p>现在我们将实现与点光源非常相似的聚光源，但是它发射的光仅限于三维圆锥体中。它模拟从焦点或任何其他不向所有方向发射光的光源。聚光源有着和点光源一样的属性，但它添加了两个新的参数，圆锥角和圆锥方向。</p>
+<p><img alt="聚光源" src="../_static/11/spot_light.png" /></p>
+<p>聚光源与点光源的计算方法相同，但有一些不同。从顶点位置到光源的矢量不在光锥内的点不受光照的影响。</p>
+<p><img alt="聚光源2" src="../_static/11/spot_light_ii.png" /></p>
+<p>该如何计算它是否在光锥内呢？我们需要在光源和圆锥方向矢量（两者都归一化了）之间再做次数量积。</p>
+<p><img alt="聚光源计算" src="../_static/11/spot_light_calc.png" /></p>
+<p>
+<script type="math/tex">L</script>和<script type="math/tex">C</script>向量之间的数量积等于：<script type="math/tex">\vec{L}\cdot\vec{C}=|\vec{L}|\cdot|\vec{C}|\cdot Cos(\alpha)</script>。在聚光源的定义中，我们储存锥角的余弦值，如果数量积高于该值，我们就知道它位于光锥内部（想想余弦图，当<script type="math/tex">α</script>角为<script type="math/tex">0</script>时，其余弦值为<script type="math/tex">1</script>。在0°~180°时，角度越小余弦值越大）。</p>
+<p>第二个不同之处是远离光锥方向的点将受到更少的光照，换句话说，衰减影响将更强。有几种计算方法，我们将选择一种简单的方法，通过将衰减与下述公式相乘：</p>
+<p>
+<script type="math/tex; mode=display">1 - (1-Cos(\alpha))/(1-Cos(cutOffAngle)</script>
+</p>
+<p>(在片元着色器中，我们没有传递角度，而是传递角度的余弦值。你可以检查上面的公式的结果是否位于0到1之间，当角度为0时，余弦值为1。)</p>
+<p>实现非常类似于其他的光源，我们需要创建一个名为<code>SpotLight</code>的类，设置适当的Uniform，将其传递给着色器并修改片元着色器以获取它。你可以查看本章的源代码。</p>
+<p>当传递Uniform时，另一件重要的事是位移不应该应用到光锥方向上，因为我们只对方向感兴趣。因此，和平行光的情况一样，当变换到观察空间坐标系时，必须将<script type="math/tex">w</script>分量设置为<script type="math/tex">0</script>。</p>
+<p><img alt="聚光源示例" src="../_static/11/spot_light_sample.png" /></p>
+<h2 id="_3">多光源</h2>
+<p>我们终于实现了四种类型的光源，但是目前每种类型的光源只能使用一个实例。这对于环境光和平行光来说没问题，但是我们确实希望使用多个点光源和聚光源。我们需要修改片元着色器来接收光源列表，所以使用数组来储存这些数据。来看看怎么实现吧。</p>
+<p>在开始之前要注意的是，在GLSL中，数组的长度必须在编译时设置，因此它必须足够大，以便在运行时能够储存所需的所有对象。首先是定义一些常量来设置要使用的最大点光源数和聚光源数。</p>
+<pre><code class="language-glsl">const int MAX_POINT_LIGHTS = 5;
+const int MAX_SPOT_LIGHTS = 5;
+</code></pre>
+<p>然后我们需要修改此前只储存一个点光源和一个聚光源的Uniform，以便使用数组。</p>
+<pre><code class="language-glsl">uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
+</code></pre>
+<p>在main函数中，我们只需要对这些数组进行迭代，以使用现有函数计算每个对象对颜色的影响。我们可能不会像Uniform数组长度那样传递很多光源，所以需要控制它。有很多可行的方法，但这可能不适用于旧的显卡。最终我们选择检查光强（在数组中的空位，光强为0）。</p>
+<pre><code class="language-glsl">for (int i=0; i&lt;MAX_POINT_LIGHTS; i++)
+{
+    if ( pointLights[i].intensity &gt; 0 )
+    {
+        diffuseSpecularComp += calcPointLight(pointLights[i], mvVertexPos, mvVertexNormal); 
+    }
+}
+
+for (int i=0; i&lt;MAX_SPOT_LIGHTS; i++)
+{
+    if ( spotLights[i].pl.intensity &gt; 0 )
+    {
+        diffuseSpecularComp += calcSpotLight(spotLights[i], mvVertexPos, mvVertexNormal);
+    }
+}
+</code></pre>
+<p>现在我们需要在<code>Render</code>类中创建这些Uniform。当使用数组时，我们需要为列表中的每个元素创建一个Uniform。例如，对于<code>pointLights</code>数组，我们需要创建名为<code>pointLights[0]</code>、<code>pointLights[1]</code>之类的Uniform。当然，这也适用于结构体属性，所以我们将创建<code>pointLights[0].colour</code>、<code>pointLights[1].colour</code>等等。创建这些Uniform的方法如下所示：</p>
+<pre><code class="language-java">public void createPointLightListUniform(String uniformName, int size) throws Exception {
+    for (int i = 0; i &lt; size; i++) {
+        createPointLightUniform(uniformName + &quot;[&quot; + i + &quot;]&quot;);
+    }
+}
+
+public void createSpotLightListUniform(String uniformName, int size) throws Exception {
+    for (int i = 0; i &lt; size; i++) {
+        createSpotLightUniform(uniformName + &quot;[&quot; + i + &quot;]&quot;);
+    }
+}
+</code></pre>
+<p>我们也需要方法来设置这些Uniform的值：</p>
+<pre><code class="language-java">public void setUniform(String uniformName, PointLight[] pointLights) {
+    int numLights = pointLights != null ? pointLights.length : 0;
+    for (int i = 0; i &lt; numLights; i++) {
+        setUniform(uniformName, pointLights[i], i);
+    }
+}
+
+public void setUniform(String uniformName, PointLight pointLight, int pos) {
+    setUniform(uniformName + &quot;[&quot; + pos + &quot;]&quot;, pointLight);
+}
+
+public void setUniform(String uniformName, SpotLight[] spotLights) {
+    int numLights = spotLights != null ? spotLights.length : 0;
+    for (int i = 0; i &lt; numLights; i++) {
+        setUniform(uniformName, spotLights[i], i);
+    }
+}
+
+public void setUniform(String uniformName, SpotLight spotLight, int pos) {
+    setUniform(uniformName + &quot;[&quot; + pos + &quot;]&quot;, spotLight);
+}
+</code></pre>
+<p>最后，我们只需要更新<code>Render</code>类来接收点光源和聚光源列表，并相应地修改<code>DummyGame</code>类以创建这些列表，最终效果如下所示。</p>
+<p><img alt="多光源" src="../_static/11/multiple_lights.png" /></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../12-game-hud/" class="btn btn-neutral float-right" title="游戏HUD">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../10-let-there-be-light/" class="btn btn-neutral" title="要有光"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>2019, Mouse0w0</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../10-let-there-be-light/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../12-game-hud/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mouse0w0">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>渲染补充 - Lwjglbook中文翻译</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u6e32\u67d3\u8865\u5145";
+    var mkdocs_page_input_path = "05-more-on-rendering.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lwjglbook中文翻译</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../01-first-steps/">事前准备</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../02-the-game-loop/">游戏循环</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../03-a-brief-about-coordinates/">坐标简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../04-rendering/">渲染</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">渲染补充</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../06-transformations/">变换</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../07-textures/">纹理</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../08-camera/">摄像机</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../09-loading-more-complex-models/">加载更复杂的模型</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../10-let-there-be-light/">要有光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../11-let-there-be-even-more-light/">要有更多的光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../12-game-hud/">游戏HUD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../13-sky-box-and-some-optimizations/">天空盒与一些优化</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../14-height-maps/">高度图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../15-terrain-collisions/">地形碰撞</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../16-fog/">雾</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../17-normal-mapping/">法线贴图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../18-shadows/">阴影</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../19-animations/">动画</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../20-particles/">粒子</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../21-instanced-rendering/">实例化渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../22-audio/">音效</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../23-3d-object-picking/">三维物体选取</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../24-hud-revisited/">回顾HUD - NanoVG</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../25-optimizations-frustum-culling/">优化 - 截锥剔除</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../26-cascaded-shadow-maps/">级联阴影映射</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../27-assimp/">Assimp库</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../28-deferred-shading/">延迟着色法</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../a01-opengl-debugging/">附录 A - OpenGL调试</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../glossary/">术语表</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lwjglbook中文翻译</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>渲染补充</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/edit/master/docs/05-more-on-rendering.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="more-on-rendering">渲染补充（More on Rendering）</h1>
+<p>本章我们将继续讲述OpenGL如何渲染物体。为了整理代码，我们要创建一个名为<code>Mesh</code>的新类，把一个位置数组作为输入，为需要加载到显卡中的模型创建VBO和VAO对象。</p>
+<pre><code class="language-java">package org.lwjglb.engine.graph;
+
+import java.nio.FloatBuffer;
+import org.lwjgl.system.MemoryUtil;
+
+import static org.lwjgl.opengl.GL30.*;
+
+public class Mesh {
+
+    private final int vaoId;
+
+    private final int vboId;
+
+    private final int vertexCount;
+
+    public Mesh(float[] positions) {
+        FloatBuffer verticesBuffer = null;
+        try {
+            verticesBuffer = MemoryUtil.memAllocFloat(positions.length);
+            vertexCount = positions.length / 3;
+            verticesBuffer.put(positions).flip();
+
+            vaoId = glGenVertexArrays();
+            glBindVertexArray(vaoId);
+
+            vboId = glGenBuffers();
+            glBindBuffer(GL_ARRAY_BUFFER, vboId);
+            glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);    
+            glEnableVertexAttribArray(0);        
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            glBindVertexArray(0);         
+        } finally {
+            if (verticesBuffer  != null) {
+                MemoryUtil.memFree(verticesBuffer);
+            }
+        }
+    }
+
+    public int getVaoId() {
+        return vaoId;
+    }
+
+    public int getVertexCount() {
+        return vertexCount;
+    }
+
+    public void cleanUp() {
+        glDisableVertexAttribArray(0);
+
+        // 删除VBO
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDeleteBuffers(vboId);
+
+        // 删除VAO
+        glBindVertexArray(0);
+        glDeleteVertexArrays(vaoId);
+    }
+}
+</code></pre>
+<p>我们将在<code>DummyGame</code>类中实例化<code>Mesh</code>，然后将<code>Renderer</code>的<code>init</code>方法中的VAO和VBO代码删除。在<code>Renderer</code>类的渲染方法中将接收一个<code>Mesh</code>对象来渲染。<code>cleanup</code>方法也被简化，因为<code>Mesh</code>类已经提供了一个释放VAO和VBO资源的方法。</p>
+<pre><code class="language-java">public void render(Mesh mesh) {
+    clear();
+
+    if ( window.isResized() ) {
+        glViewport(0, 0, window.getWidth(), window.getHeight());
+        window.setResized(false);
+    }
+
+    shaderProgram.bind();
+
+    // 绘制
+    glBindVertexArray(mesh.getVaoId());
+    glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount());
+
+    // 还原状态
+    glBindVertexArray(0);
+
+    shaderProgram.unbind();
+}
+
+public void cleanup() {
+    if (shaderProgram != null) {
+        shaderProgram.cleanup();
+    }
+}
+</code></pre>
+<p>值得注意的一点是：</p>
+<pre><code class="language-java">glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount());
+</code></pre>
+<p><code>Mesh</code>类通过将位置数组除以3来计算顶点的数目（因为我们使用X，Y和Z坐标）。现在，我们可以渲染更复杂的形状。来试试渲染一个正方形，一个正方形可以用两个三角形来组成，如图所示：</p>
+<p><img alt="正方形坐标" src="../_static/05/quad_coordinates.png" /></p>
+<p>如你所见，这两个三角形中的每一个都由三个顶点组成。第一个三角形由顶点V1、V2和V4（橙色的点）组成，第二个三角形由顶点V4，V2和V3（绿色的点）组成。顶点以逆时针顺序连接，因此要传递的浮点数数组应该是[V1, V2, V4, V4, V2, V3]。因此，<code>DummyGame</code>的<code>init</code>方法将是这样的：</p>
+<pre><code class="language-java">@Override
+public void init() throws Exception {
+    renderer.init();
+    float[] positions = new float[]{
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+    };
+    mesh = new Mesh(positions);
+}
+</code></pre>
+<p>现在你应该可以看到这样的一个正方形：</p>
+<p><img alt="正方形渲染" src="../_static/05/quad_rendered.png" /></p>
+<p>我们做完了吗？并没有，上述代码仍存在一些问题。我们使用了重复的坐标来表示正方形，传递了两次V2和V4坐标。这是个小图形，它可能不是什么大问题，但想象在一个更复杂的3D模型中，我们会多次重复传递坐标。记住，我们使用三个浮点数表示顶点的位置，但此后将需要更多的数据来表示纹理等。考虑到在更复杂的形状中，三角形直接共享的顶点数量甚至更高，如图所示（其顶点可以在六个三角形之间共享）：</p>
+<p><img alt="海豚" src="../_static/05/dolphin.png" /></p>
+<p>最后，我们需要更多的内存来储存重复的数据，这就是索引缓冲区（Index Buffer）大显身手的时候。为了绘制正方形，我们只需要以这样的方式指定每个顶点：V1, V2, V3, V4。每个顶点在数组中都有一个位置。V1在位置0上，V2在位置1上，等等：</p>
+<table>
+<thead>
+<tr>
+<th>V1</th>
+<th>V2</th>
+<th>V3</th>
+<th>V4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>然后，我们通过引用它们的位置来指定这些顶点的顺序：</p>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>3</th>
+<th>3</th>
+<th>1</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1</td>
+<td>V2</td>
+<td>V4</td>
+<td>V4</td>
+<td>V2</td>
+<td>V3</td>
+</tr>
+</tbody>
+</table>
+<p>因此，我们需要修改<code>Mesh</code>类来接收另一个参数，一个索引数组，现在绘制的顶点数量是该索引数组的长度。</p>
+<pre><code class="language-java">public Mesh(float[] positions, int[] indices) {
+    vertexCount = indices.length;
+</code></pre>
+<p>在创建了储存位置的VBO之后，我们需要创建另一个VBO来储存索引。因此，重命名储存位置的VBO的ID的变量名，并为索引VBO（<code>idxVboId</code>）创建一个ID。创建VBO的过程相似，但现在的类型是<code>GL_ELEMENT_ARRAY_BUFFER</code>。</p>
+<pre><code class="language-java">idxVboId = glGenBuffers();
+indicesBuffer = MemoryUtil.memAllocInt(indices.length);
+indicesBuffer.put(indices).flip();
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVboId);
+glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
+memFree(indicesBuffer);
+</code></pre>
+<p>因为我们是在处理整数，所以需要创建一个<code>IntBuffer</code>而不是一个<code>FloatBuffer</code>。</p>
+<p>就是这样。现在VAO包含两个VBO，一个储存位置，另一个储存索引。<code>Mesh</code>类的<code>cleanUp</code>方法也必须考虑到要释放另一个VBO。</p>
+<pre><code class="language-java">public void cleanUp() {
+    glDisableVertexAttribArray(0);
+
+    // 删除 VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDeleteBuffers(posVboId);
+    glDeleteBuffers(idxVboId);
+
+    // 删除 VAO
+    glBindVertexArray(0);
+    glDeleteVertexArrays(vaoId);
+}
+</code></pre>
+<p>最后，我们需要修改在绘制时调用的<code>glDrawArrays</code>方法：</p>
+<pre><code class="language-java">glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount());
+</code></pre>
+<p>改为调用<code>glDrawElements</code>方法：</p>
+<pre><code class="language-java">glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
+</code></pre>
+<p>方法的参数如下：
+* mode: 指定渲染的图元类型，现在是三角形，没有变化。
+* count: 指定要渲染的顶点数。
+* type: 指定索引数据的类型，现在是无符号整数型。
+* indices: 指定要开始使用索引渲染的数据偏移量。</p>
+<p>现在可以使用全新和更有效的方法来绘制复杂的模型了，仅需指定索引。</p>
+<pre><code class="language-java">public void init() throws Exception {
+    renderer.init();
+    float[] positions = new float[]{
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+    };
+    int[] indices = new int[]{
+        0, 1, 3, 3, 1, 2,
+    };
+    mesh = new Mesh(positions, indices);
+}
+</code></pre>
+<p>现在为示例代码添加颜色吧。我们把另一组浮点数传递给<code>Mesh</code>类，它储存了正方形中每个顶点的颜色。</p>
+<pre><code class="language-java">public Mesh(float[] positions, float[] colours, int[] indices) {
+</code></pre>
+<p>为了使用该数组，我们需要创建另一个VBO，它将与我们的VAO相关联。</p>
+<pre><code class="language-java">// 颜色 VBO
+colourVboId = glGenBuffers();
+FloatBuffer colourBuffer = memAllocFloat(colours.length);
+colourBuffer.put(colours).flip();
+glBindBuffer(GL_ARRAY_BUFFER, colourVboId);
+glBufferData(GL_ARRAY_BUFFER, colourBuffer, GL_STATIC_DRAW);
+glEnableVertexAttribArray(1);
+glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+</code></pre>
+<p>请注意<code>glVertexAttribPointer</code>方法的调用，第一个参数现在是“1”，这是着色器期望数据的位置。（当然，由于增加了一个VBO，我们需要在<code>cleanUp</code>方法中释放它）。可以看到，我们需要在渲染期间启用位置1处的VAO属性。</p>
+<p>接下来是修改着色器。顶点着色器现在需要两个参数，坐标（位置0）和颜色（位置1）。顶点着色器将只输出接收到的颜色，以便片元着色器可以对其进行处理。</p>
+<pre><code class="language-glsl">#version 330
+
+layout (location=0) in vec3 position;
+layout (location=1) in vec3 inColour;
+
+out vec3 exColour;
+
+void main()
+{
+    gl_Position = vec4(position, 1.0);
+    exColour = inColour;
+}
+</code></pre>
+<p>现在，片元着色器接收由顶点着色器处理的颜色，并使用它来生成颜色。</p>
+<pre><code class="language-glsl">#version 330
+
+in  vec3 exColour;
+out vec4 fragColor;
+
+void main()
+{
+    fragColor = vec4(exColour, 1.0);
+}
+</code></pre>
+<p>最后要做的是修改渲染代码以使用第二个数据数组：</p>
+<p>我们现在可以将如下所示的颜色数组传递给<code>Mesh</code>类，为正方形添加一些颜色。</p>
+<pre><code class="language-java">float[] colours = new float[]{
+    0.5f, 0.0f, 0.0f,
+    0.0f, 0.5f, 0.0f,
+    0.0f, 0.0f, 0.5f,
+    0.0f, 0.5f, 0.5f,
+};
+</code></pre>
+<p>然后会得到一个色彩鲜艳的正方形。</p>
+<p><img alt="色彩鲜艳的正方形" src="../_static/05/coloured_quad.png" /></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../06-transformations/" class="btn btn-neutral float-right" title="变换">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../04-rendering/" class="btn btn-neutral" title="渲染"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>2019, Mouse0w0</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../04-rendering/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../06-transformations/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

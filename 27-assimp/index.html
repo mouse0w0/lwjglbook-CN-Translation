@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mouse0w0">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Assimp库 - Lwjglbook中文翻译</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Assimp\u5e93";
+    var mkdocs_page_input_path = "27-assimp.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lwjglbook中文翻译</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../01-first-steps/">事前准备</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../02-the-game-loop/">游戏循环</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../03-a-brief-about-coordinates/">坐标简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../04-rendering/">渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../05-more-on-rendering/">渲染补充</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../06-transformations/">变换</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../07-textures/">纹理</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../08-camera/">摄像机</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../09-loading-more-complex-models/">加载更复杂的模型</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../10-let-there-be-light/">要有光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../11-let-there-be-even-more-light/">要有更多的光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../12-game-hud/">游戏HUD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../13-sky-box-and-some-optimizations/">天空盒与一些优化</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../14-height-maps/">高度图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../15-terrain-collisions/">地形碰撞</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../16-fog/">雾</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../17-normal-mapping/">法线贴图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../18-shadows/">阴影</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../19-animations/">动画</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../20-particles/">粒子</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../21-instanced-rendering/">实例化渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../22-audio/">音效</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../23-3d-object-picking/">三维物体选取</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../24-hud-revisited/">回顾HUD - NanoVG</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../25-optimizations-frustum-culling/">优化 - 截锥剔除</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../26-cascaded-shadow-maps/">级联阴影映射</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Assimp库</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">静态网格</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">动画</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../28-deferred-shading/">延迟着色法</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../a01-opengl-debugging/">附录 A - OpenGL调试</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../glossary/">术语表</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lwjglbook中文翻译</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Assimp库</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/edit/master/docs/27-assimp.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="assimpassimp">Assimp库（Assimp）</h1>
+<h2 id="_1">静态网格</h2>
+<p>加载不同格式的复杂三维模型的功能对于编写游戏至关重要，为其中一些编写解析器需要大量的工作，即便只支持一种格式也可能很耗时。例如，在第九章中描述的wavefront加载器只解析了规范中的一小部分（根本不处理材质）。</p>
+<p>幸运的是，已经可以使用<a href="http://assimp.sourceforge.net/">Assimp</a>库来解析许多常见的3D格式。它是一个C++库，可以以各种格式加载静态和动画模型。LWJGL提供了绑定以便从Java代码中使用它们。在本章中，我们将学习如何使用它。</p>
+<p>首先是将Assimp的Maven依赖项添加到<code>pom.xml</code>文件中。我们需要添加编译时和运行时依赖项。</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.lwjgl&lt;/groupId&gt;
+    &lt;artifactId&gt;lwjgl-assimp&lt;/artifactId&gt;
+    &lt;version&gt;${lwjgl.version}&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.lwjgl&lt;/groupId&gt;
+    &lt;artifactId&gt;lwjgl-assimp&lt;/artifactId&gt;
+    &lt;version&gt;${lwjgl.version}&lt;/version&gt;
+    &lt;classifier&gt;${native.target}&lt;/classifier&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>一旦设置了依赖项，我们将创建一个名为<code>StaticMeshesLoader</code>的新类，该类将用于加载不带动画的网格，该类定义了两个静态公共方法：</p>
+<pre><code class="language-java">public static Mesh[] load(String resourcePath, String texturesDir) throws Exception {
+    return load(resourcePath, texturesDir, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
+}
+
+public static Mesh[] load(String resourcePath, String texturesDir, int flags) throws Exception {
+    // ....
+</code></pre>
+<p>两种方法都有以下参数：
+* <code>resourcePath</code>：模型文件所在的文件路径。这是一个绝对路径，因为Assimp可能需要加载其他文件（例如wavefront、OBJ等文件的材质文件），并且可能使用与资源路径相同的基路径。如果将资源嵌入JAR文件中，那么assimp将无法导入它，因此它必须是文件系统路径。
+* <code>texturesDir</code>：保存此模型的文件夹路径。这是CLASSPATH的相对路径。例如，wavefront材质文件可以定义多个纹理文件。代码希望此文件位于<code>texturesDir</code>目录下。如果发现纹理加载错误，可能需要在模型文件中手动调整这些路径。</p>
+<p>第二个方法有一个名为<code>flags</code>的额外参数。此参数允许调整加载过程。第一个方法调用第二个方法，并传递一些在大多数情况下都有用的值：
+* <code>aiProcess_JoinIdenticalVertices</code>：此标记将减少使用的顶点数，识别可在面之间重用的顶点。
+* <code>aiProcess_Triangulate</code>：模型可以使用四边形或其他几何图形来定义它们的元素。由于我们只处理三角形，因此必须使用此标记将所有的面拆分为三角形（如果有必要的话）。
+* <code>aiProcess_FixInfacingNormals</code>：此标记将尝试反转可能指向内部的法线。</p>
+<p>还有许多其他标记可以使用，你可以在LWJGL的Javadoc文档中查阅它们。</p>
+<p>回看到第二个载入方法，我们要做的第一件事是调用<code>aiImportFile</code>方法来加载带有所选标记的模型。</p>
+<pre><code class="language-java">AIScene aiScene = aiImportFile(resourcePath, flags);
+if (aiScene == null) {
+    throw new Exception(&quot;Error loading model&quot;);
+}
+</code></pre>
+<p>载入方法的其余代码如下所示：</p>
+<pre><code class="language-java">int numMaterials = aiScene.mNumMaterials();
+PointerBuffer aiMaterials = aiScene.mMaterials();
+List&lt;Material&gt; materials = new ArrayList&lt;&gt;();
+for (int i = 0; i &lt; numMaterials; i++) {
+    AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));
+    processMaterial(aiMaterial, materials, texturesDir);
+}
+
+int numMeshes = aiScene.mNumMeshes();
+PointerBuffer aiMeshes = aiScene.mMeshes();
+Mesh[] meshes = new Mesh[numMeshes];
+for (int i = 0; i &lt; numMeshes; i++) {
+    AIMesh aiMesh = AIMesh.create(aiMeshes.get(i));
+    Mesh mesh = processMesh(aiMesh, materials);
+    meshes[i] = mesh;
+}
+
+return meshes;
+</code></pre>
+<p>我们处理模型中包含的材质，材质定义组成模型的网格使用的颜色和纹理。然后我们处理不同的网格，模型可以定义多个网格，每个网格都可以使用为模型定义的一种材质。</p>
+<p>如果你看到上面的代码，你可能会看到很多对Assimp库的调用返回的<code>PointerBuffer</code>实例。你可以用C指针那样的方式看待它们，它们只是指向储存数据的内存区域。你需要提前知道它们储存的数据类型，以便处理它们。对于材质，我们迭代该缓冲区，创建<code>AIMaterial</code>类的实例。在第二种情况下，我们迭代储存网格数据的缓冲区，创建<code>AIMesh</code>类的实例。</p>
+<p>让我们看看<code>processMaterial</code>方法：</p>
+<pre><code class="language-java">private static void processMaterial(AIMaterial aiMaterial, List&lt;Material&gt; materials, String texturesDir) throws Exception {
+    AIColor4D colour = AIColor4D.create();
+
+    AIString path = AIString.calloc();
+    Assimp.aiGetMaterialTexture(aiMaterial, aiTextureType_DIFFUSE, 0, path, (IntBuffer) null, null, null, null, null, null);
+    String textPath = path.dataString();
+    Texture texture = null;
+    if (textPath != null &amp;&amp; textPath.length() &gt; 0) {
+        TextureCache textCache = TextureCache.getInstance();
+        texture = textCache.getTexture(texturesDir + &quot;/&quot; + textPath);
+    }
+
+    Vector4f ambient = Material.DEFAULT_COLOUR;
+    int result = aiGetMaterialColor(aiMaterial, AI_MATKEY_COLOR_AMBIENT, aiTextureType_NONE, 0, colour);
+    if (result == 0) {
+        ambient = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
+    }
+
+    Vector4f diffuse = Material.DEFAULT_COLOUR;
+    result = aiGetMaterialColor(aiMaterial, AI_MATKEY_COLOR_DIFFUSE, aiTextureType_NONE, 0, colour);
+    if (result == 0) {
+        diffuse = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
+    }
+
+    Vector4f specular = Material.DEFAULT_COLOUR;
+    result = aiGetMaterialColor(aiMaterial, AI_MATKEY_COLOR_SPECULAR, aiTextureType_NONE, 0, colour);
+    if (result == 0) {
+        specular = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
+    }
+
+    Material material = new Material(ambient, diffuse, specular, 1.0f);
+    material.setTexture(texture);
+    materials.add(material);
+}
+</code></pre>
+<p>我们检查材质是否定义了纹理。如果有，我们加载纹理。我们创建了一个名为<code>TextureCache</code>的新类，用于缓存纹理。这是因为几个网格可能共享相同的纹理，我们不想浪费空间一次又一次加载相同的数据。然后我们尝试获得环境、漫反射和镜面反射的材质颜色分量。幸运的是，我们对材质的定义已经包含了这些信息。</p>
+<p><code>TextureCache</code>的定义非常简单，它只是一个映射，通过纹理文件的路径对不同的纹理进行索引（你可以直接查看源代码）。由于现在纹理可能使用不同的图像格式（PNG、JPEG等），我们已经修改了纹理的加载方式，现在使用STB库来加载更多的格式，而不是使用PNG库。</p>
+<p>让我们看到<code>StaticMeshesLoader</code>类。<code>processMesh</code>的定义如下：</p>
+<pre><code class="language-java">private static Mesh processMesh(AIMesh aiMesh, List&lt;Material&gt; materials) {
+    List&lt;Float&gt; vertices = new ArrayList&lt;&gt;();
+    List&lt;Float&gt; textures = new ArrayList&lt;&gt;();
+    List&lt;Float&gt; normals = new ArrayList&lt;&gt;();
+    List&lt;Integer&gt; indices = new ArrayList();
+
+    processVertices(aiMesh, vertices);
+    processNormals(aiMesh, normals);
+    processTextCoords(aiMesh, textures);
+    processIndices(aiMesh, indices);
+
+    Mesh mesh = new Mesh(Utils.listToArray(vertices),
+        Utils.listToArray(textures),
+        Utils.listToArray(normals),
+        Utils.listIntToArray(indices)
+    );
+    Material material;
+    int materialIdx = aiMesh.mMaterialIndex();
+    if (materialIdx &gt;= 0 &amp;&amp; materialIdx &lt; materials.size()) {
+        material = materials.get(materialIdx);
+    } else {
+        material = new Material();
+    }
+    mesh.setMaterial(material);
+
+    return mesh;
+}
+</code></pre>
+<p><code>Mesh</code>由一组顶点位置、法线方向、纹理坐标和索引定义。每个元素都在<code>processVertices</code>、<code>processNormals</code>、<code>processTextCoords</code>和<code>processIndices</code>方法中处理，网格也可以使用其索引指向材质。如果索引与之前处理的材质相对应，我们只需将它们与<code>Mesh</code>相关联。</p>
+<p><code>processXXX</code>方法非常简单，它们只是在返回所需数据的<code>AIMesh</code>实例上调用相应的方法。例如，<code>processVertices</code>的定义如下：</p>
+<pre><code class="language-java">private static void processVertices(AIMesh aiMesh, List&lt;Float&gt; vertices) {
+    AIVector3D.Buffer aiVertices = aiMesh.mVertices();
+    while (aiVertices.remaining() &gt; 0) {
+        AIVector3D aiVertex = aiVertices.get();
+        vertices.add(aiVertex.x());
+        vertices.add(aiVertex.y());
+        vertices.add(aiVertex.z());
+    }
+}
+</code></pre>
+<p>你可以看到，我们只是通过调用<code>mVertices</code>方法来获取顶点的缓冲区，简单地处理它们来创建一个储存顶点位置的浮点数列表。因为，该方法只返回一个缓冲区，你可以将该数据直接传给创建顶点的OpenGL方法。但我们不这样做，原因有两个。第一个原因是尽量减少对代码库的修改，第二个原因是，通过加载数据到中间层中，你可以执行一些专门的处理任务，甚至调试加载过程。</p>
+<p>如果你想要一个更有效的示例，即直接将缓冲区传给OpenGL，可以查看这个<a href="https://github.com/LWJGL/lwjgl3-demos/blob/master/src/org/lwjgl/demo/opengl/assimp/WavefrontObjDemo.java">例子</a>。</p>
+<p><code>StaticMeshesLoader</code>类让<code>OBJLoader</code>类过时了，因此它已经从源代码中删除。一个更复杂的OBJ文件已经作为示例提供，如果运行它，你将看到如下内容：</p>
+<p><img alt="模型" src="../_static/27/model.png" /></p>
+<h2 id="_2">动画</h2>
+<p>现在我们已经使用Assimp加载了静态网格，可以继续讲解动画。如果你回想动画一章，与网格关联的VAO包含顶点位置、纹理坐标、索引和应应用于关节位置以调整最终顶点位置的权重列表。</p>
+<p><img alt="VAO动画" src="../_static/27/vao_animation.png" /></p>
+<p>每个顶点位置都关联了一个改变最终位置的四个权重的列表，引用了将组合以确定顶点最终位置的骨骼索引。在每一帧，一个变换矩阵列表将被作为Uniform加载到每个关节。根据这些数据，算出最终位置。</p>
+<p>在动画一章中，我们开发了一个MD5解析器来加载动画网格。在本章中，我们将使用Assimp库。这将允许我们加载MD5之外的更多格式，例如<a href="https://en.wikipedia.org/wiki/COLLADA" title="COLLADA">COLLADA</a>，<a href="https://en.wikipedia.org/wiki/FBX" title="FBX">FBX</a>等。</p>
+<p>在开始编码之前，让我们理清一些术语。在本章中，我们将不加区分地提到骨骼和关节。骨骼或者关节都只是影响顶点的元素，并且具有形成层次的父级。MD5格式使用术语关节，而Assimp使用术语骨骼。</p>
+<p>让我们先看一下由Assimp处理的储存着动画信息的结构。我们将首先从骨骼和权重数据开始。对于每个网格，我们可以访问顶点位置、纹理坐标和索引。网格还储存着骨骼列表，每个骨骼由以下属性定义：</p>
+<ul>
+<li>一个名字。</li>
+<li>一个偏移矩阵：稍后将用它来计算每个骨骼应该使用的最终变换。</li>
+</ul>
+<p>骨骼还指向一个权重列表，每个权重由以下属性定义：</p>
+<ul>
+<li>一个权重因子，即用于调节与每个顶点相关的骨骼变换影响的数字。</li>
+<li>一个顶点标识符，即与当前骨骼相关联的顶点。</li>
+</ul>
+<p>下图展现了所有这些元素之间的关系。</p>
+<p><img alt="网格、骨骼、权重和顶点之间的关系" src="../_static/27/mesh_bones_weights_vertices.png" /></p>
+<p>因此，我们首先要做的事是从上述的结构构造顶点位置、骨骼/关节/索引和相关权重的列表。完成后，我们需要为模型中定一个所有动画帧预先计算每个骨骼/关节的变换矩阵。</p>
+<p>Assimp场景对象是定义节点的层次结构，每个节点都由一个名词和一个子节点列表定义。动画使用这些节点来定义应该应用的变换，这个层次结构实际上定义了骨骼的层次结构。每个骨骼都是一个节点，并且有一个父节点（根节点除外），可能还有一组子节点。有一些特殊的节点不是骨骼，它们用于对变换进行分组，在计算变换时进行处理。另一个问题是，这些节点的层次结构是基于整个模型定义的，对于每个网格，我们没有单独的层次结构。</p>
+<p>场景还定义了一组动画。一个模型可以有多个动画，可以对模型做行走、跑动等动画。每个动画定义了不同的变换。动画具有以下属性：</p>
+<ul>
+<li>一个名字。</li>
+<li>持续时间。即动画的持续时间，由于动画是应用于每个不同帧的每个节点的变换列表，因此名称可能看起来很混乱。</li>
+<li>一个动画通道（Animation Channel）的列表。动画通道储存应应用于每个节点的特定时间点的位移、旋转和缩放数据，模型中储存动画通道数据的类是<code>AINodeAnim</code>。</li>
+</ul>
+<p>下图展示了上述所有元素之间的关系：</p>
+<p><img alt="节点动画" src="../_static/27/node_animations.png" /></p>
+<p>对于特定的时刻，或者说对于帧，要应用到骨骼的变换是在动画通道中为该时刻定义的变换，乘以所有父节点到根节点的变换。因此，我们需要对场景中存储的信息进行重新排序，流程如下：</p>
+<ul>
+<li>构造节点层次结构。</li>
+<li>对每个动画，迭代每个动画通道（对每个动画节点）：为所有帧构造变换矩阵。变换矩阵是位移、旋转和缩放矩阵的组合。</li>
+<li>重新排列每一帧的信息：构造要应用于网格中每个骨骼的最终变换。这是通过将骨骼的变换矩阵（相关节点的变换矩阵）乘以所有父节点的变换矩阵直到根节点来实现的。</li>
+</ul>
+<p>让我们开始编码吧。首先将创建一个名为<code>AnimMeshesLoader</code>的类，它由<code>StaticMeshesLoader</code>扩展，但它不返回网格数组，而是返回一个<code>AnimGameItem</code>实例。它定义了两个公共方法：</p>
+<pre><code class="language-java">public static AnimGameItem loadAnimGameItem(String resourcePath, String texturesDir)
+        throws Exception {
+    return loadAnimGameItem(resourcePath, texturesDir,
+            aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices | aiProcess_Triangulate
+            | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights);
+}
+
+public static AnimGameItem loadAnimGameItem(String resourcePath, String texturesDir, int flags)
+        throws Exception {
+    AIScene aiScene = aiImportFile(resourcePath, flags);
+    if (aiScene == null) {
+        throw new Exception(&quot;Error loading model&quot;);
+    }
+
+    int numMaterials = aiScene.mNumMaterials();
+    PointerBuffer aiMaterials = aiScene.mMaterials();
+    List&lt;Material&gt; materials = new ArrayList&lt;&gt;();
+    for (int i = 0; i &lt; numMaterials; i++) {
+        AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));
+        processMaterial(aiMaterial, materials, texturesDir);
+    }
+
+    List&lt;Bone&gt; boneList = new ArrayList&lt;&gt;();
+    int numMeshes = aiScene.mNumMeshes();
+    PointerBuffer aiMeshes = aiScene.mMeshes();
+    Mesh[] meshes = new Mesh[numMeshes];
+    for (int i = 0; i &lt; numMeshes; i++) {
+        AIMesh aiMesh = AIMesh.create(aiMeshes.get(i));
+        Mesh mesh = processMesh(aiMesh, materials, boneList);
+        meshes[i] = mesh;
+    }
+
+    AINode aiRootNode = aiScene.mRootNode();
+    Matrix4f rootTransfromation = AnimMeshesLoader.toMatrix(aiRootNode.mTransformation());
+    Node rootNode = processNodesHierarchy(aiRootNode, null);
+    Map&lt;String, Animation&gt; animations = processAnimations(aiScene, boneList, rootNode, rootTransfromation);
+    AnimGameItem item = new AnimGameItem(meshes, animations);
+
+    return item;
+}
+</code></pre>
+<p>这些方法与<code>StaticMeshesLoader</code>中定义的方法非常相似，但有如下区别：</p>
+<ul>
+<li>传递默认加载标记的方法使用了新参数：<code>aiProcess_LimitBoneWeights</code>。这将会将影响顶点的最大权重数限制为4（这也是我们当前在动画章节中支持的最大值）。</li>
+<li>实际加载模型的方法只加载不同的网格，但它首先计算节点层次结构，然后在结尾调用<code>processAnimations</code>以生成<code>AnimGameItem</code>实例。</li>
+</ul>
+<p><code>processMesh</code>方法与<code>StaticMeshesLoader</code>类中的方法非常相似，只是它创建的网格将关节索引和权重作为参数传递：</p>
+<pre><code class="language-java">processBones(aiMesh, boneList, boneIds, weights);
+
+Mesh mesh = new Mesh(Utils.listToArray(vertices), Utils.listToArray(textures),
+    Utils.listToArray(normals), Utils.listIntToArray(indices),
+    Utils.listIntToArray(boneIds), Utils.listToArray(weights));
+</code></pre>
+<p>关节索引和权重按<code>processBones</code>方法计算：</p>
+<pre><code class="language-java">private static void processBones(AIMesh aiMesh, List&lt;Bone&gt; boneList, List&lt;Integer&gt; boneIds,
+        List&lt;Float&gt; weights) {
+    Map&lt;Integer, List&lt;VertexWeight&gt;&gt; weightSet = new HashMap&lt;&gt;();
+    int numBones = aiMesh.mNumBones();
+    PointerBuffer aiBones = aiMesh.mBones();
+    for (int i = 0; i &lt; numBones; i++) {
+        AIBone aiBone = AIBone.create(aiBones.get(i));
+        int id = boneList.size();
+        Bone bone = new Bone(id, aiBone.mName().dataString(), toMatrix(aiBone.mOffsetMatrix()));
+        boneList.add(bone);
+        int numWeights = aiBone.mNumWeights();
+        AIVertexWeight.Buffer aiWeights = aiBone.mWeights();
+        for (int j = 0; j &lt; numWeights; j++) {
+            AIVertexWeight aiWeight = aiWeights.get(j);
+            VertexWeight vw = new VertexWeight(bone.getBoneId(), aiWeight.mVertexId(),
+                    aiWeight.mWeight());
+            List&lt;VertexWeight&gt; vertexWeightList = weightSet.get(vw.getVertexId());
+            if (vertexWeightList == null) {
+                vertexWeightList = new ArrayList&lt;&gt;();
+                weightSet.put(vw.getVertexId(), vertexWeightList);
+            }
+            vertexWeightList.add(vw);
+        }
+    }
+
+    int numVertices = aiMesh.mNumVertices();
+    for (int i = 0; i &lt; numVertices; i++) {
+        List&lt;VertexWeight&gt; vertexWeightList = weightSet.get(i);
+        int size = vertexWeightList != null ? vertexWeightList.size() : 0;
+        for (int j = 0; j &lt; Mesh.MAX_WEIGHTS; j++) {
+            if (j &lt; size) {
+                VertexWeight vw = vertexWeightList.get(j);
+                weights.add(vw.getWeight());
+                boneIds.add(vw.getBoneId());
+            } else {
+                weights.add(0.0f);
+                boneIds.add(0);
+            }
+        }
+    }
+}
+</code></pre>
+<p>此方法遍历特定网格的骨骼定义，获取其权重并生成三个列表：</p>
+<ul>
+<li><code>boneList</code>：储存节点及其偏移矩阵的列表。稍后将使用它来计算节点变换。已创建一个名为<code>Bone</code>的新类来储存该信息。此列表将储存所有网格的骨骼。</li>
+<li><code>boneIds</code>：只储存包含<code>Mesh</code>的每个顶点的骨骼标识。骨骼在渲染时根据其位置进行标识，此列表仅包含特定网格的骨骼。</li>
+<li><code>weights</code>：储存要应用于关联骨骼的<code>Mesh</code>的每个顶点的权重。</li>
+</ul>
+<p><code>weights</code>和<code>boneIds</code>中储存的数据用于构造<code>Mesh</code>数据。<code>boneList</code>中储存的数据将在稍后计算动画数据时使用。</p>
+<p>让我们回到<code>loadAnimGameItem</code>方法。一旦我们创建了网格，还得到了应用于根节点的变换，该变换也将用于计算最终的变换。之后，我们需要处理节点的层次结构，这是在<code>processNodesHierarchy</code>方法中完成的。这个方法非常简单，它只是从根节点开始遍历节点层次结构，构造一个节点树。</p>
+<pre><code class="language-java">private static Node processNodesHierarchy(AINode aiNode, Node parentNode) {
+    String nodeName = aiNode.mName().dataString();
+    Node node = new Node(nodeName, parentNode);
+
+    int numChildren = aiNode.mNumChildren();
+    PointerBuffer aiChildren = aiNode.mChildren();
+    for (int i = 0; i &lt; numChildren; i++) {
+        AINode aiChildNode = AINode.create(aiChildren.get(i));
+        Node childNode = processNodesHierarchy(aiChildNode, node);
+        node.addChild(childNode);
+    }
+
+    return node;
+}
+</code></pre>
+<p>我们已经创建了一个新的<code>Node</code>类，该类将储存<code>AINode</code>实例的相关信息，并提供了查找方法来定位节点层次结构，以便按名称查找节点。回到<code>loadAnimGameItem</code>方法，我们只使用该数据计算<code>processAnimations</code>方法中的动画。该方法返回<code>Animation</code>实例的<code>Map</code>。请记住，一个模型可以有多个动画，因此它们按名称储存索引。有了这些数据，我们终于可以构建一个<code>AnimAgameItem</code>实例。</p>
+<p><code>processAnimations</code>方法的定义如下所示：</p>
+<pre><code class="language-java">private static Map&lt;String, Animation&gt; processAnimations(AIScene aiScene, List&lt;Bone&gt; boneList,
+        Node rootNode, Matrix4f rootTransformation) {
+    Map&lt;String, Animation&gt; animations = new HashMap&lt;&gt;();
+
+    // 处理所有动画
+    int numAnimations = aiScene.mNumAnimations();
+    PointerBuffer aiAnimations = aiScene.mAnimations();
+    for (int i = 0; i &lt; numAnimations; i++) {
+        AIAnimation aiAnimation = AIAnimation.create(aiAnimations.get(i));
+
+        // 为每个节点计算变换矩阵
+        int numChanels = aiAnimation.mNumChannels();
+        PointerBuffer aiChannels = aiAnimation.mChannels();
+        for (int j = 0; j &lt; numChanels; j++) {
+            AINodeAnim aiNodeAnim = AINodeAnim.create(aiChannels.get(j));
+            String nodeName = aiNodeAnim.mNodeName().dataString();
+            Node node = rootNode.findByName(nodeName);
+            buildTransFormationMatrices(aiNodeAnim, node);
+        }
+
+        List&lt;AnimatedFrame&gt; frames = buildAnimationFrames(boneList, rootNode, rootTransformation);
+        Animation animation = new Animation(aiAnimation.mName().dataString(), frames, aiAnimation.mDuration());
+        animations.put(animation.getName(), animation);
+    }
+    return animations;
+}
+</code></pre>
+<p>将为每个动画处理其动画通道，每个通道定义了不同的变换，这些变化应该随着时间的推移应用于一个节点。为每个节点定义的变换在<code>buildTransFormationMatrices</code>方法中定义，这些矩阵被每个节点储存。一旦节点层次结构中储存完这些信息，我们就可以构建动画帧。</p>
+<p>让我们先回顾一下<code>buildTransFormationMatrices</code>方法：</p>
+<pre><code class="language-java">private static void buildTransFormationMatrices(AINodeAnim aiNodeAnim, Node node) {
+    int numFrames = aiNodeAnim.mNumPositionKeys();
+    AIVectorKey.Buffer positionKeys = aiNodeAnim.mPositionKeys();
+    AIVectorKey.Buffer scalingKeys = aiNodeAnim.mScalingKeys();
+    AIQuatKey.Buffer rotationKeys = aiNodeAnim.mRotationKeys();
+
+    for (int i = 0; i &lt; numFrames; i++) {
+        AIVectorKey aiVecKey = positionKeys.get(i);
+        AIVector3D vec = aiVecKey.mValue();
+
+        Matrix4f transfMat = new Matrix4f().translate(vec.x(), vec.y(), vec.z());
+
+        AIQuatKey quatKey = rotationKeys.get(i);
+        AIQuaternion aiQuat = quatKey.mValue();
+        Quaternionf quat = new Quaternionf(aiQuat.x(), aiQuat.y(), aiQuat.z(), aiQuat.w());
+        transfMat.rotate(quat);
+
+        if (i &lt; aiNodeAnim.mNumScalingKeys()) {
+            aiVecKey = scalingKeys.get(i);
+            vec = aiVecKey.mValue();
+            transfMat.scale(vec.x(), vec.y(), vec.z());
+        }
+
+        node.addTransformation(transfMat);
+    }
+}
+</code></pre>
+<p>如你所见，<code>AINodeAnim</code>实例定义了一组包含位移、旋转和缩放信息的键，这些键是指特定的时刻。我们假设数据是按时间顺序排列的，并构建一个储存要应用于每个帧的变换的矩阵列表。最后的计算是在<code>buildAnimationFrames</code>方法中完成的：</p>
+<pre><code class="language-java">private static List&lt;AnimatedFrame&gt; buildAnimationFrames(List&lt;Bone&gt; boneList, Node rootNode,
+        Matrix4f rootTransformation) {
+
+    int numFrames = rootNode.getAnimationFrames();
+    List&lt;AnimatedFrame&gt; frameList = new ArrayList&lt;&gt;();
+    for (int i = 0; i &lt; numFrames; i++) {
+        AnimatedFrame frame = new AnimatedFrame();
+        frameList.add(frame);
+
+        int numBones = boneList.size();
+        for (int j = 0; j &lt; numBones; j++) {
+            Bone bone = boneList.get(j);
+            Node node = rootNode.findByName(bone.getBoneName());
+            Matrix4f boneMatrix = Node.getParentTransforms(node, i);
+            boneMatrix.mul(bone.getOffsetMatrix());
+            boneMatrix = new Matrix4f(rootTransformation).mul(boneMatrix);
+            frame.setMatrix(j, boneMatrix);
+        }
+    }
+
+    return frameList;
+}
+</code></pre>
+<p>此方法返回<code>AnimatedFrame</code>实例的列表，每个<code>AnimatedFrame</code>实例将储存要应用于特定帧的每个骨骼的变换列表。这个方法只是迭代储存所有骨骼的列表。对于每个骨骼：</p>
+<ul>
+<li>获取相关联的节点。</li>
+<li>通过将相关联的<code>Node</code>的变换与其父节点的所有变换相乘，生成变换矩阵，直至根节点。这是在<code>Node.getParentTransforms</code>方法中完成的。</li>
+<li>它将该矩阵与骨骼的偏倚矩阵相乘。</li>
+<li>最后的变换是通过将根节点的变换与上述步骤中计算的矩阵相乘来计算的。</li>
+</ul>
+<p>源代码中的其他修改是为了适应某些结构而进行的微小修改。最后，你能够加载类似于下图的动画（你需要按空格改变帧）：</p>
+<p><img alt="动画效果" src="../_static/27/animation_result.png" /></p>
+<p>这个示例的复杂之处在于Assimp结构的调整，使其适应本书中使用的引擎，并预先计算每个帧的数据。此外，这些概念与动画一章中的概念类似。你可以尝试修改源代码以在帧之间插入，以获得更平滑的动画。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../28-deferred-shading/" class="btn btn-neutral float-right" title="延迟着色法">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../26-cascaded-shadow-maps/" class="btn btn-neutral" title="级联阴影映射"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>2019, Mouse0w0</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../26-cascaded-shadow-maps/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../28-deferred-shading/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

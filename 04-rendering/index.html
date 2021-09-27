@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mouse0w0">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>渲染 - Lwjglbook中文翻译</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u6e32\u67d3";
+    var mkdocs_page_input_path = "04-rendering.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Lwjglbook中文翻译</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../01-first-steps/">事前准备</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../02-the-game-loop/">游戏循环</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../03-a-brief-about-coordinates/">坐标简介</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">渲染</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../05-more-on-rendering/">渲染补充</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../06-transformations/">变换</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../07-textures/">纹理</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../08-camera/">摄像机</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../09-loading-more-complex-models/">加载更复杂的模型</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../10-let-there-be-light/">要有光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../11-let-there-be-even-more-light/">要有更多的光</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../12-game-hud/">游戏HUD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../13-sky-box-and-some-optimizations/">天空盒与一些优化</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../14-height-maps/">高度图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../15-terrain-collisions/">地形碰撞</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../16-fog/">雾</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../17-normal-mapping/">法线贴图</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../18-shadows/">阴影</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../19-animations/">动画</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../20-particles/">粒子</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../21-instanced-rendering/">实例化渲染</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../22-audio/">音效</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../23-3d-object-picking/">三维物体选取</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../24-hud-revisited/">回顾HUD - NanoVG</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../25-optimizations-frustum-culling/">优化 - 截锥剔除</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../26-cascaded-shadow-maps/">级联阴影映射</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../27-assimp/">Assimp库</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../28-deferred-shading/">延迟着色法</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../a01-opengl-debugging/">附录 A - OpenGL调试</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../glossary/">术语表</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Lwjglbook中文翻译</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>渲染</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/edit/master/docs/04-rendering.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="rendering">渲染（Rendering）</h1>
+<p>在本章中，我们将学习用OpenGL渲染场景时要做的事项。如果你已经习惯了OpenGL的旧版本，习惯了使用固定管线，你可能会跳过这一章，不想知道为什么它需要这么复杂。它其实更简单、更灵活，你只需要给它一个表现的机会。现代OpenGL使你只需考虑一个问题，这可以使你以更合理的方式组织代码和开发。</p>
+<p>将三维表示映射到二维屏幕的一系列步骤被统称为图形管线（Graphics Pipeline）。OpenGL最初的版本使用了一个被称为固定管线（Fixed-function Pipeline）的模型。该模型在绘制过程中定义了一组固定的操作步骤，程序员被每一步骤可用的函数集约束，可以使用的效果和可进行的操作受到API（例如，“设置雾”或“添加光照”）的限制，但是这些功能的实现是固定的，并且不能修改。</p>
+<p>图形管线由以下操作步骤组成：</p>
+<p><img alt="图形管线" src="../_static/04/rendering_pipeline.png" /></p>
+<p>OpenGL 2.0 引入了可编程管线（Programmable Pipeline）的概念。在该模型中，组成图形管线的不同步骤可以通过使用一组叫做着色器（Shader）的特定程序来控制或编程。下图简单的展示了OpenGL可编程管线：</p>
+<p><img alt="可编程管线" src="../_static/04/rendering_pipeline_2.png" /></p>
+<p>该渲染方式最初将以顶点缓冲区为形式的一系列顶点作为输入。但是，什么是顶点？顶点（Vertex）是描述二维或者三维空间中的点的数据结构。如何描述三维空间中的一个点呢？通过指定其X、Y和Z坐标。什么是顶点缓冲区？顶点缓冲区（Vertex Buffer）是使用顶点数组来包装所有需要渲染的顶点的另一种数据结构，并使这些数据能够在图形管线的着色器中使用。</p>
+<p>这些顶点由顶点着色器（Vertex Shader）处理，顶点着色器的功能是计算每个顶点到屏幕空间中的投影位置。该着色器还可以生成与颜色或纹理相关的其他输出，但其主要目的还是将顶点投影到屏幕空间中，即生成点。</p>
+<p>几何处理阶段（Geometry Processing）将由顶点着色器变换的顶点连接成三角形。它依照顶点储存的顺序，使用不同的模型对顶点进行分组。为什么是三角形？三角形就是显卡的基本工作单元，它是一个简单的几何形状，可以组合和变换，以构建复杂的三维场景。此阶段还可以使用特定的着色器来对顶点进行分组。</p>
+<p>光栅化（Rasterization）阶段接收此前生成的三角形，剪辑它们，并将它们转换为像素大小的片元。</p>
+<p>这些片元将在片元处理阶段（Fragment Processing）被片元着色器（Fragment Shader）使用，以生成写入到帧缓冲区的像素的最终颜色。帧缓冲区（Framebuffer）是图形管线的最终输出，它储存了每个像素应该被绘制到屏幕上的值。</p>
+<p>注意，显卡被设计成并行处理上述所有操作，输入的数据可以并行处理以生成最终场景。</p>
+<p>让我们开始编写第一个着色器程序。着色器是使用基于ANSI C的OpenGL着色器语言（GLSL）编写的。首先，在<code>resources</code>目录下创建一个名为“<code>vertex.vs</code>”（扩展名为顶点着色器英文简写）的文件，内容如下：</p>
+<pre><code class="language-glsl">#version 330
+
+layout (location=0) in vec3 position;
+
+void main()
+{
+    gl_Position = vec4(position, 1.0);
+}
+</code></pre>
+<p>第一行是一个表示我们正使用的GLSL语言版本的标识符。下表是GLSL版本、与该版本匹配的OpenGL版本和使用方法（来自维基百科：<a href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language#Versions">https://en.wikipedia.org/wiki/OpenGL_Shading_Language#Versions</a>）：</p>
+<table>
+<thead>
+<tr>
+<th>GLSL版本</th>
+<th>OpenGL版本</th>
+<th>着色器标识符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.10.59</td>
+<td>2.0</td>
+<td>#version 110</td>
+</tr>
+<tr>
+<td>1.20.8</td>
+<td>2.1</td>
+<td>#version 120</td>
+</tr>
+<tr>
+<td>1.30.10</td>
+<td>3.0</td>
+<td>#version 130</td>
+</tr>
+<tr>
+<td>1.40.08</td>
+<td>3.1</td>
+<td>#version 140</td>
+</tr>
+<tr>
+<td>1.50.11</td>
+<td>3.2</td>
+<td>#version 150</td>
+</tr>
+<tr>
+<td>3.30.6</td>
+<td>3.3</td>
+<td>#version 330</td>
+</tr>
+<tr>
+<td>4.00.9</td>
+<td>4.0</td>
+<td>#version 400</td>
+</tr>
+<tr>
+<td>4.10.6</td>
+<td>4.1</td>
+<td>#version 410</td>
+</tr>
+<tr>
+<td>4.20.11</td>
+<td>4.2</td>
+<td>#version 420</td>
+</tr>
+<tr>
+<td>4.30.8</td>
+<td>4.3</td>
+<td>#version 430</td>
+</tr>
+<tr>
+<td>4.40</td>
+<td>4.4</td>
+<td>#version 440</td>
+</tr>
+<tr>
+<td>4.50</td>
+<td>4.5</td>
+<td>#version 450</td>
+</tr>
+</tbody>
+</table>
+<p>第二行指定此着色器的输入格式。OpenGL缓冲区中的数据可以是我们想要的任何数据，也就是说，该语言不会强迫你传递预定义语言的任何指定数据结构。从着色器的角度来看，它期望接收一个存有数据的缓冲区。它可以是一个位置，一个有一些附加信息的位置，或者我们想要的任何数据。顶点着色器只接收浮点数组。当填充缓冲区时，我们定义要由着色器处理的缓冲区块。</p>
+<p>首先，需要把这些块变成对我们有意义的数据。现在规定从位置0开始，我们期望接收由三个属性(X, Y, Z)组成的向量。</p>
+<p>着色器有个<code>main</code>代码块，就像任何C语言程序一样，上述示例是非常简单的。它只是将接收到的坐标不经任何变换地返回到<code>gl_Position</code>。你现在可能想知道为什么三个属性的向量被转换成四个属性的向量（<code>vec4</code>）。这是因为<code>gl_Position</code>仅接收<code>vec4</code>类型的数据，因为它是齐次坐标（Homogeneous Coordinates）。也就是说，它希望接收到形似(X, Y, Z, W)的东西，其中W代表一个额外的维度。为什么还要添加另一个维度？在此后的章节中，你会看到我们需要做的大部分操作都是基于向量和矩阵的。如果没有额外的维度，一些操作不能组合。例如，不能把旋转和位移操作组合起来。（如果你想学习更多有关于这方面的知识，这个额外的维度允许我们组合仿射和线性变换。你可以通过阅读《3D Math Primer for Graphics and Game Development》（作者是Fletcher Dunn 和 Ian Parberry）来更多地了解这一点。）</p>
+<p>现在来看看我们的第一个片元着色器。在<code>resources</code>目录下创建一个名为<code>fragment.fs</code>（扩展名片元着色器英文简写）的文件，内容如下：</p>
+<pre><code class="language-glsl">#version 330
+
+out vec4 fragColor;
+
+void main()
+{
+    fragColor = vec4(0.0, 0.5, 0.5, 1.0);
+}
+</code></pre>
+<p>该结构与我们的顶点着色器非常相似。现在，它将为每个片元设置固定的颜色。输出值被定义为第二行的<code>vec4</code>类型的<code>fragColor</code>变量。</p>
+<p>现在我们已经创建了着色器，该如何使用它们呢？以下是我们要做的一系列步骤：
+1. 创建OpenGL程序。
+2. 载入顶点和片元着色器文件。
+3. 为每个着色器创建一个新的着色器程序并指定它的类型（顶点或片元）。
+4. 编译着色器。
+5. 将着色器绑定到OpenGL程序上。
+6. 连接程序。</p>
+<p>最后，着色器将会被载入到显卡中，我们可以通过引用程序ID来使用它。</p>
+<pre><code class="language-java">package org.lwjglb.engine.graph;
+
+import static org.lwjgl.opengl.GL20.*;
+
+public class ShaderProgram {
+
+    private final int programId;
+
+    private int vertexShaderId;
+
+    private int fragmentShaderId;
+
+    public ShaderProgram() throws Exception {
+        programId = glCreateProgram();
+        if (programId == 0) {
+            throw new Exception(&quot;Could not create Shader&quot;);
+        }
+    }
+
+    public void createVertexShader(String shaderCode) throws Exception {
+        vertexShaderId = createShader(shaderCode, GL_VERTEX_SHADER);
+    }
+
+    public void createFragmentShader(String shaderCode) throws Exception {
+        fragmentShaderId = createShader(shaderCode, GL_FRAGMENT_SHADER);
+    }
+
+    protected int createShader(String shaderCode, int shaderType) throws Exception {
+        int shaderId = glCreateShader(shaderType);
+        if (shaderId == 0) {
+            throw new Exception(&quot;Error creating shader. Type: &quot; + shaderType);
+        }
+
+        glShaderSource(shaderId, shaderCode);
+        glCompileShader(shaderId);
+
+        if (glGetShaderi(shaderId, GL_COMPILE_STATUS) == 0) {
+            throw new Exception(&quot;Error compiling Shader code: &quot; + glGetShaderInfoLog(shaderId, 1024));
+        }
+
+        glAttachShader(programId, shaderId);
+
+        return shaderId;
+    }
+
+    public void link() throws Exception {
+        glLinkProgram(programId);
+        if (glGetProgrami(programId, GL_LINK_STATUS) == 0) {
+            throw new Exception(&quot;Error linking Shader code: &quot; + glGetProgramInfoLog(programId, 1024));
+        }
+
+        if (vertexShaderId != 0) {
+            glDetachShader(programId, vertexShaderId);
+        }
+        if (fragmentShaderId != 0) {
+            glDetachShader(programId, fragmentShaderId);
+        }
+
+        glValidateProgram(programId);
+        if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
+            System.err.println(&quot;Warning validating Shader code: &quot; + glGetProgramInfoLog(programId, 1024));
+        }
+
+    }
+
+    public void bind() {
+        glUseProgram(programId);
+    }
+
+    public void unbind() {
+        glUseProgram(0);
+    }
+
+    public void cleanup() {
+        unbind();
+        if (programId != 0) {
+            glDeleteProgram(programId);
+        }
+    }
+}
+</code></pre>
+<p><code>ShaderProgram</code>类的构造函数在OpenGL中创建一个新的程序，并提供添加顶点和片元着色器的方法。这些着色器被编译并绑定到OpenGL程序中。当所有的着色器都被绑定时，应该调用<code>link</code>方法，来连接所有代码并验证所有操作都已正确地完成。</p>
+<p>一旦着色器程序被连接，编译的顶点和片元着色器可以被释放（通过调用<code>glDetachShader</code>方法）。</p>
+<p>验证是通过调用<code>glValidateProgram</code>方法完成的。此方法主要用于调试，当游戏到达生产阶段时，应将其删除。此方法将验证在<strong>当前OpenGL状态</strong>下着色器是否正确。这意味着，即使着色器是正确的，在某些情况下也可能验证失败，这是因为当前状态不够完整（一些数据可能尚未加载），无法运行着色器。因此，我们可以将错误信息输出到标准错误输出中。</p>
+<p><code>ShaderProgram</code>类还提供了在渲染时激活该程序（绑定）和停止使用它（解绑）的方法。最后，它提供了一个<code>cleanup</code>方法，用于在它不再被需要时，释放所有资源。</p>
+<p>既然有一个清理方法，让我们更改<code>IGameLogic</code>接口来添加一个<code>cleanup</code>方法：</p>
+<pre><code class="language-java">void cleanup();
+</code></pre>
+<p>该方法将在游戏循环结束时调用，所以需要修改<code>GameEngine</code>类的<code>run</code>方法：</p>
+<pre><code class="language-java">@Override
+public void run() {
+    try {
+        init();
+        gameLoop();
+    } catch (Exception excp) {
+        excp.printStackTrace();
+    } finally {
+        cleanup();
+    }
+}
+</code></pre>
+<p>现在我们可以在<code>Renderer</code>类的<code>init</code>方法中使用着色器来显示一个三角形。首先，我们要创建着色器程序：</p>
+<pre><code class="language-java">public void init() throws Exception {
+    shaderProgram = new ShaderProgram();
+    shaderProgram.createVertexShader(Utils.loadResource(&quot;/vertex.vs&quot;));
+    shaderProgram.createFragmentShader(Utils.loadResource(&quot;/fragment.fs&quot;));
+    shaderProgram.link();
+}
+</code></pre>
+<p>我们已经创建了一个工具类，它提供了一个从类路径中取得文件内容的方法，此方法用于取得我们的着色器代码。</p>
+<p>现在我们可以把三角形定义为一组浮点数，创建一个一维浮点数组，它将定义三角形的顶点。如你所见，数组中没有数据结构。就目前而言，OpenGL无法知道该数组的结构，这只是一组浮点数：</p>
+<pre><code class="language-java">float[] vertices = new float[]{
+     0.0f,  0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f
+};
+</code></pre>
+<p>下图体现了在坐标系中的三角形。</p>
+<p><img alt="三角形" src="../_static/04/triangle_coordinates.png" /></p>
+<p>现在我们有了坐标，需要把它们储存到显卡中，并告诉OpenGL它的数据结构。现在将介绍两个重要的概念，顶点数组对象（Vertex Array Object，VAO）和顶点缓冲对象（Vertex Buffer Object，VBO）。如果你对接下来的代码感到困惑，请记住，现在所做的是把将要绘制的模型对象的数据传递到显存中。当储存它的时候，我们会得到一个ID，稍后绘制时会使用它。</p>
+<p>先介绍顶点缓冲对象（VBO）吧，VBO只是显存中存储顶点的内存缓冲区。这是用来暂存一组用于建模三角形的浮点数的地方。如上所述，OpenGL对我们的数据结构一无所知。事实上，它不仅可以储存坐标，还可以储存其他信息，比如纹理、颜色等。</p>
+<p>顶点数组对象（VAO）是一个对象，储存一个或多个通常被称为属性列表的VBO。每个属性列表可以保存一种类型的数据：位置、颜色、纹理等。在每个渲染间隔中，你可以自由地储存所需的任何数据。</p>
+<p>一个VAO就像是一个包装，它按一组定义对储存在显卡中的数据分组。当创建一个VAO时，我们得到一个ID。我们使用此ID来渲染它和使用它在创建过程中定义的数据。</p>
+<p>让我们继续编写示例代码。首先要做的事就是把浮点数储存在一个<code>FloatBuffer</code>中。这主要是因为我们必须使用基于C语言的OpenGL库的接口，所以必须把浮点数组转换成可以由库管理的东西。</p>
+<pre><code class="language-java">FloatBuffer verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
+verticesBuffer.put(vertices).flip();
+</code></pre>
+<p>我们使用<code>MemoryUtil</code>类来在堆外内存中创建了一个缓冲区，以便OpenGL库访问它。在储存了数据（调用<code>put</code>方法）之后，我们需要调用<code>flip</code>方法将缓冲区的位置重置为0（也就是说，我们已经完成了对它的写入）。记住，Java中的对象，被分配在一个叫堆（Heap）的内存空间。堆是JVM内存中保留的一大堆内存，储存在堆中的对象不能通过本地代码访问（JNI，这种机制使得Java不能直接调用本地代码）。Java代码和本地代码直接共享内存数据的唯一方法是在Java中直接地分配内存。</p>
+<p>如果你来自LWJGL的旧版本，强调一些要点是很重要的。你可能注意到了，我们不使用工具类<code>BufferUtils</code>，而使用<code>MemoryUtil</code>类来创建缓冲区。这是由于<code>BufferUtils</code>不是非常有效的，并且仅被用于向下兼容。LWJGL3提供了两种缓冲区的管理方法：</p>
+<ul>
+<li>自动管理缓冲区，即由垃圾回收器自动回收的缓冲区。这些缓冲区适用于短暂的操作，或者用于传递到GPU的数据，并且不需要储存于进程内存中。这是通过使用<code>org.lwjgl.system.MemoryStack</code>实现的。</li>
+<li>手动管理缓冲区。此情况下，一旦完成操作，我们需要小心地释放它们。这些缓冲区适用于长时间的操作或者大量的数据。这是通过使用<code>MemoryUtil</code>类实现的。</li>
+</ul>
+<p>你可以在此处查阅细节：
+<a href="https://blog.lwjgl.org/memory-management-in-lwjgl-3/" title="here">https://blog.lwjgl.org/memory-management-in-lwjgl-3/</a></p>
+<p>在此情况下，我们的数据被发送到GPU，这样可以考虑使用自动管理的缓冲区。但稍后我们将使用它们来储存可能需要手动管理的大量数据，这就是使用<code>MemoryUtil</code>类的原因，因此，这就是为什么我们要在最后一个块中释放缓冲区资源。在下章中，我们将学习如何使用自动管理缓冲区。</p>
+<p>现在需要创建VAO然后绑定它：</p>
+<pre><code class="language-java">vaoId = glGenVertexArrays();
+glBindVertexArray(vaoId);
+</code></pre>
+<p>然后需要创建VBO，绑定它并将数据输入：</p>
+<pre><code class="language-java">vboId = glGenBuffers();
+glBindBuffer(GL_ARRAY_BUFFER, vboId);
+glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
+glEnableVertexAttribArray(0);
+</code></pre>
+<p>接下来是最重要的部分。我们需要定义数据结构，并将其储存在VAO的属性列表中，这是用下述代码完成的：</p>
+<pre><code class="language-java">glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+</code></pre>
+<p>它的参数是：</p>
+<ul>
+<li>index: 指定着色器期望此数据的位置。</li>
+<li>size: 指定每个顶点属性的数据数（从1到4）。现在，我们使用三维坐标，所以它应该是3。</li>
+<li>type: 指定数组中每个数据的类型，现在是浮点数。</li>
+<li>normalized: 指定值是否应归一化。</li>
+<li>stride: 指定连续顶点数据之间的字节偏移量（稍后我们再解释）。</li>
+<li>offset: 指定缓冲区中第一个数据的偏移量。</li>
+</ul>
+<p>在完成了VBO操作之后，我们可以解除它和VAO的绑定（绑定到0）。</p>
+<pre><code class="language-java">// 解绑VBO
+glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+// 解绑VAO
+glBindVertexArray(0);
+</code></pre>
+<p>一旦完成操作，我们<strong>必须</strong>通过手动调用<code>memFree</code>方法释放由<code>FloatBuffer</code>占用的堆外内存，因为Java垃圾回收不会清理分配的堆外内存。</p>
+<pre><code class="language-java">if (verticesBuffer != null) {
+    MemoryUtil.memFree(verticesBuffer);
+}
+</code></pre>
+<p>这就是<code>init</code>方法应有的代码。我们的数据已经在显卡中准备使用了，现在只需要修改<code>render</code>方法在游戏循环中进行渲染。</p>
+<pre><code class="language-java">public void render(Window window) {
+    clear();
+
+    if ( window.isResized() ) {
+        glViewport(0, 0, window.getWidth(), window.getHeight());
+        window.setResized(false);
+    }
+
+    shaderProgram.bind();
+
+    // 绑定VAO
+    glBindVertexArray(vaoId);
+
+    // 绘制顶点
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    // 还原状态
+    glBindVertexArray(0);
+
+    shaderProgram.unbind();
+}
+</code></pre>
+<p>如你所见，我们只需要清理窗口，绑定着色器程序，绑定VAO，绘制储存在VAO关联的VBO中的顶点，然后还原状态，仅此而已。</p>
+<p>我们还在<code>Renderer</code>类中添加了一个<code>cleanup</code>方法用于释放资源。</p>
+<pre><code class="language-java">public void cleanup() {
+    if (shaderProgram != null) {
+        shaderProgram.cleanup();
+    }
+
+    glDisableVertexAttribArray(0);
+
+    // 删除VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDeleteBuffers(vboId);
+
+    // 删除VAO
+    glBindVertexArray(0);
+    glDeleteVertexArrays(vaoId);
+}
+</code></pre>
+<p>就这样！如果你小心地按着上述步骤做，你会看到类似的图像。</p>
+<p><img alt="三角形游戏" src="../_static/04/triangle_window.png" /></p>
+<p>这就是我们的第一个三角形！你也许会想这并不会使它成为前十名的游戏，你的想法是对的。你也可以认为这是一件无聊的事情来画一个无聊的三角形。但请记住，我们正在介绍关键的概念，并准备基于架构来做更复杂的事情，请耐心等待，继续阅读。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../05-more-on-rendering/" class="btn btn-neutral float-right" title="渲染补充">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../03-a-brief-about-coordinates/" class="btn btn-neutral" title="坐标简介"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>2019, Mouse0w0</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Mouse0w0/lwjglbook-CN-Translation/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../03-a-brief-about-coordinates/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../05-more-on-rendering/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
