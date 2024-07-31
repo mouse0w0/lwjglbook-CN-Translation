@@ -35,4 +35,4 @@ Antonio Hernández Bejarano
 ## 译者的话
 本书是译者为了学习LWJGL3和OpenGL而翻译的。限于译者的能力，本译本中如有不妥之处欢迎各位读者指正。
 
-如果你喜欢本译本，请Star并分享它。如果你想捐助译者，请通过下面的链接捐助：[爱发电](https://afdian.net/@mouse)。
+如果你喜欢本译本，请Star并分享它。如果你想捐助译者，请通过下面的链接捐助：[爱发电](https://afdian.com/@mouse)。
