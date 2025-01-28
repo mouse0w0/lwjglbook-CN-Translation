@@ -346,7 +346,7 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 </code></pre>
 <p>这些参数基本上在说，当绘制一个像素时，如果没有直接一对一地关联到纹理坐标，它将选择最近的纹理坐标点。</p>
 <p>到目前为止，我们不会设置这些参数。相反，我们将生成一个多级渐远纹理（Mipmap）。多级渐远纹理是由高细节纹理生成的逐级降低分辨率的纹理集合。当我们的物体缩放时，就将自动使用低分辨率的图像。</p>
-<p>为了生成多级渐远纹理，只需要编写以下代码（目前我们把它放在<code>glTextImage2D</code>方法调用之后）：</p>
+<p>为了生成多级渐远纹理，只需要编写以下代码（目前我们把它放在<code>glTexImage2D</code>方法调用之后）：</p>
 <pre><code class="language-java">glGenerateMipmap(GL_TEXTURE_2D);
 </code></pre>
 <p>最后，我们可以释放原始图像数据本身的内存：</p>
