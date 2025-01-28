@@ -208,7 +208,7 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 到目前为止，我们不会设置这些参数。相反，我们将生成一个多级渐远纹理（Mipmap）。多级渐远纹理是由高细节纹理生成的逐级降低分辨率的纹理集合。当我们的物体缩放时，就将自动使用低分辨率的图像。
 
-为了生成多级渐远纹理，只需要编写以下代码（目前我们把它放在`glTextImage2D`方法调用之后）：
+为了生成多级渐远纹理，只需要编写以下代码（目前我们把它放在`glTexImage2D`方法调用之后）：
 
 ```java
 glGenerateMipmap(GL_TEXTURE_2D);
